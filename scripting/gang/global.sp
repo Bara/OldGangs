@@ -48,6 +48,6 @@ Handle g_hDatabase;
 Handle g_hSQLConnected;
 
 // Client stuff
-char g_sClientID[64];
+char g_sClientID[MAXPLAYERS + 1][64];
 bool g_bIsInGang[MAXPLAYERS + 1] =  { false, ... };
 int g_iClientGang[MAXPLAYERS + 1] =  { 0, ... };

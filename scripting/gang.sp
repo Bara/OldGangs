@@ -38,19 +38,29 @@ public void OnPluginStart()
 	Gang_CheckGame();
 	Gang_CreateCache();
 	Gang_SQLConnect();
+	
+	RegConsoleCmd("sm_creategang", Command_CreateGang);
 }
 
 public void OnClientPutInServer(int client)
 {
-	char sQuery[512];
-	
-	GetClientAuthId(client, AuthId_SteamID64, g_sClientID[client], sizeof(g_sClientID[]));
-	
-	Format(sQuery, sizeof(sQuery), "SELECT GangID, CommunityID, AccessLevel FROM gang_members WHERE CommunityID = '%s'", g_sClientID[client]);
-	SQL_TQuery(g_hDatabase, TQuery_GangMembers, sQuery, GetClientUserId(client), DBPrio_Low);
+	Gang_PushClientArray(client);
 }
 
 public void OnClientDisconnect(int client)
 {
 	Gang_EraseClientArray(client);
+}
+
+public Action Command_CreateGang(int client, int args)
+{
+	PrintToChat(client, "CommunityID - %s", g_sClientID[client]);
+	if(!g_bIsInGang[client] && g_iClientGang[client] == 0)
+	{
+		PrintToChat(client, "Sie könnten eine Gang erstellen, aber das wäre noch zu früh... :(");
+	}
+	else
+	{
+		PrintToChat(client, "Sie sind bereits in einer Gang!");
+	}
 }
