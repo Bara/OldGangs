@@ -61,7 +61,10 @@ Configs:
         gang_prefix_colors           - Default colors after buying prefix
 
 API:
-        Please Not yet ...
+        Gang_OnSQLConnected
+        Gang_IsClientInGang
+        Gang_GetClientGang
+        Gang_GetClientName
 
 
 Gang staff:
