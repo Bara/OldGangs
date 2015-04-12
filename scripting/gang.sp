@@ -16,6 +16,8 @@ public APLRes AskPluginLoad2(Handle myself, bool late, char[] error, int err_max
 	g_hSQLConnected = CreateGlobalForward("Gang_OnSQLConnected", ET_Ignore, Param_Cell);
 	
 	CreateNative("Gang_IsClientInGang", IsClientInGang);
+	CreateNative("Gang_GetClientGang", GetClientGang);
+	CreateNative("Gang_GetGangName", GetGangName);
 	
 	RegPluginLibrary("gang");
 	

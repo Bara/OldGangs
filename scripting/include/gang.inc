@@ -78,6 +78,8 @@ stock void Log_File(const char[] path = "gang", const char[] file = "core", ELOG
 forward void Gang_OnSQLConnected(Handle database);
 
 native bool Gang_IsClientInGang(int client);
+native int Gang_GetClientGang(int gangid);
+native void Gang_GetClientName(int gangid, const char[] name, int maxlength);
 
 public SharedPlugin __pl_gang =
 {
@@ -95,5 +97,6 @@ public SharedPlugin __pl_gang =
 public __pl_gang_SetNTVOptional()
 {
 	MarkNativeAsOptional("Gang_IsClientInGang");
+	MarkNativeAsOptional("Gang_GetClientGang");
 }
 #endif
