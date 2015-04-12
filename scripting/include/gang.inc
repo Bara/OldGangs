@@ -13,7 +13,7 @@ enum ELOG_LEVEL
 	ERROR
 };
 
-new String:g_sELogLevel[6][32] = {
+char g_sELogLevel[6][32] = {
 	"default",
 	"trace",
 	"debug",
