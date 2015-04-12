@@ -30,7 +30,7 @@ stock void Gang_CheckGame()
 	}
 }
 
-stock void Log_File(const char[] path, const char[] file, ELOG_LEVEL:level = INFO, const char[] format, any:...)
+stock void Log_File(const char[] path = "gang", const char[] file = "core", ELOG_LEVEL:level = INFO, const char[] format, any:...)
 {
 	char sPath[PLATFORM_MAX_PATH + 1];
 	char sLevelPath[PLATFORM_MAX_PATH + 1];
@@ -67,8 +67,8 @@ stock void Log_File(const char[] path, const char[] file, ELOG_LEVEL:level = INF
 	}
 	
 	char sDate[32];
-	FormatTime(sDate, sizeof(sDate), "Y-m-d");
-	Format(sFile, sizeof(sFile), "%s/%s_%s.log", sLevelPath, file, date);
+	FormatTime(sDate, sizeof(sDate), "%Y-%m-%d", GetTime());
+	Format(sFile, sizeof(sFile), "%s/%s_%s.log", sLevelPath, file, sDate);
 
 	VFormat(sBuffer, sizeof(sBuffer), format, 5);
 
