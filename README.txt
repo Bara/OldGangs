@@ -1,3 +1,10 @@
+Database:
+        skills                      - SkillID, Name, MaxLevel
+        gangs                       - GangID, Name, Chat, Prefix, PrefixColor, MaxMembers, 
+        gangs_members               - GangID, CommunityID, AccessLevel
+        gangs_skills                - GangID, SkillID, Level
+        
+
 Commands:
         sm_gang                      - Create gang
         sm_deletegang                - Delete a gang (only for founder)
