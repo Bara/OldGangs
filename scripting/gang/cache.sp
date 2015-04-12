@@ -151,3 +151,21 @@ public void TQuery_Skills(Handle owner, Handle hndl, const char[] error, any dat
 		}
 	}
 }
+
+stock void Gang_EraseClientArray(int client)
+{
+	if(g_bIsInGang[client])
+	{
+		for (int i = 0; i < g_aCacheGangMembers.Length; i++)
+		{
+			int iGang[Cache_Gang_Members];
+			g_aCacheGangMembers.GetArray(i, iGang[0]);
+	
+			if (iGang[iGangID] == g_iClientGang[client])
+			{
+				g_aCacheGangMembers.Erase(i);
+				break;
+			}
+		}
+	}
+}

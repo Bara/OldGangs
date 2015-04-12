@@ -9,10 +9,13 @@
 #include "gang/global.sp"
 #include "gang/cache.sp"
 #include "gang/sql.sp"
+#include "gang/native.sp"
 
 public APLRes AskPluginLoad2(Handle myself, bool late, char[] error, int err_max)
 {
 	g_hSQLConnected = CreateGlobalForward("Gang_OnSQLConnected", ET_Ignore, Param_Cell);
+	
+	CreateNative("Gang_IsClientInGang", IsClientInGang);
 	
 	RegPluginLibrary("gang");
 	
@@ -47,18 +50,5 @@ public void OnClientPutInServer(int client)
 
 public void OnClientDisconnect(int client)
 {
-	if(g_bIsInGang[client])
-	{
-		for (int i = 0; i < g_aCacheGangMembers.Length; i++)
-		{
-			int iGang[Cache_Gang_Members];
-			g_aCacheGangMembers.GetArray(i, iGang[0]);
-	
-			if (iGang[iGangID] == g_iClientGang[client])
-			{
-				g_aCacheGangMembers.Erase(i);
-				break;
-			}
-		}
-	}
+	Gang_EraseClientArray(client);
 }
