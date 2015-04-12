@@ -88,7 +88,7 @@ public void TQuery_GangMembers(Handle owner, Handle hndl, const char[] error, an
 				
 				Log_File(_, _, DEBUG, "[TQuery_GangMembers] GangID: %d - CommunityID: %s - AccessLevel: %d", iGang[iGangID], iGang[sCommunityID], iGang[iAccessLevel]);
 	
-				g_aCacheGang.PushArray(iGang[0]);
+				g_aCacheGangMembers.PushArray(iGang[0]);
 				
 				if(iGang[iGangID] > 0)
 				{
@@ -122,7 +122,7 @@ public void TQuery_GangSkills(Handle owner, Handle hndl, const char[] error, any
 			
 			Log_File(_, _, DEBUG, "[TQuery_GangSkills] GangID: %d - SkillID: %d - iLevel: %d", iGang[iGangID], iGang[iSkillID], iGang[iLevel]);
 
-			g_aCacheGang.PushArray(iGang[0]);
+			g_aCacheGangSkills.PushArray(iGang[0]);
 		}
 	}
 }
@@ -147,7 +147,7 @@ public void TQuery_Skills(Handle owner, Handle hndl, const char[] error, any dat
 			
 			Log_File(_, _, DEBUG, "[TQuery_Skills] GangID: %d - SkillName: %s - Chat: %d", iGang[iSkillID], iGang[sSkillName], iGang[iMaxLevel]);
 
-			g_aCacheGang.PushArray(iGang[0]);
+			g_aCacheSkills.PushArray(iGang[0]);
 		}
 	}
 }
