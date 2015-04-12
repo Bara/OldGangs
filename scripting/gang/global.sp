@@ -2,6 +2,7 @@ enum Cache_Gang
 {
 	iGangID,
 	String:sGangName[64],
+	iPoints,
 	bool:bChat,
 	bool:bPrefix,
 	String:sPrefixColor[64],
@@ -45,3 +46,8 @@ ArrayList g_aCacheSkills = null;
 // Database
 Handle g_hDatabase;
 Handle g_hSQLConnected;
+
+// Client stuff
+char g_sClientID[64];
+bool g_bIsInGang[MAXPLAYERS + 1] =  { false, ... };
+int g_iClientGang[MAXPLAYERS + 1] =  { 0, ... };
