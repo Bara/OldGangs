@@ -1,44 +1,10 @@
-stock void Gang_CreateCache()
-{
-	if(g_aCacheGang != null)
-		g_aCacheGang.Clear();
-	
-	if(g_aCacheGangMembers != null)
-		g_aCacheGangMembers.Clear();
-	
-	if(g_aCacheGangSkills != null)
-		g_aCacheGangSkills.Clear();
-	
-	if(g_aCacheSkills != null)
-		g_aCacheSkills.Clear();
-	
-	g_aCacheGang =         new ArrayList(sizeof(g_iCacheGang));
-	g_aCacheGangMembers =  new ArrayList(sizeof(g_iCacheGangMembers));
-	g_aCacheGangSkills =   new ArrayList(sizeof(g_iCacheGangSkills));
-	g_aCacheSkills =       new ArrayList(sizeof(g_iCacheSkills));
-}
-
-stock void Gang_FillCache()
-{
-	char sQuery[512];
-	
-	Format(sQuery, sizeof(sQuery), "SELECT GangID, GangName, Points, Chat, Prefix, PrefixColor, MaxMembers FROM gang");
-	SQL_TQuery(g_hDatabase, TQuery_Gang, sQuery, _, DBPrio_Low);
-	
-	Format(sQuery, sizeof(sQuery), "SELECT GangID, SkillID, Level FROM gang_skills");
-	SQL_TQuery(g_hDatabase, TQuery_GangSkills, sQuery, _, DBPrio_Low);
-	
-	Format(sQuery, sizeof(sQuery), "SELECT SkillID, SkillName, MaxLevel FROM skills");
-	SQL_TQuery(g_hDatabase, TQuery_Skills, sQuery, _, DBPrio_Low);
-}
-
 public void TQuery_Gang(Handle owner, Handle hndl, const char[] error, any data)
 {
 	if (hndl != null)
 	{
 		if (error[0])
 		{
-			LogToFile("gang", "core", ERROR, "(TQuery_Gang) Query failed: %s", error);
+			Log_File("gang", "core", ERROR, "(TQuery_Gang) Query failed: %s", error);
 			return;
 		}
 		
@@ -65,14 +31,14 @@ public void TQuery_GangMembers(Handle owner, Handle hndl, const char[] error, an
 {
 	int client = GetClientOfUserId(userid);
 	
-	if(!IsClientInGame(client))
+	if(client < 1 || !IsClientInGame(client))
 		return;
 	
 	if (hndl != null)
 	{
 		if (error[0])
 		{
-			LogToFile("gang", "core", ERROR, "(TQuery_GangMembers) Query failed: %s", error);
+			Log_File("gang", "core", ERROR, "(TQuery_GangMembers) Query failed: %s", error);
 			return;
 		}
 		
@@ -108,7 +74,7 @@ public void TQuery_GangSkills(Handle owner, Handle hndl, const char[] error, any
 	{
 		if (error[0])
 		{
-			LogToFile("gang", "core", ERROR, "(TQuery_GangSkills) Query failed: %s", error);
+			Log_File("gang", "core", ERROR, "(TQuery_GangSkills) Query failed: %s", error);
 			return;
 		}
 		
@@ -133,7 +99,7 @@ public void TQuery_Skills(Handle owner, Handle hndl, const char[] error, any dat
 	{
 		if (error[0])
 		{
-			LogToFile("gang", "core", ERROR, "(TQuery_Skills) Query failed: %s", error);
+			Log_File("gang", "core", ERROR, "(TQuery_Skills) Query failed: %s", error);
 			return;
 		}
 		
@@ -150,32 +116,4 @@ public void TQuery_Skills(Handle owner, Handle hndl, const char[] error, any dat
 			g_aCacheSkills.PushArray(iGang[0]);
 		}
 	}
-}
-
-stock void Gang_EraseClientArray(int client)
-{
-	if(g_bIsInGang[client])
-	{
-		for (int i = 0; i < g_aCacheGangMembers.Length; i++)
-		{
-			int iGang[Cache_Gang_Members];
-			g_aCacheGangMembers.GetArray(i, iGang[0]);
-	
-			if (iGang[iGangID] == g_iClientGang[client])
-			{
-				g_aCacheGangMembers.Erase(i);
-				break;
-			}
-		}
-	}
-}
-
-stock void Gang_PushClientArray(int client)
-{
-	char sQuery[512];
-	
-	GetClientAuthId(client, AuthId_SteamID64, g_sClientID[client], sizeof(g_sClientID[]));
-	
-	Format(sQuery, sizeof(sQuery), "SELECT GangID, CommunityID, AccessLevel FROM gang_members WHERE CommunityID = '%s'", g_sClientID[client]);
-	SQL_TQuery(g_hDatabase, TQuery_GangMembers, sQuery, GetClientUserId(client), DBPrio_Low);
 }

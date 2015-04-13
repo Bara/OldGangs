@@ -76,6 +76,7 @@ stock void Log_File(const char[] path = "gang", const char[] file = "core", ELOG
 }
 
 forward void Gang_OnSQLConnected(Handle database);
+forward void Gang_OnGangCreated(int client, int gangid);
 
 native bool Gang_IsClientInGang(int client);
 native int Gang_GetClientGang(int gangid);

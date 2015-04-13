@@ -12,10 +12,12 @@
 #include "gang/sql.sp"
 #include "gang/native.sp"
 #include "gang/cmd.sp"
+#include "gang/stock.sp"
 
 public APLRes AskPluginLoad2(Handle myself, bool late, char[] error, int err_max)
 {
 	g_hSQLConnected = CreateGlobalForward("Gang_OnSQLConnected", ET_Ignore, Param_Cell);
+	g_hGangCreated = CreateGlobalForward("Gang_OnGangCreated", ET_Ignore, Param_Cell, Param_Cell);
 	
 	CreateNative("Gang_IsClientInGang", IsClientInGang);
 	CreateNative("Gang_GetClientGang", GetClientGang);

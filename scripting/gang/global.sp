@@ -45,7 +45,10 @@ ArrayList g_aCacheSkills = null;
 
 // Database
 Handle g_hDatabase;
+
+// Fowards
 Handle g_hSQLConnected;
+Handle g_hGangCreated;
 
 // Client stuff
 char g_sClientID[MAXPLAYERS + 1][64];

@@ -1,13 +1,3 @@
-stock void Gang_SQLConnect()
-{
-	if (!SQL_CheckConfig("gang"))
-	{
-		Log_File(_, _, ERROR, "(Gang_SQLConnect) Database failure: Couldn't find Database entry \"gang\"");
-		return;
-	}
-	SQL_TConnect(Gang_Connected, "gang");
-}
-
 public void Gang_Connected(Handle owner, Handle hndl, const char[] error, any data)
 {
 	if (hndl == null)
@@ -32,35 +22,112 @@ public void Gang_Connected(Handle owner, Handle hndl, const char[] error, any da
 	Call_Finish();
 }
 
-Gang_CreateTables()
-{
-	char sQuery[1024];
-	
-	Format(sQuery, sizeof(sQuery), "CREATE TABLE IF NOT EXISTS `gang` (`GangID` int(11) NOT NULL AUTO_INCREMENT, `GangName` varchar(65) NOT NULL DEFAULT '', `Points` int(11) NOT NULL DEFAULT '0', `Chat` tinyint(4) NOT NULL DEFAULT '0', `Prefix` tinyint(4) NOT NULL DEFAULT '0', `PrefixColor` varchar(65) NOT NULL DEFAULT '', `MaxMembers` int(11) NOT NULL DEFAULT '2', PRIMARY KEY (`GangID`, `GangName`), UNIQUE KEY `GangName` (`GangName`), UNIQUE KEY `GangID` (`GangID`)) ENGINE=InnoDB DEFAULT CHARSET=utf8;");
-	SQLQuery(sQuery);
-	
-	Format(sQuery, sizeof(sQuery), "CREATE TABLE IF NOT EXISTS `skills` (`SkillID` int(11) NOT NULL AUTO_INCREMENT, `SkillName` varchar(65) NOT NULL DEFAULT '', `MaxLevel` int(11) NOT NULL DEFAULT '0', PRIMARY KEY (`SkillID`), UNIQUE KEY `SkillID` (`SkillID`), UNIQUE KEY `SkillName` (`SkillName`)) ENGINE=InnoDB DEFAULT CHARSET=utf8;");
-	SQLQuery(sQuery);
-	
-	Format(sQuery, sizeof(sQuery), "CREATE TABLE IF NOT EXISTS `gang_members` (`GangID` int(11) NOT NULL DEFAULT '0', `CommunityID` varchar(65) NOT NULL DEFAULT '', `AccessLevel` int(11) NOT NULL DEFAULT '0', PRIMARY KEY (`CommunityID`), UNIQUE KEY `CommunityID` (`CommunityID`)) ENGINE=InnoDB DEFAULT CHARSET=utf8;");
-	SQLQuery(sQuery);
-	
-	Format(sQuery, sizeof(sQuery), "CREATE TABLE IF NOT EXISTS `gang_skills` (`GangID` int(11) NOT NULL DEFAULT '0', `SkillID` int(11) NOT NULL DEFAULT '0', `Level` int(11) NOT NULL DEFAULT '0') ENGINE=InnoDB DEFAULT CHARSET=utf8;");
-	SQLQuery(sQuery);
-}
-
-SQLQuery(char[] sQuery)
+void SQLQuery(char[] sQuery)
 {
 	Handle hPack = CreateDataPack();
 	WritePackString(hPack, sQuery);
 	SQL_TQuery(g_hDatabase, SQL_Callback, sQuery, hPack);
 }
 
-public SQL_Callback(Handle owner, Handle hndl, const char[] error, any data)
+public void SQL_Callback(Handle owner, Handle hndl, const char[] error, any data)
 {
 	if (error[0])
 	{
-		LogToFile("gang", "core", ERROR, "(SQL_Callback) Query failed: %s", error);
+		Log_File("gang", "core", ERROR, "(SQL_Callback) Query failed: %s", error);
 		return;
 	}
+}
+
+public void SQL_CreateGang(Handle owner, Handle hndl, const char[] error, any pack)
+{
+	if (error[0])
+	{
+		Log_File("gang", "core", ERROR, "(SQL_CreateGang) Query failed: %s", error);
+		CloseHandle(pack);
+		return;
+	}
+		
+	char sGang[64];
+
+	ResetPack(pack);
+	int client = GetClientOfUserId(ReadPackCell(pack));
+	ReadPackString(pack, sGang, sizeof(sGang));
+	CloseHandle(pack);
+
+	char sQuery[512];
+	Format(sQuery, sizeof(sQuery), "SELECT GangID FROM gang WHERE GangName ='%s'", sGang);
+	
+	Handle hPack = CreateDataPack();
+	WritePackCell(hPack, GetClientUserId(client));
+	WritePackString(hPack, sGang);
+	SQL_TQuery(g_hDatabase, SQL_SaveClientGangID, sQuery, hPack, DBPrio_Low);
+}
+
+public void SQL_SaveClientGangID(Handle owner, Handle hndl, const char[] error, any pack)
+{
+	if (error[0])
+	{
+		Log_File("gang", "core", ERROR, "(SQL_SaveClientGangID) Query failed: %s", error);
+		return;
+	}
+	
+	char sGang[64];
+
+	ResetPack(pack);
+	int client = GetClientOfUserId(ReadPackCell(pack));
+	ReadPackString(pack, sGang, sizeof(sGang));
+	CloseHandle(pack);
+
+	if(!IsClientInGame(client))
+		return;
+	
+	if (hndl != null)
+	{
+		while(SQL_FetchRow(hndl))
+		{
+			if(SQL_FetchInt(hndl, 0) > 0)
+			{
+				AddGangToArray(SQL_FetchInt(hndl, 0), sGang);
+				g_iClientGang[client] = SQL_FetchInt(hndl, 0);
+				AddClientToGang(client, g_iClientGang[client]);
+			}
+			else
+			{
+				g_bIsInGang[client] = false;
+				g_iClientGang[client] = 0;
+			}
+		}
+	}
+}
+
+public void SQL_UpdateGangMembers(Handle owner, Handle hndl, const char[] error, any userid)
+{
+	if (error[0])
+	{
+		Log_File("gang", "core", ERROR, "(SQL_Callback) Query failed: %s", error);
+		return;
+	}
+	
+	int client = GetClientOfUserId(userid);
+	
+	if(!IsClientInGame(client))
+		return;
+		
+	g_bIsInGang[client] = true;
+	
+	if(g_iClientGang[client] < 1 && !g_bIsInGang[client])
+	{
+		ReplyToCommand(client, "Die Gang konnte nicht gegründet werden...");
+		return;
+	}
+	
+	char sGang[64];
+	Gang_GetGangName(g_iClientGang[client], sGang, sizeof(sGang));
+	
+	PrintToChatAll("%N hat die Gang \"%s\" gegründet!", client, sGang);
+	
+	Call_StartForward(g_hGangCreated);
+	Call_PushCell(client);
+	Call_PushCell(g_iClientGang[client]);
+	Call_Finish();
 }
