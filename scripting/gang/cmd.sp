@@ -14,34 +14,47 @@ public Action Command_CreateGang(int client, int args)
 		return Plugin_Handled;
 	}
 	
-	char sArg[64], sRegex[128];
+	char sArg[64];
 	GetCmdArgString(sArg, sizeof(sArg));
-	g_cGangRegex.GetString(sRegex, sizeof(sRegex));
 	
+	if(!CheckGangName(client, sArg))
+		return Plugin_Handled;
+	
+	ReplyToCommand(client, "Sie könnten diese Gang (%s) erstellen, aber das wäre noch zu früh... :(", sArg);
+	return Plugin_Handled;
+}
+
+public bool CheckGangName(int client, const char[] sArg)
+{
+	char sRegex[128];
+	g_cGangRegex.GetString(sRegex, sizeof(sRegex));
 	Handle hRegex = CompileRegex(sRegex);
+	
 	if(MatchRegex(hRegex, sArg) != 1)
 	{
 		ReplyToCommand(client, "Ihr Gang Name enthält verbotene Zeichen!");
-		return Plugin_Handled;
+		return false;
 	}
 	
 	if (strlen(sArg) < g_cGangMinLen.IntValue)
 	{
 		ReplyToCommand(client, "Der Gang Name ist zu kurz!");
-		return Plugin_Handled;
+		return false;
 	}
 	
 	if (strlen(sArg) > g_cGangMaxLen.IntValue)
 	{
 		ReplyToCommand(client, "Der Gang Name ist zu lang!");
-		return Plugin_Handled;
+		return false;
 	}
 	
-	if(CanCreateGang(client))
-		ReplyToCommand(client, "Sie könnten diese Gang (%s) erstellen, aber das wäre noch zu früh... :(", sArg);
-	else
+	if(!CanCreateGang(client))
+	{
 		ReplyToCommand(client, "Sie sind bereits in einer Gang!");
-	return Plugin_Handled;	
+		return false;
+	}
+	
+	return true;
 }
 
 stock bool CanCreateGang(int client)
