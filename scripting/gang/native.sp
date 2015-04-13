@@ -1,14 +1,14 @@
-public IsClientInGang(Handle plugin, int numParams)
+public Native_IsClientInGang(Handle plugin, int numParams)
 {
 	return g_bIsInGang[GetNativeCell(1)];
 }
 
-public GetClientGang(Handle plugin, int numParams)
+public Native_GetClientGang(Handle plugin, int numParams)
 {
 	return g_iClientGang[GetNativeCell(1)];
 }
 
-public GetGangName(Handle plugin, int numParams)
+public Native_GetGangName(Handle plugin, int numParams)
 {
 	char sName[64];
 	int gangid = GetNativeCell(1);
