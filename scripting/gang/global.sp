@@ -51,3 +51,9 @@ Handle g_hSQLConnected;
 char g_sClientID[MAXPLAYERS + 1][64];
 bool g_bIsInGang[MAXPLAYERS + 1] =  { false, ... };
 int g_iClientGang[MAXPLAYERS + 1] =  { 0, ... };
+
+// Cvars
+ConVar g_cGangCreate = null;
+ConVar g_cGangMinLen = null;
+ConVar g_cGangMaxLen = null;
+ConVar g_cGangRegex = null;

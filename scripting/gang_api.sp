@@ -44,4 +44,6 @@ public Action Command_IsInGang(int client, int args)
 	}
 	
 	PrintToChat(client, "Gang_GetClientName - %s", sName);
+	
+	return Plugin_Continue;
 }

@@ -2,6 +2,7 @@
 
 #include <sourcemod>
 #include <gang>
+#include <regex>
 
 #define PLUGIN_AUTHOR "Bara"
 #define PLUGIN_VERSION "1.0.0-dev"
@@ -10,6 +11,7 @@
 #include "gang/cache.sp"
 #include "gang/sql.sp"
 #include "gang/native.sp"
+#include "gang/cmd.sp"
 
 public APLRes AskPluginLoad2(Handle myself, bool late, char[] error, int err_max)
 {
@@ -39,6 +41,13 @@ public void OnPluginStart()
 	Gang_CreateCache();
 	Gang_SQLConnect();
 	
+	g_cGangCreate = CreateConVar("gang_create_gang", "1", "Enable \"Create Gang\"?", _, true, 0.0, true, 1.0);
+	g_cGangMinLen = CreateConVar("gang_create_min_length", "3", "Minimum length of gang name", _, true, 3.0, true, 8.0);
+	g_cGangMaxLen = CreateConVar("gang_create_max_length", "8", "Maximum length of gang name", _, true, 3.0, true, 8.0);
+	g_cGangRegex =  CreateConVar("gang_create_regex", "^[a-zA-Z0-9]+$", "Allowed characters in gang name");
+	
+	AutoExecConfig();
+	
 	RegConsoleCmd("sm_creategang", Command_CreateGang);
 }
 
@@ -50,17 +59,4 @@ public void OnClientPutInServer(int client)
 public void OnClientDisconnect(int client)
 {
 	Gang_EraseClientArray(client);
-}
-
-public Action Command_CreateGang(int client, int args)
-{
-	PrintToChat(client, "CommunityID - %s", g_sClientID[client]);
-	if(!g_bIsInGang[client] && g_iClientGang[client] == 0)
-	{
-		PrintToChat(client, "Sie könnten eine Gang erstellen, aber das wäre noch zu früh... :(");
-	}
-	else
-	{
-		PrintToChat(client, "Sie sind bereits in einer Gang!");
-	}
 }
