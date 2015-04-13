@@ -173,3 +173,24 @@ stock void AddGangToArray(int GangID, const char[] sGang)
 
 	g_aCacheGang.PushArray(iGang[0]);
 }
+
+stock void RemoveClientFromGang(int client, int gangid)
+{
+	if(!Gang_IsClientInGang(client))
+	{
+		ReplyToCommand(client, "Sie sind in keiner Gang!");
+		return;
+	}
+	
+	if(Gang_GetClientAccessLevel(client) > 5)
+	{
+		ReplyToCommand(client, "Sie können diesen nicht als Founder ausführen!");
+		return;
+	}
+	
+	Gang_EraseClientArray(client);
+	
+	char sQuery[256];
+	Format(sQuery, sizeof(sQuery), "DELETE FROM gang_members WHERE CommunityID = '%s' AND GangID = '%d'", g_sClientID[client], g_iClientGang[client]);
+	SQLQuery(sQuery);
+}

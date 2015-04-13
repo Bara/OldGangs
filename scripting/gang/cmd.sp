@@ -50,3 +50,13 @@ public Action Command_ListGang(int client, int args)
 	
 	return Plugin_Handled;
 }
+
+public Action Command_LeftGang(int client, int args)
+{
+	if (client < 1 )
+		return Plugin_Handled;
+	
+	Gang_ClientLeftGang(client);
+	
+	return Plugin_Handled;
+}

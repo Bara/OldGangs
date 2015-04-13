@@ -79,7 +79,10 @@ forward void Gang_OnSQLConnected(Handle database);
 forward void Gang_OnGangCreated(int client, int gangid);
 
 native bool Gang_IsClientInGang(int client);
-native int Gang_GetClientGang(int gangid);
+native int Gang_GetClientAccessLevel(int client);
+native int Gang_GetClientGang(int client);
+native void Gang_ClientLeftGang(int client);
+
 native void Gang_GetGangName(int gangid, const char[] name, int maxlength);
 
 public SharedPlugin __pl_gang =
@@ -98,7 +101,10 @@ public SharedPlugin __pl_gang =
 public __pl_gang_SetNTVOptional()
 {
 	MarkNativeAsOptional("Gang_IsClientInGang");
+	MarkNativeAsOptional("Gang_GetClientAccessLevel");
 	MarkNativeAsOptional("Gang_GetClientGang");
+	MarkNativeAsOptional("Gang_ClientLeftGang");
+	
 	MarkNativeAsOptional("Gang_GetGangName");
 }
 #endif
