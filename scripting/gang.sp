@@ -13,6 +13,7 @@
 #include "gang/native.sp"
 #include "gang/cmd.sp"
 #include "gang/stock.sp"
+#include "gang/menu.sp"
 
 public APLRes AskPluginLoad2(Handle myself, bool late, char[] error, int err_max)
 {
@@ -51,6 +52,7 @@ public void OnPluginStart()
 	AutoExecConfig();
 	
 	RegConsoleCmd("sm_creategang", Command_CreateGang);
+	RegConsoleCmd("sm_listgang", Command_ListGang);
 }
 
 public void OnClientPutInServer(int client)
