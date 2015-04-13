@@ -23,7 +23,7 @@ public void Gang_Connected(Handle owner, Handle hndl, const char[] error, any da
 
 	Gang_CreateTables();
 
-	SQLQuery("SET NAMES \"UTF8\"");
+	SQL_SetCharset(g_hDatabase, "utf8");
 	
 	Gang_FillCache();
 
