@@ -37,9 +37,16 @@ public Action Command_CreateGang(int client, int args)
 		return Plugin_Handled;
 	}
 	
-	if(!g_bIsInGang[client] && g_iClientGang[client] == 0)
+	if(CanCreateGang(client))
 		ReplyToCommand(client, "Sie könnten diese Gang (%s) erstellen, aber das wäre noch zu früh... :(", sArg);
 	else
 		ReplyToCommand(client, "Sie sind bereits in einer Gang!");
 	return Plugin_Handled;	
+}
+
+stock bool CanCreateGang(int client)
+{
+	if(!g_bIsInGang[client] && g_iClientGang[client] == 0)
+		return true;
+	return false;
 }
