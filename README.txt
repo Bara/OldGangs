@@ -62,8 +62,15 @@ Configs:
 
 API:
         Gang_OnSQLConnected
+        Gang_OnGangCreated
+        Gang_OnGangLeft
+        
         Gang_IsClientInGang
+        Gang_GetClientAccessLevel
         Gang_GetClientGang
+        Gang_ClientLeftGang
+        Gang_CreateClientGang
+        
         Gang_GetClientName
 
 
