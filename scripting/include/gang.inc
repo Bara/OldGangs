@@ -82,6 +82,7 @@ native bool Gang_IsClientInGang(int client);
 native int Gang_GetClientAccessLevel(int client);
 native int Gang_GetClientGang(int client);
 native void Gang_ClientLeftGang(int client);
+native void Gang_CreateClientGang(int client, const char[] gangname);
 
 native void Gang_GetGangName(int gangid, const char[] name, int maxlength);
 

@@ -19,11 +19,13 @@ public APLRes AskPluginLoad2(Handle myself, bool late, char[] error, int err_max
 {
 	g_hSQLConnected = CreateGlobalForward("Gang_OnSQLConnected", ET_Ignore, Param_Cell);
 	g_hGangCreated = CreateGlobalForward("Gang_OnGangCreated", ET_Ignore, Param_Cell, Param_Cell);
+	// Gang_OnGangLeft
 	
 	CreateNative("Gang_IsClientInGang", Native_IsClientInGang);
 	CreateNative("Gang_GetClientAccessLevel", Native_GetClientAccessLevel);
 	CreateNative("Gang_GetClientGang", Native_GetClientGang);
 	CreateNative("Gang_ClientLeftGang", Native_DeleteClientGang);
+	CreateNative("Gang_CreateClientGang", Native_CreateClientGang);
 	
 	CreateNative("Gang_GetGangName", Native_GetGangName);
 	

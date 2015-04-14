@@ -57,3 +57,26 @@ public Native_DeleteClientGang(Handle plugin, int numParams)
 	g_bIsInGang[client] = false;
 	g_iClientGang[client] = 0;
 }
+
+public Native_CreateClientGang(Handle plugin, int numParams)
+{
+	int client = GetNativeCell(1);
+	
+	if(client < 1 || !IsClientInGame(client))
+	{
+		ThrowNativeError(SP_ERROR_ABORTED, "Client %d is invalid!");
+		return;
+	}
+	
+	char sGang[64];
+	GetNativeString(2, sGang, sizeof(sGang));
+	
+	if(!CheckGangName(client, sGang))
+	{
+		PrintToChat(client, "Die Gang (%s) konnte nicht erstellt werden!");
+		return;
+	}
+	
+	CreateGang(client, sGang);
+}
+	

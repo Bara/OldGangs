@@ -33,19 +33,19 @@ stock bool CheckGangName(int client, const char[] sArg)
 	
 	if(MatchRegex(hRegex, sArg) != 1)
 	{
-		ReplyToCommand(client, "Ihr Gang Name enthält verbotene Zeichen!");
+		PrintToChat(client, "Der Gang Name enthält verbotene Zeichen!");
 		return false;
 	}
 	
 	if (strlen(sArg) < g_cGangMinLen.IntValue)
 	{
-		ReplyToCommand(client, "Der Gang Name ist zu kurz!");
+		PrintToChat(client, "Der Gang Name ist zu kurz!");
 		return false;
 	}
 	
 	if (strlen(sArg) > g_cGangMaxLen.IntValue)
 	{
-		ReplyToCommand(client, "Der Gang Name ist zu lang!");
+		PrintToChat(client, "Der Gang Name ist zu lang!");
 		return false;
 	}
 	
@@ -56,7 +56,7 @@ stock bool CheckGangName(int client, const char[] sArg)
 
 		if (StrEqual(iGang[sGangName], sArg, false))
 		{
-			ReplyToCommand(client, "Der Gang Name wird bereits genutzt!");
+			PrintToChat(client, "Der Gang Name wird bereits genutzt!");
 			return false;
 		}
 	}
