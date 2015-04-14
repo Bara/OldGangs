@@ -22,6 +22,11 @@ char g_sELogLevel[6][32] = {
 	"error"
 };
 
+stock bool Gang_IsLoaded()
+{
+	return LibraryExists("gang");
+}
+
 stock void Gang_CheckGame()
 {
 	if(GetEngineVersion() != Engine_CSGO && GetEngineVersion() != Engine_CSS)
