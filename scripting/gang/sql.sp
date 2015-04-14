@@ -88,6 +88,7 @@ public void SQL_SaveClientGangID(Handle owner, Handle hndl, const char[] error, 
 			if(SQL_FetchInt(hndl, 0) > 0)
 			{
 				AddGangToArray(SQL_FetchInt(hndl, 0), sGang);
+				Log_File(_, _, INFO, "Gnag \"%S\" wurde erstellt!", client, sGang);
 				g_iClientGang[client] = SQL_FetchInt(hndl, 0);
 				AddClientToGang(client, g_iClientGang[client]);
 			}
