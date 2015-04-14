@@ -193,4 +193,9 @@ stock void RemoveClientFromGang(int client, int gangid)
 	char sQuery[256];
 	Format(sQuery, sizeof(sQuery), "DELETE FROM gang_members WHERE CommunityID = '%s' AND GangID = '%d'", g_sClientID[client], g_iClientGang[client]);
 	SQLQuery(sQuery);
+	
+	Call_StartForward(g_hGangLeft);
+	Call_PushCell(client);
+	Call_PushCell(gangid);
+	Call_Finish();
 }

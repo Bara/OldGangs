@@ -44,6 +44,22 @@ public void Gang_OnGangCreated(int client, int iGang)
 	PrintToChat(client, "(Gang_OnGangCreated) Gang_GetClientName - %s", sName);
 }
 
+public void Gang_OnGangLeft(int client, int iGang)
+{
+	PrintToChat(client, "(Gang_OnGangLeft) Gang_IsClientInGang - %d", Gang_IsClientInGang(client));
+	PrintToChat(client, "(Gang_OnGangLeft) Gang_GetClientGang - %d", iGang);
+	
+	char sName[64];
+	Gang_GetGangName(iGang, sName, sizeof(sName));
+	
+	if(StrEqual(sName, "", false))
+	{
+		Format(sName, sizeof(sName), "keine Gang");
+	}
+	
+	PrintToChat(client, "(Gang_OnGangLeft) Gang_GetClientName - %s", sName);
+}
+
 public Action Command_IsInGang(int client, int args)
 {
 	PrintToChat(client, "Gang_IsClientInGang - %d", Gang_IsClientInGang(client));

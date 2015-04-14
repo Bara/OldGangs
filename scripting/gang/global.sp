@@ -49,6 +49,7 @@ Handle g_hDatabase;
 // Fowards
 Handle g_hSQLConnected;
 Handle g_hGangCreated;
+Handle g_hGangLeft;
 
 // Client stuff
 char g_sClientID[MAXPLAYERS + 1][64];
