@@ -53,4 +53,7 @@ public Native_DeleteClientGang(Handle plugin, int numParams)
 	int client = GetNativeCell(1);
 	
 	RemoveClientFromGang(client, Gang_GetClientGang(client));
+	
+	g_bIsInGang[client] = false;
+	g_iClientGang[client] = 0;
 }
