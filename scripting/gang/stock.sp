@@ -194,6 +194,11 @@ stock void RemoveClientFromGang(int client, int gangid)
 	Format(sQuery, sizeof(sQuery), "DELETE FROM gang_members WHERE CommunityID = '%s' AND GangID = '%d'", g_sClientID[client], g_iClientGang[client]);
 	SQLQuery(sQuery);
 	
+	char sGang[64];
+	Gang_GetGangName(gangid, sGang, sizeof(sGang));
+	
+	Log_File(_, _, INFO, "\"%N\" hat die Gang \"%s\" verlassen!", client, sGang);
+	
 	Call_StartForward(g_hGangLeft);
 	Call_PushCell(client);
 	Call_PushCell(gangid);

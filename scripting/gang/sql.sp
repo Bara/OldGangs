@@ -126,6 +126,8 @@ public void SQL_UpdateGangMembers(Handle owner, Handle hndl, const char[] error,
 	
 	PrintToChatAll("%N hat die Gang \"%s\" gegründet!", client, sGang);
 	
+	Log_File(_, _, INFO, "\"%N\" hat die Gang \"%s\" gegründet!", client, sGang);
+	
 	Gang_PushClientArray(client);
 	
 	Call_StartForward(g_hGangCreated);
