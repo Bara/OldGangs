@@ -21,11 +21,11 @@ public void OnPluginStart()
 
 public void Gang_OnSQLConnected(Handle database)
 {
-	PrintToServer("Gang_OnSQLConnected called!");
+	PrintToServer("(Gang_OnSQLConnected) Gang_OnSQLConnected called!");
 	
 	g_hDatabase = CloneHandle(database);
 	
-	PrintToServer("database: %d - g_hDatabase: %d", database, g_hDatabase);
+	PrintToServer("(Gang_OnSQLConnected)  database: %d - g_hDatabase: %d", database, g_hDatabase);
 }
 
 public void Gang_OnGangCreated(int client, int iGang)
@@ -62,10 +62,10 @@ public void Gang_OnGangLeft(int client, int iGang)
 
 public Action Command_IsInGang(int client, int args)
 {
-	PrintToChat(client, "Gang_IsClientInGang - %d", Gang_IsClientInGang(client));
+	PrintToChat(client, "(Command_IsInGang) Gang_IsClientInGang - %d", Gang_IsClientInGang(client));
 	
 	int iGang = Gang_GetClientGang(client);
-	PrintToChat(client, "Gang_GetClientGang - %d", iGang);
+	PrintToChat(client, "(Command_IsInGang) Gang_GetClientGang - %d", iGang);
 	
 	char sName[64];
 	Gang_GetGangName(iGang, sName, sizeof(sName));
@@ -75,7 +75,7 @@ public Action Command_IsInGang(int client, int args)
 		Format(sName, sizeof(sName), "keine Gang");
 	}
 	
-	PrintToChat(client, "Gang_GetClientName - %s", sName);
+	PrintToChat(client, "(Command_IsInGang) Gang_GetClientName - %s", sName);
 	
 	return Plugin_Continue;
 }
