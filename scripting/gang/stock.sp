@@ -237,6 +237,23 @@ stock void DeleteGangEntries(int gangid)
 	
 	Format(sQuery, sizeof(sQuery), "DELETE FROM gang_skills WHERE GangID = '%d'", gangid);
 	SQLQuery(sQuery);
+	
+	RemoveGangFromArray(gangid);
+}
+
+stock void RemoveGangFromArray(int gangid)
+{
+	for (int i = 0; i < g_aCacheGang.Length; i++)
+	{
+		int iGang[Cache_Gang];
+		g_aCacheGang.GetArray(i, iGang[0]);
+
+		if (iGang[iGangID] == gangid)
+		{
+			g_aCacheGang.Erase(i);
+			break;
+		}
+	}
 }
 
 stock bool IsClientFounder(int client, int gangid)
