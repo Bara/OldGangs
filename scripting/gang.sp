@@ -51,7 +51,7 @@ public void OnPluginStart()
 	Gang_CreateCache();
 	Gang_SQLConnect();
 	
-	g_cGangCreate = CreateConVar("gang_create_gang", "1", "Enable \"Create Gang\"?", _, true, 0.0, true, 1.0);
+	g_cGangCreate = CreateConVar("gang_create_enable", "1", "Enable \"Create Gang\"?", _, true, 0.0, true, 1.0);
 	g_cGangMinLen = CreateConVar("gang_create_min_length", "3", "Minimum length of gang name", _, true, 3.0, true, 8.0);
 	g_cGangMaxLen = CreateConVar("gang_create_max_length", "8", "Maximum length of gang name", _, true, 3.0, true, 8.0);
 	g_cGangRegex =  CreateConVar("gang_create_regex", "^[a-zA-Z0-9]+$", "Allowed characters in gang name");
