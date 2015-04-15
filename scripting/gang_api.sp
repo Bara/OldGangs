@@ -31,7 +31,7 @@ public void Gang_OnSQLConnected(Handle database)
 public void Gang_OnGangCreated(int client, int iGang)
 {
 	PrintToChat(client, "(Gang_OnGangCreated) Gang_IsClientInGang - %d", Gang_IsClientInGang(client));
-	PrintToChat(client, "(Gang_OnGangCreated) Gang_GetClientGang - %d", iGang);
+	PrintToChat(client, "(Gang_OnGangCreated) Gang ID - %d", iGang);
 	
 	char sName[64];
 	Gang_GetGangName(iGang, sName, sizeof(sName));
@@ -47,7 +47,7 @@ public void Gang_OnGangCreated(int client, int iGang)
 public void Gang_OnGangLeft(int client, int iGang)
 {
 	PrintToChat(client, "(Gang_OnGangLeft) Gang_IsClientInGang - %d", Gang_IsClientInGang(client));
-	PrintToChat(client, "(Gang_OnGangLeft) Gang_GetClientGang - %d", iGang);
+	PrintToChat(client, "(Gang_OnGangLeft) Gang ID - %d", iGang);
 	
 	char sName[64];
 	Gang_GetGangName(iGang, sName, sizeof(sName));
@@ -58,6 +58,13 @@ public void Gang_OnGangLeft(int client, int iGang)
 	}
 	
 	PrintToChat(client, "(Gang_OnGangLeft) Gang_GetClientName - %s", sName);
+}
+
+public void Gang_OnGangDelete(int client, int iGang, const char[] sGang)
+{
+	PrintToChat(client, "(Gang_OnGangDelete) Gang_IsClientInGang - %d", Gang_IsClientInGang(client));
+	PrintToChat(client, "(Gang_OnGangDelete) Gang ID - %d", iGang);
+	PrintToChat(client, "(Gang_OnGangDelete) Gang Name - %s", sGang);
 }
 
 public Action Command_IsInGang(int client, int args)

@@ -50,6 +50,7 @@ Handle g_hDatabase;
 Handle g_hSQLConnected;
 Handle g_hGangCreated;
 Handle g_hGangLeft;
+Handle g_hGangDelete;
 
 // Client stuff
 char g_sClientID[MAXPLAYERS + 1][64];

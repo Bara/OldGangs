@@ -83,6 +83,7 @@ stock void Log_File(const char[] path = "gang", const char[] file = "core", ELOG
 forward void Gang_OnSQLConnected(Handle database);
 forward void Gang_OnGangCreated(int client, int gangid);
 forward void Gang_OnGangLeft(int client, int gangid);
+forward void Gang_OnGangDelete(int client, int gangid, const char[] gangname);
 
 native bool Gang_IsClientInGang(int client);
 native int Gang_GetClientAccessLevel(int client);

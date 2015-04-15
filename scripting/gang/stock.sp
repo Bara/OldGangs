@@ -223,6 +223,12 @@ stock void DeleteGang(int client, int gangid)
 	}
 	
 	DeleteGangEntries(gangid);
+	
+	Call_StartForward(g_hGangDelete);
+	Call_PushCell(client);
+	Call_PushCell(gangid);
+	Call_PushString(sGang);
+	Call_Finish();
 }
 
 stock void DeleteGangEntries(int gangid)
