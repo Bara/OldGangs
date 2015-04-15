@@ -24,8 +24,9 @@ public APLRes AskPluginLoad2(Handle myself, bool late, char[] error, int err_max
 	CreateNative("Gang_IsClientInGang", Native_IsClientInGang);
 	CreateNative("Gang_GetClientAccessLevel", Native_GetClientAccessLevel);
 	CreateNative("Gang_GetClientGang", Native_GetClientGang);
-	CreateNative("Gang_ClientLeftGang", Native_DeleteClientGang);
+	CreateNative("Gang_ClientLeftGang", Native_LeftClientGang);
 	CreateNative("Gang_CreateClientGang", Native_CreateClientGang);
+	CreateNative("Gang_DeleteClientGang", Native_DeleteClientGang);
 	
 	CreateNative("Gang_GetGangName", Native_GetGangName);
 	
@@ -59,6 +60,7 @@ public void OnPluginStart()
 	RegConsoleCmd("sm_creategang", Command_CreateGang);
 	RegConsoleCmd("sm_listgang", Command_ListGang);
 	RegConsoleCmd("sm_leftgang", Command_LeftGang);
+	RegConsoleCmd("sm_deletegang", Command_DeleteGang);
 }
 
 public void OnClientPutInServer(int client)

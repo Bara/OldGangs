@@ -204,3 +204,58 @@ stock void RemoveClientFromGang(int client, int gangid)
 	Call_PushCell(gangid);
 	Call_Finish();
 }
+
+stock void DeleteGang(int client, int gangid)
+{
+	char sGang[64];
+	Gang_GetGangName(gangid, sGang, sizeof(sGang));
+	
+	PrintToChatAll("%N hat die Gang \"%s\" gelöscht!", client, sGang);
+	
+	for (int i = 1; i <= MaxClients; i++)
+	{
+		if(g_iClientGang[i] == gangid)
+		{
+			Gang_EraseClientArray(i);
+			g_bIsInGang[i] = false;
+			g_iClientGang[i] = 0;
+		}
+	}
+	
+	DeleteGangEntries(gangid);
+}
+
+stock void DeleteGangEntries(int gangid)
+{
+	char sQuery[256];
+	
+	Format(sQuery, sizeof(sQuery), "DELETE FROM gang WHERE GangID = '%d'", gangid);
+	SQLQuery(sQuery);
+	
+	Format(sQuery, sizeof(sQuery), "DELETE FROM gang_members WHERE GangID = '%d'", gangid);
+	SQLQuery(sQuery);
+	
+	Format(sQuery, sizeof(sQuery), "DELETE FROM gang_skills WHERE GangID = '%d'", gangid);
+	SQLQuery(sQuery);
+}
+
+stock bool IsClientFounder(int client, int gangid)
+{
+	char sComID[64];
+	GetClientAuthId(client, AuthId_SteamID64, sComID, sizeof(sComID));
+	
+	if(g_bIsInGang[client])
+	{
+		for (int i = 0; i < g_aCacheGangMembers.Length; i++)
+		{
+			int iGang[Cache_Gang_Members];
+			g_aCacheGangMembers.GetArray(i, iGang[0]);
+	
+			if (StrEqual(iGang[sCommunityID], sComID, false) && iGang[iAccessLevel] == 6)
+			{
+				return true;
+			}
+		}
+	}
+	return false;
+}

@@ -48,7 +48,7 @@ public Native_GetClientAccessLevel(Handle plugin, int numParams)
 	return -1;
 }
 
-public Native_DeleteClientGang(Handle plugin, int numParams)
+public Native_LeftClientGang(Handle plugin, int numParams)
 {
 	int client = GetNativeCell(1);
 	
@@ -79,4 +79,29 @@ public Native_CreateClientGang(Handle plugin, int numParams)
 	
 	CreateGang(client, sGang);
 }
+
+public Native_DeleteClientGang(Handle plugin, int numParams)
+{
+	int client = GetNativeCell(1);
+	int gangid = GetNativeCell(2);
 	
+	if (client < 1 || !IsClientInGame(client))
+	{
+		ThrowNativeError(SP_ERROR_ABORTED, "Client %d is invalid!");
+		return;
+	}
+	
+	if (!g_bIsInGang[client])
+	{
+		PrintToChat(client, "Sie sind in keiner Gang!");
+		return;
+	}
+	
+	if(!IsClientFounder(client, gangid))
+	{
+		PrintToChat(client, "Sie sind nicht Founder der Gang!");
+		return;
+	}
+	
+	DeleteGang(client, gangid);
+}

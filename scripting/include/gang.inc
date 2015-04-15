@@ -89,6 +89,7 @@ native int Gang_GetClientAccessLevel(int client);
 native int Gang_GetClientGang(int client);
 native void Gang_ClientLeftGang(int client);
 native void Gang_CreateClientGang(int client, const char[] gangname);
+native void Gang_DeleteClientGang(int client, int gangid);
 
 native void Gang_GetGangName(int gangid, const char[] name, int maxlength);
 
@@ -111,6 +112,8 @@ public __pl_gang_SetNTVOptional()
 	MarkNativeAsOptional("Gang_GetClientAccessLevel");
 	MarkNativeAsOptional("Gang_GetClientGang");
 	MarkNativeAsOptional("Gang_ClientLeftGang");
+	MarkNativeAsOptional("Gang_CreateClientGang");
+	MarkNativeAsOptional("Gang_DeleteClientGang");
 	
 	MarkNativeAsOptional("Gang_GetGangName");
 }

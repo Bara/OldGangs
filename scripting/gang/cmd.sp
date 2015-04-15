@@ -1,19 +1,14 @@
 public Action Command_CreateGang(int client, int args)
 {
-	if (client < 1 )
-		return Plugin_Handled;
-	
-	PrintToChat(client, "CommunityID - %s", g_sClientID[client]);
-	
 	if(!g_cGangCreate.BoolValue)
 	{
-		ReplyToCommand(client, "Es können derzeit keine Gangs erstellt werden!");
+		PrintToChat(client, "Es können derzeit keine Gangs erstellt werden!");
 		return Plugin_Handled;
 	}
 	
 	if(args < 1)
 	{
-		ReplyToCommand(client, "Syntax: sm_creategang <Name>");
+		PrintToChat(client, "Syntax: sm_creategang <Name>");
 		return Plugin_Handled;
 	}
 	
@@ -48,10 +43,14 @@ public Action Command_ListGang(int client, int args)
 
 public Action Command_LeftGang(int client, int args)
 {
-	if (client < 1 )
-		return Plugin_Handled;
-	
 	Gang_ClientLeftGang(client);
+	
+	return Plugin_Handled;
+}
+
+public Action Command_DeleteGang(int client, int args)
+{
+	Gang_DeleteClientGang(client, Gang_GetClientGang(client));
 	
 	return Plugin_Handled;
 }
