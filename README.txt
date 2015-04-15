@@ -85,6 +85,8 @@ Gang staff:
 
 Gang Menu Main:
         |------------------|
+        | Gang Name        |
+        |------------------|
         | Info's           |
         |------------------|
         | Skills           |
