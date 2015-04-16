@@ -12,7 +12,7 @@ stock void Gang_CreateTables()
 {
 	char sQuery[1024];
 	
-	Format(sQuery, sizeof(sQuery), "CREATE TABLE IF NOT EXISTS `gang` (`GangID` int(11) NOT NULL AUTO_INCREMENT, `GangName` varchar(65) NOT NULL DEFAULT '', `Points` int(11) NOT NULL DEFAULT '0', `Chat` tinyint(4) NOT NULL DEFAULT '0', `Prefix` tinyint(4) NOT NULL DEFAULT '0', `PrefixColor` varchar(65) NOT NULL DEFAULT '', `MaxMembers` int(11) NOT NULL DEFAULT '2', PRIMARY KEY (`GangID`, `GangName`), UNIQUE KEY `GangName` (`GangName`), UNIQUE KEY `GangID` (`GangID`)) ENGINE=InnoDB DEFAULT CHARSET=utf8;");
+	Format(sQuery, sizeof(sQuery), "CREATE TABLE IF NOT EXISTS `gang` (`GangID` int(11) NOT NULL AUTO_INCREMENT, `GangName` varchar(65) NOT NULL DEFAULT '', `Points` int(11) NOT NULL DEFAULT '0', `Chat` tinyint(4) NOT NULL DEFAULT '0', `Prefix` tinyint(4) NOT NULL DEFAULT '0', `PrefixColor` varchar(65) NOT NULL DEFAULT 'GREEN', `MaxMembers` int(11) NOT NULL DEFAULT '2', PRIMARY KEY (`GangID`, `GangName`), UNIQUE KEY `GangName` (`GangName`), UNIQUE KEY `GangID` (`GangID`)) ENGINE=InnoDB DEFAULT CHARSET=utf8;");
 	SQLQuery(sQuery);
 	
 	Format(sQuery, sizeof(sQuery), "CREATE TABLE IF NOT EXISTS `skills` (`SkillID` int(11) NOT NULL AUTO_INCREMENT, `SkillName` varchar(65) NOT NULL DEFAULT '', `MaxLevel` int(11) NOT NULL DEFAULT '0', PRIMARY KEY (`SkillID`), UNIQUE KEY `SkillID` (`SkillID`), UNIQUE KEY `SkillName` (`SkillName`)) ENGINE=InnoDB DEFAULT CHARSET=utf8;");
@@ -327,18 +327,18 @@ stock void OpenClientGangInfo(int client)
 {
 	int gangid = Gang_GetClientGang(client);
 	
-	char sGang[64], sTitle[64], sPoints[64], sOnline[64], sMaxMembers[64], sMembers[64];
+	char sGang[64], sTitle[64], sPoints[64], sOnline[64], sMembers[64], sMaxMembers[64];
 	Gang_GetGangName(gangid, sGang, sizeof(sGang));
 	
 	Format(sTitle, sizeof(sTitle), "%s - Information", sGang);
 	Format(sPoints, sizeof(sPoints), "Points: %d", Gang_GetGangPoints(gangid));
 	Format(sOnline, sizeof(sOnline), "Online: %d", Gang_GetOnlinePlayerCount(gangid));
-	Format(sMaxMembers, sizeof(sMaxMembers), "Max. Members: %d", Gang_GetGangMaxMembers(gangid));
 	Format(sMembers, sizeof(sMembers), "Members: %d", Gang_GetGangMembersCount(gangid));
+	Format(sMaxMembers, sizeof(sMaxMembers), "Max. Members: %d", Gang_GetGangMaxMembers(gangid));
 	
 	Menu menu = new Menu(Menu_GangMain);
 	menu.SetTitle(sTitle);
-	menu.AddItem("", "Points: NOT YET!", ITEMDRAW_DISABLED);
+	menu.AddItem("", sPoints, ITEMDRAW_DISABLED);
 	menu.AddItem("", sOnline, ITEMDRAW_DISABLED);
 	menu.AddItem("", sMembers, ITEMDRAW_DISABLED);
 	menu.AddItem("", sMaxMembers, ITEMDRAW_DISABLED);

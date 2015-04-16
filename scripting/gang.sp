@@ -25,7 +25,7 @@ public APLRes AskPluginLoad2(Handle myself, bool late, char[] error, int err_max
 	CreateNative("Gang_IsClientInGang", Native_IsClientInGang);
 	CreateNative("Gang_GetClientAccessLevel", Native_GetClientAccessLevel);
 	CreateNative("Gang_GetClientGang", Native_GetClientGang);
-	CreateNative("Gang_ClientLeftGang", Native_LeftClientGang); // ToDo Gang Cache[iMembers]--;
+	CreateNative("Gang_ClientLeftGang", Native_LeftClientGang);
 	CreateNative("Gang_CreateClientGang", Native_CreateClientGang);
 	CreateNative("Gang_DeleteClientGang", Native_DeleteClientGang);
 	CreateNative("Gang_OpenClientGang", Native_OpenClientGang);
