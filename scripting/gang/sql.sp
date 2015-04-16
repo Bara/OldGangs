@@ -136,3 +136,50 @@ public void SQL_UpdateGangMembers(Handle owner, Handle hndl, const char[] error,
 	Call_PushCell(g_iClientGang[client]);
 	Call_Finish();
 }
+
+public void SQL_GetGangMemberCount(Handle owner, Handle hndl, const char[] error, any data)
+{
+	if (hndl != null)
+	{
+		if (error[0])
+		{
+			Log_File("gang", "core", ERROR, "(TQuery_Gang) Query failed: %s", error);
+			return;
+		}
+		
+		int count = 0;
+		int gangid = data;
+		
+		while(SQL_FetchRow(hndl))
+		{
+			if(SQL_FetchInt(hndl, 0) == gangid)
+				count++;
+		}
+
+		for (int i = 0; i < g_aCacheGang.Length; i++)
+		{
+			int iGang[Cache_Gang];
+			g_aCacheGang.GetArray(i, iGang[0]);
+	
+			if (iGang[iGangID] == gangid)
+			{
+				int itmpGang[Cache_Gang];
+				
+				itmpGang[iGangID] = iGang[iGangID];
+				strcopy(itmpGang[sGangName], 64, iGang[sGangName]);
+				itmpGang[iPoints] = iGang[iPoints];
+				itmpGang[bChat] = iGang[bChat];
+				itmpGang[bPrefix] = iGang[bPrefix];
+				strcopy(itmpGang[sPrefixColor], 64, iGang[sPrefixColor]);
+				itmpGang[iMaxMembers] = iGang[iMaxMembers];
+				itmpGang[iMembers] = count;
+
+				Log_File(_, _, DEBUG, "(SQL_GetGangMemberCount) GangID: %d - GangName: %s - Points: %d - Chat: %d - Prefix: %d - PrefixColor: %s - MaxMembers: %d - Members: %d", itmpGang[iGangID], itmpGang[sGangName], itmpGang[iPoints], itmpGang[bChat], itmpGang[bPrefix], itmpGang[sPrefixColor], itmpGang[iMaxMembers], itmpGang[iMembers]);
+
+				g_aCacheGang.Erase(i);
+				g_aCacheGang.PushArray(itmpGang[0]);
+				break;
+			}
+		}
+	}
+}

@@ -91,8 +91,13 @@ native int Gang_GetClientGang(int client);
 native void Gang_ClientLeftGang(int client);
 native void Gang_CreateClientGang(int client, const char[] gangname);
 native void Gang_DeleteClientGang(int client, int gangid);
+native void Gang_OpenClientGang(int client);
 
 native void Gang_GetGangName(int gangid, const char[] name, int maxlength);
+native int Gang_GetGangPoints(int gangid);
+native int Gang_GetGangMaxMembers(int gangid);
+native int Gang_GetGangMembersCount(int gangid);
+native int Gang_GetOnlinePlayerCount(int gangid);
 
 public SharedPlugin __pl_gang =
 {
@@ -115,7 +120,12 @@ public __pl_gang_SetNTVOptional()
 	MarkNativeAsOptional("Gang_ClientLeftGang");
 	MarkNativeAsOptional("Gang_CreateClientGang");
 	MarkNativeAsOptional("Gang_DeleteClientGang");
+	MarkNativeAsOptional("Gang_OpenClientGang");
 	
 	MarkNativeAsOptional("Gang_GetGangName");
+	MarkNativeAsOptional("Gang_GetGangPoints");
+	MarkNativeAsOptional("Gang_GetGangMaxMembers");
+	MarkNativeAsOptional("Gang_GetGangMembersCount");
+	MarkNativeAsOptional("Gang_GetOnlinePlayerCount");
 }
 #endif

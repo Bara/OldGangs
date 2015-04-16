@@ -6,7 +6,8 @@ enum Cache_Gang
 	bool:bChat,
 	bool:bPrefix,
 	String:sPrefixColor[64],
-	iMaxMembers
+	iMaxMembers,
+	iMembers
 };
 
 enum Cache_Gang_Members

@@ -25,11 +25,16 @@ public APLRes AskPluginLoad2(Handle myself, bool late, char[] error, int err_max
 	CreateNative("Gang_IsClientInGang", Native_IsClientInGang);
 	CreateNative("Gang_GetClientAccessLevel", Native_GetClientAccessLevel);
 	CreateNative("Gang_GetClientGang", Native_GetClientGang);
-	CreateNative("Gang_ClientLeftGang", Native_LeftClientGang);
+	CreateNative("Gang_ClientLeftGang", Native_LeftClientGang); // ToDo Gang Cache[iMembers]--;
 	CreateNative("Gang_CreateClientGang", Native_CreateClientGang);
 	CreateNative("Gang_DeleteClientGang", Native_DeleteClientGang);
+	CreateNative("Gang_OpenClientGang", Native_OpenClientGang);
 	
 	CreateNative("Gang_GetGangName", Native_GetGangName);
+	CreateNative("Gang_GetGangPoints", Native_GetGangPoints);
+	CreateNative("Gang_GetGangMaxMembers", Native_GetGangMaxMembers);
+	CreateNative("Gang_GetGangMembersCount", Native_GetGangMembersCount);
+	CreateNative("Gang_GetOnlinePlayerCount", Native_GetOnlinePlayerCount);
 	
 	RegPluginLibrary("gang");
 	
@@ -58,6 +63,7 @@ public void OnPluginStart()
 	
 	AutoExecConfig();
 	
+	RegConsoleCmd("sm_gang", Command_Gang);
 	RegConsoleCmd("sm_creategang", Command_CreateGang);
 	RegConsoleCmd("sm_listgang", Command_ListGang);
 	RegConsoleCmd("sm_leftgang", Command_LeftGang);

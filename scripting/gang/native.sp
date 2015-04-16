@@ -105,3 +105,80 @@ public Native_DeleteClientGang(Handle plugin, int numParams)
 	
 	DeleteGang(client, gangid);
 }
+
+public Native_OpenClientGang(Handle plugin, int numParams)
+{
+	int client = GetNativeCell(1);
+	
+	if (client < 1 || !IsClientInGame(client))
+	{
+		ThrowNativeError(SP_ERROR_ABORTED, "Client %d is invalid!");
+		return;
+	}
+	
+	if (!g_bIsInGang[client])
+	{
+		PrintToChat(client, "Sie sind in keiner Gang!");
+		return;
+	}
+	
+	OpenClientGang(client);
+}
+
+public Native_GetGangMaxMembers(Handle plugin, int numParams)
+{
+	int gangid = GetNativeCell(1);
+	
+	for (int i = 0; i < g_aCacheGang.Length; i++)
+	{
+		int iGang[Cache_Gang];
+		g_aCacheGang.GetArray(i, iGang[0]);
+
+		if (iGang[iGangID] == gangid)
+		{
+			return iGang[iMaxMembers];
+		}
+	}
+	return 0;
+}
+
+public Native_GetGangMembersCount(Handle plugin, int numParams)
+{
+	int gangid = GetNativeCell(1);
+	
+	for (int i = 0; i < g_aCacheGang.Length; i++)
+	{
+		int iGang[Cache_Gang];
+		g_aCacheGang.GetArray(i, iGang[0]);
+
+		if (iGang[iGangID] == gangid)
+		{
+			return iGang[iMembers];
+		}
+	}
+	return 0;
+}
+
+public Native_GetOnlinePlayerCount(Handle plugin, int numParams)
+{
+	int gangid = GetNativeCell(1);
+	
+	return GetOnlinePlayerCount(gangid);
+}
+
+public Native_GetGangPoints(Handle plugin, int numParams)
+{
+	int gangid = GetNativeCell(1);
+	
+	for (int i = 0; i < g_aCacheGang.Length; i++)
+	{
+		int iGang[Cache_Gang];
+		g_aCacheGang.GetArray(i, iGang[0]);
+
+		if (iGang[iGangID] == gangid)
+		{
+			return iGang[iPoints];
+		}
+	}
+	return 0;
+}

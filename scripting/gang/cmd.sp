@@ -1,5 +1,21 @@
+public Action Command_Gang(int client, int args)
+{
+	if(args > 0)
+	{
+		PrintToChat(client, "HAX! Dein Daten werden zur Sicherheit gespeichert.");
+		return Plugin_Handled;
+	}
+	
+	Gang_OpenClientGang(client);
+	
+	return Plugin_Handled;
+}
+
 public Action Command_CreateGang(int client, int args)
 {
+	if (client < 1 )
+		return Plugin_Handled;
+	
 	if(!g_cGangCreate.BoolValue)
 	{
 		PrintToChat(client, "Es können derzeit keine Gangs erstellt werden!");

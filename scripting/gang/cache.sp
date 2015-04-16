@@ -19,8 +19,11 @@ public void TQuery_Gang(Handle owner, Handle hndl, const char[] error, any data)
 			iGang[bPrefix] = bool:SQL_FetchInt(hndl, 4);
 			SQL_FetchString(hndl, 5, iGang[sPrefixColor], 64);
 			iGang[iMaxMembers] = SQL_FetchInt(hndl, 6);
-
-			Log_File(_, _, DEBUG, "[TQuery_Gang] GangID: %d - GangName: %s - Points: %d - Chat: %d - Prefix: %d - PrefixColor: %s - MaxMembers: %d", iGang[iGangID], iGang[sGangName], iGang[iPoints], iGang[bChat], iGang[bPrefix], iGang[sPrefixColor], iGang[iMaxMembers]);
+			iGang[iMembers] = 0;
+			
+			char sQuery[256];
+			Format(sQuery, sizeof(sQuery), "SELECT GangID FROM gang_members WHERE GangID = '%d'", iGang[iGangID]);
+			SQL_TQuery(g_hDatabase, SQL_GetGangMemberCount, sQuery, iGang[iGangID], DBPrio_Low);
 
 			g_aCacheGang.PushArray(iGang[0]);
 		}

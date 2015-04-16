@@ -168,6 +168,7 @@ stock void AddGangToArray(int GangID, const char[] sGang)
 	iGang[bPrefix] = false;
 	Format(iGang[sPrefixColor], 64, "");
 	iGang[iMaxMembers] = 2;
+	iGang[iMembers] = 1;
 
 	Log_File(_, _, DEBUG, "[AddGangToArray] GangID: %d - GangName: %s - Points: %d - Chat: %d - Prefix: %d - PrefixColor: %s - MaxMembers: %d", iGang[iGangID], iGang[sGangName], iGang[iPoints], iGang[bChat], iGang[bPrefix], iGang[sPrefixColor], iGang[iMaxMembers]);
 
@@ -196,8 +197,33 @@ stock void RemoveClientFromGang(int client, int gangid)
 	
 	char sGang[64];
 	Gang_GetGangName(gangid, sGang, sizeof(sGang));
-	
 	Log_File(_, _, INFO, "\"%N\" hat die Gang \"%s\" verlassen!", client, sGang);
+	
+	for (int i = 0; i < g_aCacheGang.Length; i++)
+	{
+		int iGang[Cache_Gang];
+		g_aCacheGang.GetArray(i, iGang[0]);
+
+		if (iGang[iGangID] == gangid)
+		{
+			int itmpGang[Cache_Gang];
+			
+			itmpGang[iGangID] = iGang[iGangID];
+			strcopy(itmpGang[sGangName], 64, iGang[sGangName]);
+			itmpGang[iPoints] = iGang[iPoints];
+			itmpGang[bChat] = iGang[bChat];
+			itmpGang[bPrefix] = iGang[bPrefix];
+			strcopy(itmpGang[sPrefixColor], 64, iGang[sPrefixColor]);
+			itmpGang[iMaxMembers] = iGang[iMaxMembers];
+			itmpGang[iMembers] = iGang[iMembers] - 1;
+
+			Log_File(_, _, DEBUG, "(RemoveClientFromGang) GangID: %d - GangName: %s - Points: %d - Chat: %d - Prefix: %d - PrefixColor: %s - MaxMembers: %d - Members: %d", itmpGang[iGangID], itmpGang[sGangName], itmpGang[iPoints], itmpGang[bChat], itmpGang[bPrefix], itmpGang[sPrefixColor], itmpGang[iMaxMembers], itmpGang[iMembers]);
+
+			g_aCacheGang.Erase(i);
+			g_aCacheGang.PushArray(itmpGang[0]);
+			break;
+		}
+	}
 	
 	Call_StartForward(g_hGangLeft);
 	Call_PushCell(client);
@@ -281,4 +307,59 @@ stock bool IsClientFounder(int client, int gangid)
 		}
 	}
 	return false;
+}
+
+stock void OpenClientGang(int client)
+{
+	char sGang[64], sTitle[64];
+	Gang_GetGangName(Gang_GetClientGang(client), sGang, sizeof(sGang));
+	Format(sTitle, sizeof(sTitle), "%s - Main", sGang);
+	
+	Menu menu = new Menu(Menu_GangMain);
+	menu.SetTitle(sTitle);
+	menu.AddItem("info", "Information");
+	int todo_or_only_30_seconds;
+	menu.ExitButton = true;
+	menu.Display(client, 0);
+}
+
+stock void OpenClientGangInfo(int client)
+{
+	int gangid = Gang_GetClientGang(client);
+	
+	char sGang[64], sTitle[64], sPoints[64], sOnline[64], sMaxMembers[64], sMembers[64];
+	Gang_GetGangName(gangid, sGang, sizeof(sGang));
+	
+	Format(sTitle, sizeof(sTitle), "%s - Information", sGang);
+	Format(sPoints, sizeof(sPoints), "Points: %d", Gang_GetGangPoints(gangid));
+	Format(sOnline, sizeof(sOnline), "Online: %d", Gang_GetOnlinePlayerCount(gangid));
+	Format(sMaxMembers, sizeof(sMaxMembers), "Max. Members: %d", Gang_GetGangMaxMembers(gangid));
+	Format(sMembers, sizeof(sMembers), "Members: %d", Gang_GetGangMembersCount(gangid));
+	
+	Menu menu = new Menu(Menu_GangMain);
+	menu.SetTitle(sTitle);
+	menu.AddItem("", "Points: NOT YET!", ITEMDRAW_DISABLED);
+	menu.AddItem("", sOnline, ITEMDRAW_DISABLED);
+	menu.AddItem("", sMembers, ITEMDRAW_DISABLED);
+	menu.AddItem("", sMaxMembers, ITEMDRAW_DISABLED);
+	int todo_or_only_30_seconds;
+	menu.ExitBackButton = true;
+	menu.Display(client, 0);
+}
+
+stock int GetOnlinePlayerCount(int gangid)
+{
+	int count = 0;
+	for (int i = 1; i <= MaxClients; i++)
+	{
+		if(IsClientInGame(i))
+		{
+			if(Gang_GetClientGang(i) == gangid)
+			{
+				count++;
+			}
+		}
+	}
+	
+	return count;
 }
