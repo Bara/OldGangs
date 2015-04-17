@@ -206,21 +206,11 @@ stock void RemoveClientFromGang(int client, int gangid)
 
 		if (iGang[iGangID] == gangid)
 		{
-			int itmpGang[Cache_Gang];
-			
-			itmpGang[iGangID] = iGang[iGangID];
-			strcopy(itmpGang[sGangName], 64, iGang[sGangName]);
-			itmpGang[iPoints] = iGang[iPoints];
-			itmpGang[bChat] = iGang[bChat];
-			itmpGang[bPrefix] = iGang[bPrefix];
-			strcopy(itmpGang[sPrefixColor], 64, iGang[sPrefixColor]);
-			itmpGang[iMaxMembers] = iGang[iMaxMembers];
-			itmpGang[iMembers] = iGang[iMembers] - 1;
+			int count = iGang[iMembers] - 1;
+			g_aCacheGang.Set(i, count, _:iMembers);
 
-			Log_File(_, _, DEBUG, "(RemoveClientFromGang) GangID: %d - GangName: %s - Points: %d - Chat: %d - Prefix: %d - PrefixColor: %s - MaxMembers: %d - Members: %d", itmpGang[iGangID], itmpGang[sGangName], itmpGang[iPoints], itmpGang[bChat], itmpGang[bPrefix], itmpGang[sPrefixColor], itmpGang[iMaxMembers], itmpGang[iMembers]);
+			Log_File(_, _, DEBUG, "(RemoveClientFromGang) GangID: %d - Members: %d", gangid, count);
 
-			g_aCacheGang.Erase(i);
-			g_aCacheGang.PushArray(itmpGang[0]);
 			break;
 		}
 	}
