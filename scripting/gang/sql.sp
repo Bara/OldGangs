@@ -163,6 +163,9 @@ public void SQL_GetGangMemberCount(Handle owner, Handle hndl, const char[] error
 	
 			if (iGang[iGangID] == gangid)
 			{
+				// g_aCacheGang.Set(i, count, _:iMembers);
+				// Log_File(_, _, DEBUG, "(SQL_GetGangMemberCount) GangID: %d - CountMembers: %d - CacheMembers: %d", iGang[iGangID], count, iGang[iMembers]);
+				
 				int itmpGang[Cache_Gang];
 				
 				itmpGang[iGangID] = iGang[iGangID];

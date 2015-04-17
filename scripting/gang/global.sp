@@ -1,6 +1,6 @@
 enum Cache_Gang
 {
-	iGangID,
+	iGangID = 0,
 	String:sGangName[64],
 	iPoints,
 	bool:bChat,
@@ -12,21 +12,21 @@ enum Cache_Gang
 
 enum Cache_Gang_Members
 {
-	iGangID,
+	iGangID = 0,
 	String:sCommunityID[64],
 	iAccessLevel
 };
 
 enum Cache_Gang_Skills
 {
-	iGangID,
+	iGangID = 0,
 	iSkillID,
 	iLevel
 };
 
 enum Cache_Skills
 {
-	iSkillID,
+	iSkillID = 0,
 	String:sSkillName[64],
 	iMaxLevel
 }
