@@ -163,24 +163,9 @@ public void SQL_GetGangMemberCount(Handle owner, Handle hndl, const char[] error
 	
 			if (iGang[iGangID] == gangid)
 			{
-				// g_aCacheGang.Set(i, count, _:iMembers);
-				// Log_File(_, _, DEBUG, "(SQL_GetGangMemberCount) GangID: %d - CountMembers: %d - CacheMembers: %d", iGang[iGangID], count, iGang[iMembers]);
-				
-				int itmpGang[Cache_Gang];
-				
-				itmpGang[iGangID] = iGang[iGangID];
-				strcopy(itmpGang[sGangName], 64, iGang[sGangName]);
-				itmpGang[iPoints] = iGang[iPoints];
-				itmpGang[bChat] = iGang[bChat];
-				itmpGang[bPrefix] = iGang[bPrefix];
-				strcopy(itmpGang[sPrefixColor], 64, iGang[sPrefixColor]);
-				itmpGang[iMaxMembers] = iGang[iMaxMembers];
-				itmpGang[iMembers] = count;
-
-				Log_File(_, _, DEBUG, "(SQL_GetGangMemberCount) GangID: %d - GangName: %s - Points: %d - Chat: %d - Prefix: %d - PrefixColor: %s - MaxMembers: %d - Members: %d", itmpGang[iGangID], itmpGang[sGangName], itmpGang[iPoints], itmpGang[bChat], itmpGang[bPrefix], itmpGang[sPrefixColor], itmpGang[iMaxMembers], itmpGang[iMembers]);
-
-				g_aCacheGang.Erase(i);
-				g_aCacheGang.PushArray(itmpGang[0]);
+				g_aCacheGang.Set(i, count, _:iMembers);
+				SetArrayCell(g_aCacheGang, i, count, _:iMembers);
+				Log_File(_, _, DEBUG, "(SQL_GetGangMemberCount) GangID: %d - Members: %d", iGang[iGangID], count);
 				break;
 			}
 		}
