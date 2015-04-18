@@ -69,6 +69,9 @@ public void OnPluginStart()
 	g_cGangRenameRank = CreateConVar("gang_rename_rank", "6", "What rank is required?", _, true, 1.0, true, 6.0);
 	g_cGangRenameCost = CreateConVar("gang_rename_cost", "2000", "How much costs this?");
 	
+	// General settings
+	g_cGangMenuDisplayTime = CreateConVar("gang_menu_display_time", "15", "How long should be open the menu? (time will replaced every time)");
+	
 	AutoExecConfig();
 	
 	// sm_gang <NO ARGS>

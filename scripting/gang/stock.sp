@@ -308,9 +308,8 @@ stock void OpenClientGang(int client)
 	Menu menu = new Menu(Menu_GangMain);
 	menu.SetTitle(sTitle);
 	menu.AddItem("info", "Information");
-	int todo_or_only_30_seconds;
 	menu.ExitButton = true;
-	menu.Display(client, 0);
+	menu.Display(client, g_cGangMenuDisplayTime.IntValue);
 }
 
 stock void OpenClientGangInfo(int client)
@@ -332,9 +331,8 @@ stock void OpenClientGangInfo(int client)
 	menu.AddItem("", sOnline, ITEMDRAW_DISABLED);
 	menu.AddItem("", sMembers, ITEMDRAW_DISABLED);
 	menu.AddItem("", sMaxMembers, ITEMDRAW_DISABLED);
-	int todo_or_only_30_seconds;
 	menu.ExitBackButton = true;
-	menu.Display(client, 0);
+	menu.Display(client, g_cGangMenuDisplayTime.IntValue);
 }
 
 stock int GetOnlinePlayerCount(int gangid)

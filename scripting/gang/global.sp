@@ -70,3 +70,6 @@ ConVar g_cGangCreateRegex = null;
 ConVar g_cGangRenameEnable = null;
 ConVar g_cGangRenameRank = null;
 ConVar g_cGangRenameCost = null;
+
+// General settings
+ConVar g_cGangMenuDisplayTime = null;
