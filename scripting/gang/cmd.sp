@@ -16,7 +16,7 @@ public Action Command_CreateGang(int client, int args)
 	if (client < 1 )
 		return Plugin_Handled;
 	
-	if(!g_cGangCreate.BoolValue)
+	if(!g_cGangCreateEnable.BoolValue)
 	{
 		PrintToChat(client, "Es können derzeit keine Gangs erstellt werden!");
 		return Plugin_Handled;
@@ -32,6 +32,30 @@ public Action Command_CreateGang(int client, int args)
 	GetCmdArgString(sArg, sizeof(sArg));
 	
 	Gang_CreateClientGang(client, sArg);
+	return Plugin_Handled;
+}
+
+public Action Command_RenameGang(int client, int args)
+{
+	if (client < 1 )
+		return Plugin_Handled;
+	
+	if(!g_cGangRenameEnable.BoolValue)
+	{
+		PrintToChat(client, "Es können derzeit keine Gangs umbenannt werden!");
+		return Plugin_Handled;
+	}
+	
+	if(args < 1)
+	{
+		PrintToChat(client, "Syntax: sm_renamegang <Name>");
+		return Plugin_Handled;
+	}
+	
+	char sArg[64];
+	GetCmdArgString(sArg, sizeof(sArg));
+	
+	Gang_RenameClientGang(client, Gang_GetClientGang(client), sArg);
 	return Plugin_Handled;
 }
 

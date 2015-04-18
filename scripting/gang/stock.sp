@@ -28,7 +28,7 @@ stock void Gang_CreateTables()
 stock bool CheckGangName(int client, const char[] sArg)
 {
 	char sRegex[128];
-	g_cGangRegex.GetString(sRegex, sizeof(sRegex));
+	g_cGangCreateRegex.GetString(sRegex, sizeof(sRegex));
 	Handle hRegex = CompileRegex(sRegex);
 	
 	if(MatchRegex(hRegex, sArg) != 1)
@@ -37,13 +37,13 @@ stock bool CheckGangName(int client, const char[] sArg)
 		return false;
 	}
 	
-	if (strlen(sArg) < g_cGangMinLen.IntValue)
+	if (strlen(sArg) < g_cGangCreateMinLen.IntValue)
 	{
 		PrintToChat(client, "Der Gang Name ist zu kurz!");
 		return false;
 	}
 	
-	if (strlen(sArg) > g_cGangMaxLen.IntValue)
+	if (strlen(sArg) > g_cGangCreateMaxLen.IntValue)
 	{
 		PrintToChat(client, "Der Gang Name ist zu lang!");
 		return false;
@@ -352,4 +352,76 @@ stock int GetOnlinePlayerCount(int gangid)
 	}
 	
 	return count;
+}
+
+stock bool CheckGangRename(int client, const char[] sGang)
+{
+	char sRegex[128];
+	g_cGangCreateRegex.GetString(sRegex, sizeof(sRegex));
+	Handle hRegex = CompileRegex(sRegex);
+	
+	if(MatchRegex(hRegex, sGang) != 1)
+	{
+		PrintToChat(client, "Der Gang Name enthält verbotene Zeichen!");
+		return false;
+	}
+	
+	if (strlen(sGang) < g_cGangCreateMinLen.IntValue)
+	{
+		PrintToChat(client, "Der Gang Name ist zu kurz!");
+		return false;
+	}
+	
+	if (strlen(sGang) > g_cGangCreateMaxLen.IntValue)
+	{
+		PrintToChat(client, "Der Gang Name ist zu lang!");
+		return false;
+	}
+	
+	for (int i = 0; i < g_aCacheGang.Length; i++)
+	{
+		int iGang[Cache_Gang];
+		g_aCacheGang.GetArray(i, iGang[0]);
+
+		if (StrEqual(iGang[sGangName], sGang, false))
+		{
+			PrintToChat(client, "Der Gang Name wird bereits genutzt!");
+			return false;
+		}
+	}
+	
+	char sOGang[64];
+	Gang_GetGangName(Gang_GetClientGang(client), sOGang, sizeof(sOGang));
+	
+	if(StrEqual(sOGang, sGang, false))
+	{
+		PrintToChat(client, "Der Gang muss sich unterscheiden!");
+		return false;
+	}
+	
+	if(CanCreateGang(client))
+	{
+		ReplyToCommand(client, "Sie sind in keiner Gang!");
+		return false;
+	}
+	
+	// TODO: Check gang points and g_cGangRenameCost
+	
+	return true;
+}
+
+stock void RenameGang(int client, int gangid, const char[] newgangname)
+{
+	char sQuery[512];
+	Format(sQuery, sizeof(sQuery), "UPDATE gang SET `GangName`=%s WHERE `GangID`='%d'", newgangname, gangid);
+	
+	char oldgangname[64];
+	Gang_GetGangName(gangid, oldgangname, sizeof(oldgangname));
+	
+	Handle hDP = CreateDataPack();
+	WritePackCell(hDP, GetClientUserId(client));
+	WritePackCell(hDP, gangid);
+	WritePackString(hDP, oldgangname);
+	WritePackString(hDP, newgangname);
+	SQL_TQuery(g_hDatabase, SQL_RenameGang, sQuery, hDP);
 }

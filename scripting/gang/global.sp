@@ -52,6 +52,7 @@ Handle g_hSQLConnected;
 Handle g_hGangCreated;
 Handle g_hGangLeft;
 Handle g_hGangDelete;
+Handle g_hGangRename;
 
 // Client stuff
 char g_sClientID[MAXPLAYERS + 1][64];
@@ -59,7 +60,13 @@ bool g_bIsInGang[MAXPLAYERS + 1] =  { false, ... };
 int g_iClientGang[MAXPLAYERS + 1] =  { 0, ... };
 
 // Cvars
-ConVar g_cGangCreate = null;
-ConVar g_cGangMinLen = null;
-ConVar g_cGangMaxLen = null;
-ConVar g_cGangRegex = null;
+// CreateGang
+ConVar g_cGangCreateEnable = null;
+ConVar g_cGangCreateMinLen = null;
+ConVar g_cGangCreateMaxLen = null;
+ConVar g_cGangCreateRegex = null;
+
+// RenameGang
+ConVar g_cGangRenameEnable = null;
+ConVar g_cGangRenameRank = null;
+ConVar g_cGangRenameCost = null;

@@ -84,6 +84,7 @@ forward void Gang_OnSQLConnected(Handle database);
 forward void Gang_OnGangCreated(int client, int gangid);
 forward void Gang_OnGangLeft(int client, int gangid);
 forward void Gang_OnGangDelete(int client, int gangid, const char[] gangname);
+forward void Gang_OnGangRename(int client, int gangid, const char[] oldgangname, const char[] newgangname);
 
 native bool Gang_IsClientInGang(int client);
 native int Gang_GetClientAccessLevel(int client);
@@ -92,6 +93,7 @@ native void Gang_ClientLeftGang(int client);
 native void Gang_CreateClientGang(int client, const char[] gangname);
 native void Gang_DeleteClientGang(int client, int gangid);
 native void Gang_OpenClientGang(int client);
+native void Gang_RenameClientGang(int client, int gangid, const char[] gangname);
 
 native void Gang_GetGangName(int gangid, const char[] name, int maxlength);
 native int Gang_GetGangPoints(int gangid);
@@ -121,6 +123,7 @@ public __pl_gang_SetNTVOptional()
 	MarkNativeAsOptional("Gang_CreateClientGang");
 	MarkNativeAsOptional("Gang_DeleteClientGang");
 	MarkNativeAsOptional("Gang_OpenClientGang");
+	MarkNativeAsOptional("Gang_RenameClientGang");
 	
 	MarkNativeAsOptional("Gang_GetGangName");
 	MarkNativeAsOptional("Gang_GetGangPoints");

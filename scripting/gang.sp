@@ -21,6 +21,7 @@ public APLRes AskPluginLoad2(Handle myself, bool late, char[] error, int err_max
 	g_hGangCreated = CreateGlobalForward("Gang_OnGangCreated", ET_Ignore, Param_Cell, Param_Cell);
 	g_hGangLeft = CreateGlobalForward("Gang_OnGangLeft", ET_Ignore, Param_Cell, Param_Cell);
 	g_hGangDelete = CreateGlobalForward("Gang_OnGangDelete", ET_Ignore, Param_Cell, Param_Cell, Param_String);
+	g_hGangRename = CreateGlobalForward("Gang_OnGangRename", ET_Ignore, Param_Cell, Param_Cell, Param_String, Param_String);
 	
 	CreateNative("Gang_IsClientInGang", Native_IsClientInGang);
 	CreateNative("Gang_GetClientAccessLevel", Native_GetClientAccessLevel);
@@ -29,6 +30,7 @@ public APLRes AskPluginLoad2(Handle myself, bool late, char[] error, int err_max
 	CreateNative("Gang_CreateClientGang", Native_CreateClientGang);
 	CreateNative("Gang_DeleteClientGang", Native_DeleteClientGang);
 	CreateNative("Gang_OpenClientGang", Native_OpenClientGang);
+	CreateNative("Gang_RenameClientGang", Native_RenameClientGang);
 	
 	CreateNative("Gang_GetGangName", Native_GetGangName);
 	CreateNative("Gang_GetGangPoints", Native_GetGangPoints);
@@ -56,18 +58,36 @@ public void OnPluginStart()
 	Gang_CreateCache();
 	Gang_SQLConnect();
 	
-	g_cGangCreate = CreateConVar("gang_create_enable", "1", "Enable \"Create Gang\"?", _, true, 0.0, true, 1.0);
-	g_cGangMinLen = CreateConVar("gang_create_min_length", "3", "Minimum length of gang name", _, true, 3.0, true, 8.0);
-	g_cGangMaxLen = CreateConVar("gang_create_max_length", "8", "Maximum length of gang name", _, true, 3.0, true, 8.0);
-	g_cGangRegex =  CreateConVar("gang_create_regex", "^[a-zA-Z0-9]+$", "Allowed characters in gang name");
+	// CreateGang
+	g_cGangCreateEnable = CreateConVar("gang_create_enable", "1", "Enable \"Create Gang\"?", _, true, 0.0, true, 1.0);
+	g_cGangCreateMinLen = CreateConVar("gang_create_min_length", "3", "Minimum length of gang name", _, true, 3.0, true, 8.0);
+	g_cGangCreateMaxLen = CreateConVar("gang_create_max_length", "8", "Maximum length of gang name", _, true, 3.0, true, 8.0);
+	g_cGangCreateRegex =  CreateConVar("gang_create_regex", "^[a-zA-Z0-9]+$", "Allowed characters in gang name");
+	
+	//RenameGang
+	g_cGangRenameEnable = CreateConVar("gang_rename_enable", "1", "Enable \"Rename Gang\"?", _, true, 0.0, true, 1.0);
+	g_cGangRenameRank = CreateConVar("gang_rename_rank", "6", "What rank is required?", _, true, 1.0, true, 6.0);
+	g_cGangRenameCost = CreateConVar("gang_rename_cost", "2000", "How much costs this?");
 	
 	AutoExecConfig();
 	
+	// sm_gang <NO ARGS>
 	RegConsoleCmd("sm_gang", Command_Gang);
+	
+	// sm_creategang <GANG NAME>
 	RegConsoleCmd("sm_creategang", Command_CreateGang);
+	
+	// sm_listgang <NO ARGS>
 	RegConsoleCmd("sm_listgang", Command_ListGang);
+	
+	// sm_leftgang <NO ARGS>
 	RegConsoleCmd("sm_leftgang", Command_LeftGang);
+	
+	// sm_deletegang <NO ARGS>
 	RegConsoleCmd("sm_deletegang", Command_DeleteGang);
+	
+	// sm_renamegang <NEW GANG NAME>
+	RegConsoleCmd("sm_renamegang", Command_RenameGang);
 }
 
 public void OnClientPutInServer(int client)

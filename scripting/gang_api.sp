@@ -44,6 +44,13 @@ public void Gang_OnGangCreated(int client, int iGang)
 	PrintToChat(client, "(Gang_OnGangCreated) Gang_GetClientName - %s", sName);
 }
 
+public void Gang_OnGangRename(int client, int iGang, const char[] oldname, const char[] newname)
+{
+	PrintToChat(client, "(Gang_OnGangRename) Gang ID - %d", iGang);
+	PrintToChat(client, "(Gang_OnGangCreated) OldName: - %s", oldname);
+	PrintToChat(client, "(Gang_OnGangCreated) NewName: - %s", newname);
+}
+
 public void Gang_OnGangLeft(int client, int iGang)
 {
 	PrintToChat(client, "(Gang_OnGangLeft) Gang_IsClientInGang - %d", Gang_IsClientInGang(client));
