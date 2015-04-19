@@ -97,6 +97,8 @@ native void Gang_RenameClientGang(int client, int gangid, const char[] gangname)
 
 native void Gang_GetGangName(int gangid, const char[] name, int maxlength);
 native int Gang_GetGangPoints(int gangid);
+native int Gang_AddGangPoints(int gangid, int points);
+native int Gang_RemoveGangPoints(int gangid, int points);
 native int Gang_GetGangMaxMembers(int gangid);
 native int Gang_GetGangMembersCount(int gangid);
 native int Gang_GetOnlinePlayerCount(int gangid);
@@ -127,6 +129,8 @@ public __pl_gang_SetNTVOptional()
 	
 	MarkNativeAsOptional("Gang_GetGangName");
 	MarkNativeAsOptional("Gang_GetGangPoints");
+	MarkNativeAsOptional("Gang_AddGangPoints");
+	MarkNativeAsOptional("Gang_RemoveGangPoints");
 	MarkNativeAsOptional("Gang_GetGangMaxMembers");
 	MarkNativeAsOptional("Gang_GetGangMembersCount");
 	MarkNativeAsOptional("Gang_GetOnlinePlayerCount");

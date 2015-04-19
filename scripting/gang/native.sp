@@ -217,3 +217,19 @@ public Native_GetGangPoints(Handle plugin, int numParams)
 	}
 	return 0;
 }
+
+public Native_AddGangPoints(Handle plugin, int numParams)
+{
+	int gangid = GetNativeCell(1);
+	int points = GetNativeCell(2);
+	
+	return AddGangPoints(gangid, points);
+}
+
+public Native_RemoveGangPoints(Handle plugin, int numParams)
+{
+	int gangid = GetNativeCell(1);
+	int points = GetNativeCell(2);
+	
+	return RemoveGangPoints(gangid, points);
+}

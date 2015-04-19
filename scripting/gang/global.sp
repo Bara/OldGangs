@@ -71,5 +71,22 @@ ConVar g_cGangRenameEnable = null;
 ConVar g_cGangRenameRank = null;
 ConVar g_cGangRenameCost = null;
 
+// PointsGang
+ConVar g_cGangPointsEnable = null; // Global
+ConVar g_cGangPointsBots = null; // Global
+ConVar g_cGangPointsKill = null;
+ConVar g_cGangPointsKnife = null;
+ConVar g_cGangPointsGrenade = null;
+ConVar g_cGangPointsAssists = null;
+ConVar g_cGangPointsHeadshot = null;
+ConVar g_cGangPointsPistol = null; 
+ConVar g_cGangPointsHostageFollow = null; // Main
+ConVar g_cGangPointsHostageRescue = null; // Main
+ConVar g_cGangPointsBombPlanted = null; // Main
+ConVar g_cGangPointsBombExploded = null; // Main
+ConVar g_cGangPointsBombDefused = null; // Main
+ConVar g_cGangPointsVipEscape = null; // Main
+ConVar g_cGangPointsVipKilled = null; // Main
+
 // General settings
 ConVar g_cGangMenuDisplayTime = null;

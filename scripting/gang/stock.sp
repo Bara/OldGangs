@@ -423,3 +423,88 @@ stock void RenameGang(int client, int gangid, const char[] newgangname)
 	WritePackString(hDP, newgangname);
 	SQL_TQuery(g_hDatabase, SQL_RenameGang, sQuery, hDP);
 }
+
+stock int AddGangPoints(int gangid, int points)
+{
+	for (int i = 0; i < g_aCacheGang.Length; i++)
+	{
+		int iGang[Cache_Gang];
+		g_aCacheGang.GetArray(i, iGang[0]);
+
+		if (iGang[iGangID] == gangid)
+		{
+			int tmp_iPoints = iGang[iPoints] + points;
+			g_aCacheGang.Set(i, tmp_iPoints, _:iPoints);
+			
+			char sQuery[512];
+			Format(sQuery, sizeof(sQuery), "UPDATE gang SET `Points`=%d WHERE `GangID`='%d'", tmp_iPoints, gangid);
+			SQLQuery(sQuery);
+			
+			return tmp_iPoints;
+		}
+	}
+	return 0;
+}
+
+stock int RemoveGangPoints(int gangid, int points)
+{
+	for (int i = 0; i < g_aCacheGang.Length; i++)
+	{
+		int iGang[Cache_Gang];
+		g_aCacheGang.GetArray(i, iGang[0]);
+
+		if (iGang[iGangID] == gangid)
+		{
+			int tmp_iPoints = iGang[iPoints] - points;
+			g_aCacheGang.Set(i, tmp_iPoints, _:iPoints);
+			
+			char sQuery[512];
+			Format(sQuery, sizeof(sQuery), "UPDATE gang SET `Points`=%d WHERE `GangID`='%d'", tmp_iPoints, gangid);
+			SQLQuery(sQuery);
+			
+			return tmp_iPoints;
+		}
+	}
+	return 0;
+}
+
+stock bool IsWeaponSecondary(const char[] sWeapon)
+{
+	if(	StrContains(sWeapon, "glock", false) || 
+		StrContains(sWeapon, "p228", false) || 
+		StrContains(sWeapon, "p250", false) || 
+		StrContains(sWeapon, "cz75a", false) || 
+		StrContains(sWeapon, "usp", false) || 
+		StrContains(sWeapon, "usp_silencer", false) || 
+		StrContains(sWeapon, "fiveseven", false) || 
+		StrContains(sWeapon, "deagle", false) || 
+		StrContains(sWeapon, "elite", false) || 
+		StrContains(sWeapon, "tec9", false) || 
+		StrContains(sWeapon, "hkp2000", false))
+	{
+		return true;
+	}
+	return false;
+}
+
+stock bool IsWeaponKnife(const char[] sWeapon)
+{
+	if(	StrContains(sWeapon, "knife", false) || 
+		StrContains(sWeapon, "bayonet", false))
+	{
+		return true;
+	}
+	return false;
+}
+
+stock bool IsWeaponGrenade(const char[] sWeapon)
+{
+	if(	StrContains(sWeapon, "smokegrenade", false) || 
+		StrContains(sWeapon, "hegrenade", false) || 
+		StrContains(sWeapon, "flashbang", false) || 
+		StrContains(sWeapon, "decoy", false))
+	{
+		return true;
+	}
+	return false;
+}
