@@ -33,19 +33,19 @@ stock bool CheckGangName(int client, const char[] sArg)
 	
 	if(MatchRegex(hRegex, sArg) != 1)
 	{
-		PrintToChat(client, "Der Gang Name enthält verbotene Zeichen!"); // TODO: Translation
+		PrintToChat(client, "Der Gang Name enthält verbotene Zeichen."); // TODO: Translation
 		return false;
 	}
 	
 	if (strlen(sArg) < g_cGangCreateMinLen.IntValue)
 	{
-		PrintToChat(client, "Der Gang Name ist zu kurz!"); // TODO: Translation
+		PrintToChat(client, "Der Gang Name ist zu kurz."); // TODO: Translation
 		return false;
 	}
 	
 	if (strlen(sArg) > g_cGangCreateMaxLen.IntValue)
 	{
-		PrintToChat(client, "Der Gang Name ist zu lang!"); // TODO: Translation
+		PrintToChat(client, "Der Gang Name ist zu lang."); // TODO: Translation
 		return false;
 	}
 	
@@ -56,14 +56,14 @@ stock bool CheckGangName(int client, const char[] sArg)
 
 		if (StrEqual(iGang[sGangName], sArg, false))
 		{
-			PrintToChat(client, "Der Gang Name wird bereits genutzt!"); // TODO: Translation
+			PrintToChat(client, "Der Gang Name wird bereits genutzt."); // TODO: Translation
 			return false;
 		}
 	}
 	
 	if(!CanCreateGang(client))
 	{
-		ReplyToCommand(client, "Sie sind bereits in einer Gang!"); // TODO: Translation
+		ReplyToCommand(client, "Sie sind bereits in einer Gang."); // TODO: Translation
 		return false;
 	}
 	
@@ -179,13 +179,13 @@ stock void RemoveClientFromGang(int client, int gangid)
 {
 	if(!Gang_IsClientInGang(client))
 	{
-		ReplyToCommand(client, "Sie sind in keiner Gang!"); // TODO: Translation
+		ReplyToCommand(client, "Sie sind in keiner Gang."); // TODO: Translation
 		return;
 	}
 	
 	if(Gang_GetClientAccessLevel(client) > 5)
 	{
-		ReplyToCommand(client, "Sie können diesen nicht als Founder ausführen!"); // TODO: Translation
+		ReplyToCommand(client, "Sie können diesen nicht als Founder ausführen."); // TODO: Translation
 		return;
 	}
 	
@@ -360,19 +360,19 @@ stock bool CheckGangRename(int client, const char[] sGang)
 	
 	if(MatchRegex(hRegex, sGang) != 1)
 	{
-		PrintToChat(client, "Der Gang Name enthält verbotene Zeichen!"); // TODO: Translation
+		PrintToChat(client, "Der Gang Name enthält verbotene Zeichen."); // TODO: Translation
 		return false;
 	}
 	
 	if (strlen(sGang) < g_cGangCreateMinLen.IntValue)
 	{
-		PrintToChat(client, "Der Gang Name ist zu kurz!"); // TODO: Translation
+		PrintToChat(client, "Der Gang Name ist zu kurz."); // TODO: Translation
 		return false;
 	}
 	
 	if (strlen(sGang) > g_cGangCreateMaxLen.IntValue)
 	{
-		PrintToChat(client, "Der Gang Name ist zu lang!"); // TODO: Translation
+		PrintToChat(client, "Der Gang Name ist zu lang."); // TODO: Translation
 		return false;
 	}
 	
@@ -383,28 +383,39 @@ stock bool CheckGangRename(int client, const char[] sGang)
 
 		if (StrEqual(iGang[sGangName], sGang, false))
 		{
-			PrintToChat(client, "Der Gang Name wird bereits genutzt!"); // TODO: Translation
+			PrintToChat(client, "Der Gang Name wird bereits genutzt."); // TODO: Translation
 			return false;
 		}
 	}
 	
+	int GangID = Gang_GetClientGang(client);
+	
 	char sOGang[64];
-	Gang_GetGangName(Gang_GetClientGang(client), sOGang, sizeof(sOGang));
+	Gang_GetGangName(GangID, sOGang, sizeof(sOGang));
 	
 	if(StrEqual(sOGang, sGang, false))
 	{
-		PrintToChat(client, "Der Gang muss sich unterscheiden!"); // TODO: Translation
+		ReplyToCommand(client, "Der Gang Name muss sich unterscheiden."); // TODO: Translation
 		return false;
 	}
 	
 	if(CanCreateGang(client))
 	{
-		ReplyToCommand(client, "Sie sind in keiner Gang!"); // TODO: Translation
+		ReplyToCommand(client, "Sie sind in keiner Gang."); // TODO: Translation
 		return false;
 	}
 	
-	// TODO: Check gang points and g_cGangRenameCost
+	if(Gang_GetClientAccessLevel(client) < g_cGangRenameRank.IntValue)
+	{
+		ReplyToCommand(client, "Sie besitzen nicht die Rechte um eine Gang umzubenennen.");
+		return false;
+	}
 	
+	if(Gang_GetGangPoints(GangID) < g_cGangRenameCost.IntValue)
+	{
+		ReplyToCommand(client, "Die Gang verfügt über nicht genug Punkte um sie umzubenennen.");
+		return false;
+	}
 	return true;
 }
 
@@ -470,17 +481,17 @@ stock int RemoveGangPoints(int gangid, int points)
 
 stock bool IsWeaponSecondary(const char[] sWeapon)
 {
-	if(	StrContains(sWeapon, "glock", false) || 
-		StrContains(sWeapon, "p228", false) || 
-		StrContains(sWeapon, "p250", false) || 
-		StrContains(sWeapon, "cz75a", false) || 
-		StrContains(sWeapon, "usp", false) || 
-		StrContains(sWeapon, "usp_silencer", false) || 
-		StrContains(sWeapon, "fiveseven", false) || 
-		StrContains(sWeapon, "deagle", false) || 
-		StrContains(sWeapon, "elite", false) || 
-		StrContains(sWeapon, "tec9", false) || 
-		StrContains(sWeapon, "hkp2000", false))
+	if(	StrContains(sWeapon[7], "glock", false) || 
+		StrContains(sWeapon[7], "p228", false) || 
+		StrContains(sWeapon[7], "p250", false) || 
+		StrContains(sWeapon[7], "cz75a", false) || 
+		StrContains(sWeapon[7], "usp", false) || 
+		StrContains(sWeapon[7], "usp_silencer", false) || 
+		StrContains(sWeapon[7], "fiveseven", false) || 
+		StrContains(sWeapon[7], "deagle", false) || 
+		StrContains(sWeapon[7], "elite", false) || 
+		StrContains(sWeapon[7], "tec9", false) || 
+		StrContains(sWeapon[7], "hkp2000", false))
 	{
 		return true;
 	}
@@ -489,8 +500,8 @@ stock bool IsWeaponSecondary(const char[] sWeapon)
 
 stock bool IsWeaponKnife(const char[] sWeapon)
 {
-	if(	StrContains(sWeapon, "knife", false) || 
-		StrContains(sWeapon, "bayonet", false))
+	if(	StrContains(sWeapon[7], "knife", false) || 
+		StrContains(sWeapon[7], "bayonet", false))
 	{
 		return true;
 	}
@@ -499,10 +510,10 @@ stock bool IsWeaponKnife(const char[] sWeapon)
 
 stock bool IsWeaponGrenade(const char[] sWeapon)
 {
-	if(	StrContains(sWeapon, "smokegrenade", false) || 
-		StrContains(sWeapon, "hegrenade", false) || 
-		StrContains(sWeapon, "flashbang", false) || 
-		StrContains(sWeapon, "decoy", false))
+	if(	StrContains(sWeapon[7], "smokegrenade", false) || 
+		StrContains(sWeapon[7], "hegrenade", false) || 
+		StrContains(sWeapon[7], "flashbang", false) || 
+		StrContains(sWeapon[7], "decoy", false))
 	{
 		return true;
 	}
