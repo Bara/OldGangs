@@ -1,3 +1,36 @@
+/*
+
+	Done (need tests)
+		- Create
+		- Delete
+		- Rename
+		- Left
+		
+		- List all gangs
+		- Natives
+		- Forwards
+
+	ToDo:
+		- Create Gang via. Store (alongub)
+		- Rename (not sure)
+		- Invite System (more cvars, max members, ...)
+		- Points System (not sure)
+		- List all online gangs
+		
+		- Rename...
+			- Gang_GetClientAccessLevel -> Gang_GetClientAccess
+			- Gang_GetOnlinePlayerCount -> Gang_GetOnlinePlayers
+			- Gang_GetGangMembersCount -> Gang_GetMembersCount
+			- Gang_GetGangMaxMembers -> Gang_GetMaxMembers
+			- Gang_RemoveGangPoints -> Gang_RemovePoints
+			- Gang_GetGangName -> Gang_GetName
+			- Gang_GetGangPoints -> Gang_GetPoints
+			- Gang_AddGangPoints -> Gang_AddPoints
+		
+		
+
+*/
+
 #pragma semicolon 1
 #pragma newdecls required
 
