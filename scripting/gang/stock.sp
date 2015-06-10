@@ -101,7 +101,7 @@ stock void Gang_PushClientArray(int client)
 	
 	GetClientAuthId(client, AuthId_SteamID64, g_sClientID[client], sizeof(g_sClientID[]));
 	
-	Format(sQuery, sizeof(sQuery), "SELECT GangID, CommunityID, AccessLevel FROM gang_members WHERE CommunityID = '%s'", g_sClientID[client]);
+	Format(sQuery, sizeof(sQuery), "SELECT GangID, CommunityID, AccessLevel FROM `gang_members` WHERE `CommunityID` = '%s'", g_sClientID[client]);
 	SQL_TQuery(g_hDatabase, TQuery_GangMembers, sQuery, GetClientUserId(client), DBPrio_High);
 }
 
@@ -129,13 +129,13 @@ stock void Gang_FillCache()
 {
 	char sQuery[512];
 	
-	Format(sQuery, sizeof(sQuery), "SELECT GangID, GangName, Points, Chat, Prefix, PrefixColor, MaxMembers FROM gang");
+	Format(sQuery, sizeof(sQuery), "SELECT GangID, GangName, Points, Chat, Prefix, PrefixColor, MaxMembers FROM `gang`");
 	SQL_TQuery(g_hDatabase, TQuery_Gang, sQuery, _, DBPrio_Low);
 	
-	Format(sQuery, sizeof(sQuery), "SELECT GangID, SkillID, Level FROM gang_skills");
+	Format(sQuery, sizeof(sQuery), "SELECT GangID, SkillID, Level FROM `gang_skills`");
 	SQL_TQuery(g_hDatabase, TQuery_GangSkills, sQuery, _, DBPrio_Low);
 	
-	Format(sQuery, sizeof(sQuery), "SELECT SkillID, SkillName, MaxLevel FROM skills");
+	Format(sQuery, sizeof(sQuery), "SELECT SkillID, SkillName, MaxLevel FROM `skills`");
 	SQL_TQuery(g_hDatabase, TQuery_Skills, sQuery, _, DBPrio_Low);
 }
 
@@ -192,7 +192,7 @@ stock void RemoveClientFromGang(int client, int gangid)
 	Gang_EraseClientArray(client);
 	
 	char sQuery[256];
-	Format(sQuery, sizeof(sQuery), "DELETE FROM gang_members WHERE CommunityID = '%s' AND GangID = '%d'", g_sClientID[client], g_iClientGang[client]);
+	Format(sQuery, sizeof(sQuery), "DELETE FROM `gang_members` WHERE `CommunityID` = '%s' AND `GangID` = '%d'", g_sClientID[client], g_iClientGang[client]);
 	SQLQuery(sQuery);
 	
 	char sGang[64];
@@ -251,13 +251,13 @@ stock void DeleteGangEntries(int gangid)
 {
 	char sQuery[256];
 	
-	Format(sQuery, sizeof(sQuery), "DELETE FROM gang WHERE GangID = '%d'", gangid);
+	Format(sQuery, sizeof(sQuery), "DELETE FROM `gang` WHERE `GangID` = '%d'", gangid);
 	SQLQuery(sQuery);
 	
-	Format(sQuery, sizeof(sQuery), "DELETE FROM gang_members WHERE GangID = '%d'", gangid);
+	Format(sQuery, sizeof(sQuery), "DELETE FROM `gang_members` WHERE `GangID` = '%d'", gangid);
 	SQLQuery(sQuery);
 	
-	Format(sQuery, sizeof(sQuery), "DELETE FROM gang_skills WHERE GangID = '%d'", gangid);
+	Format(sQuery, sizeof(sQuery), "DELETE FROM `gang_skills` WHERE `GangID` = '%d'", gangid);
 	SQLQuery(sQuery);
 	
 	RemoveGangFromArray(gangid);
@@ -422,7 +422,7 @@ stock bool CheckGangRename(int client, const char[] sGang)
 stock void RenameGang(int client, int gangid, const char[] newgangname)
 {
 	char sQuery[512];
-	Format(sQuery, sizeof(sQuery), "UPDATE gang SET `GangName`=%s WHERE `GangID`='%d'", newgangname, gangid);
+	Format(sQuery, sizeof(sQuery), "UPDATE `gang` SET `GangName` = '%s' WHERE `GangID` = '%d'", newgangname, gangid);
 	
 	char oldgangname[64];
 	Gang_GetGangName(gangid, oldgangname, sizeof(oldgangname));
@@ -448,7 +448,7 @@ stock int AddGangPoints(int gangid, int points)
 			g_aCacheGang.Set(i, tmp_iPoints, view_as<int>(iPoints));
 			
 			char sQuery[512];
-			Format(sQuery, sizeof(sQuery), "UPDATE gang SET `Points`=%d WHERE `GangID`='%d'", tmp_iPoints, gangid);
+			Format(sQuery, sizeof(sQuery), "UPDATE `gang` SET `Points`= '%d' WHERE `GangID` = '%d'", tmp_iPoints, gangid);
 			SQLQuery(sQuery);
 			
 			return tmp_iPoints;
@@ -470,7 +470,7 @@ stock int RemoveGangPoints(int gangid, int points)
 			g_aCacheGang.Set(i, tmp_iPoints, view_as<int>(iPoints));
 			
 			char sQuery[512];
-			Format(sQuery, sizeof(sQuery), "UPDATE gang SET `Points`=%d WHERE `GangID`='%d'", tmp_iPoints, gangid);
+			Format(sQuery, sizeof(sQuery), "UPDATE `gang` SET `Points` = '%d' WHERE `GangID` = '%d'", tmp_iPoints, gangid);
 			SQLQuery(sQuery);
 			
 			return tmp_iPoints;

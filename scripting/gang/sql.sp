@@ -55,7 +55,7 @@ public void SQL_CreateGang(Handle owner, Handle hndl, const char[] error, any pa
 	CloseHandle(pack);
 
 	char sQuery[512];
-	Format(sQuery, sizeof(sQuery), "SELECT GangID FROM gang WHERE GangName ='%s'", sGang);
+	Format(sQuery, sizeof(sQuery), "SELECT GangID FROM `gang` WHERE `GangName` ='%s'", sGang);
 	
 	Handle hPack = CreateDataPack();
 	WritePackCell(hPack, GetClientUserId(client));

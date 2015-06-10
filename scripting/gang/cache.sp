@@ -26,7 +26,7 @@ public void TQuery_Gang(Handle owner, Handle hndl, const char[] error, any data)
 			g_aCacheGang.PushArray(iGang[0]);
 			
 			char sQuery[256];
-			Format(sQuery, sizeof(sQuery), "SELECT GangID FROM gang_members WHERE GangID = '%d'", iGang[iGangID]);
+			Format(sQuery, sizeof(sQuery), "SELECT GangID FROM `gang_members` WHERE `GangID` = '%d'", iGang[iGangID]);
 			SQL_TQuery(g_hDatabase, SQL_GetGangMemberCount, sQuery, iGang[iGangID], DBPrio_Low);
 		}
 	}
