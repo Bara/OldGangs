@@ -15,8 +15,8 @@ public void TQuery_Gang(Handle owner, Handle hndl, const char[] error, any data)
 			iGang[iGangID] = SQL_FetchInt(hndl, 0);
 			SQL_FetchString(hndl, 1, iGang[sGangName], 64);
 			iGang[iPoints] = SQL_FetchInt(hndl, 2);
-			iGang[bChat] = bool:SQL_FetchInt(hndl, 3);
-			iGang[bPrefix] = bool:SQL_FetchInt(hndl, 4);
+			iGang[bChat] = view_as<bool>(SQL_FetchInt(hndl, 3));
+			iGang[bPrefix] = view_as<bool>(SQL_FetchInt(hndl, 4));
 			SQL_FetchString(hndl, 5, iGang[sPrefixColor], 64);
 			iGang[iMaxMembers] = SQL_FetchInt(hndl, 6);
 			iGang[iMembers] = 0;

@@ -35,7 +35,7 @@ stock void Gang_CheckGame()
 	}
 }
 
-stock void Log_File(const char[] path = "gang", const char[] file = "core", ELOG_LEVEL:level = INFO, const char[] format, any:...)
+stock void Log_File(const char[] path = "gang", const char[] file = "core", ELOG_LEVEL level = INFO, const char[] format, any ...)
 {
 	char sPath[PLATFORM_MAX_PATH + 1];
 	char sLevelPath[PLATFORM_MAX_PATH + 1];

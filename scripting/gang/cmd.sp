@@ -2,7 +2,7 @@ public Action Command_Gang(int client, int args)
 {
 	if(args > 0)
 	{
-		PrintToChat(client, "HAX! Dein Daten werden zur Sicherheit gespeichert.");
+		PrintToChat(client, "HAX! Dein Daten werden zur Sicherheit gespeichert."); // TODO: Translation
 		return Plugin_Handled;
 	}
 	
@@ -18,13 +18,13 @@ public Action Command_CreateGang(int client, int args)
 	
 	if(!g_cGangCreateEnable.BoolValue)
 	{
-		PrintToChat(client, "Es können derzeit keine Gangs erstellt werden!");
+		PrintToChat(client, "Es können derzeit keine Gangs erstellt werden!"); // TODO: Translation
 		return Plugin_Handled;
 	}
 	
 	if(args < 1)
 	{
-		PrintToChat(client, "Syntax: sm_creategang <Name>");
+		PrintToChat(client, "Syntax: sm_creategang <Name>"); // TODO: Translation
 		return Plugin_Handled;
 	}
 	
@@ -42,13 +42,13 @@ public Action Command_RenameGang(int client, int args)
 	
 	if(!g_cGangRenameEnable.BoolValue)
 	{
-		PrintToChat(client, "Es können derzeit keine Gangs umbenannt werden!");
+		PrintToChat(client, "Es können derzeit keine Gangs umbenannt werden!"); // TODO: Translation
 		return Plugin_Handled;
 	}
 	
 	if(args < 1)
 	{
-		PrintToChat(client, "Syntax: sm_renamegang <Name>");
+		PrintToChat(client, "Syntax: sm_renamegang <Name>"); // TODO: Translation
 		return Plugin_Handled;
 	}
 	

@@ -33,19 +33,19 @@ stock bool CheckGangName(int client, const char[] sArg)
 	
 	if(MatchRegex(hRegex, sArg) != 1)
 	{
-		PrintToChat(client, "Der Gang Name enthält verbotene Zeichen!");
+		PrintToChat(client, "Der Gang Name enthält verbotene Zeichen!"); // TODO: Translation
 		return false;
 	}
 	
 	if (strlen(sArg) < g_cGangCreateMinLen.IntValue)
 	{
-		PrintToChat(client, "Der Gang Name ist zu kurz!");
+		PrintToChat(client, "Der Gang Name ist zu kurz!"); // TODO: Translation
 		return false;
 	}
 	
 	if (strlen(sArg) > g_cGangCreateMaxLen.IntValue)
 	{
-		PrintToChat(client, "Der Gang Name ist zu lang!");
+		PrintToChat(client, "Der Gang Name ist zu lang!"); // TODO: Translation
 		return false;
 	}
 	
@@ -56,14 +56,14 @@ stock bool CheckGangName(int client, const char[] sArg)
 
 		if (StrEqual(iGang[sGangName], sArg, false))
 		{
-			PrintToChat(client, "Der Gang Name wird bereits genutzt!");
+			PrintToChat(client, "Der Gang Name wird bereits genutzt!"); // TODO: Translation
 			return false;
 		}
 	}
 	
 	if(!CanCreateGang(client))
 	{
-		ReplyToCommand(client, "Sie sind bereits in einer Gang!");
+		ReplyToCommand(client, "Sie sind bereits in einer Gang!"); // TODO: Translation
 		return false;
 	}
 	
@@ -102,7 +102,7 @@ stock void Gang_PushClientArray(int client)
 	GetClientAuthId(client, AuthId_SteamID64, g_sClientID[client], sizeof(g_sClientID[]));
 	
 	Format(sQuery, sizeof(sQuery), "SELECT GangID, CommunityID, AccessLevel FROM gang_members WHERE CommunityID = '%s'", g_sClientID[client]);
-	SQL_TQuery(g_hDatabase, TQuery_GangMembers, sQuery, GetClientUserId(client), DBPrio_Low);
+	SQL_TQuery(g_hDatabase, TQuery_GangMembers, sQuery, GetClientUserId(client), DBPrio_High);
 }
 
 stock void Gang_CreateCache()
@@ -179,13 +179,13 @@ stock void RemoveClientFromGang(int client, int gangid)
 {
 	if(!Gang_IsClientInGang(client))
 	{
-		ReplyToCommand(client, "Sie sind in keiner Gang!");
+		ReplyToCommand(client, "Sie sind in keiner Gang!"); // TODO: Translation
 		return;
 	}
 	
 	if(Gang_GetClientAccessLevel(client) > 5)
 	{
-		ReplyToCommand(client, "Sie können diesen nicht als Founder ausführen!");
+		ReplyToCommand(client, "Sie können diesen nicht als Founder ausführen!"); // TODO: Translation
 		return;
 	}
 	
@@ -197,7 +197,7 @@ stock void RemoveClientFromGang(int client, int gangid)
 	
 	char sGang[64];
 	Gang_GetGangName(gangid, sGang, sizeof(sGang));
-	Log_File(_, _, INFO, "\"%N\" hat die Gang \"%s\" verlassen!", client, sGang);
+	Log_File(_, _, INFO, "\"%N\" hat die Gang \"%s\" verlassen!", client, sGang); // TODO: Translation
 	
 	for (int i = 0; i < g_aCacheGang.Length; i++)
 	{
@@ -207,7 +207,7 @@ stock void RemoveClientFromGang(int client, int gangid)
 		if (iGang[iGangID] == gangid)
 		{
 			int count = iGang[iMembers] - 1;
-			g_aCacheGang.Set(i, count, _:iMembers);
+			g_aCacheGang.Set(i, count, view_as<int>(iMembers));
 
 			Log_File(_, _, DEBUG, "(RemoveClientFromGang) GangID: %d - Members: %d", gangid, count);
 
@@ -226,7 +226,7 @@ stock void DeleteGang(int client, int gangid)
 	char sGang[64];
 	Gang_GetGangName(gangid, sGang, sizeof(sGang));
 	
-	PrintToChatAll("%N hat die Gang \"%s\" gelöscht!", client, sGang);
+	PrintToChatAll("%N hat die Gang \"%s\" gelöscht!", client, sGang); // TODO: Translation
 	
 	for (int i = 1; i <= MaxClients; i++)
 	{
@@ -303,11 +303,11 @@ stock void OpenClientGang(int client)
 {
 	char sGang[64], sTitle[64];
 	Gang_GetGangName(Gang_GetClientGang(client), sGang, sizeof(sGang));
-	Format(sTitle, sizeof(sTitle), "%s - Main", sGang);
+	Format(sTitle, sizeof(sTitle), "%s - Main", sGang); // TODO: Translation
 	
 	Menu menu = new Menu(Menu_GangMain);
 	menu.SetTitle(sTitle);
-	menu.AddItem("info", "Information");
+	menu.AddItem("info", "Information"); // TODO: Translation
 	menu.ExitButton = true;
 	menu.Display(client, g_cGangMenuDisplayTime.IntValue);
 }
@@ -319,11 +319,11 @@ stock void OpenClientGangInfo(int client)
 	char sGang[64], sTitle[64], sPoints[64], sOnline[64], sMembers[64], sMaxMembers[64];
 	Gang_GetGangName(gangid, sGang, sizeof(sGang));
 	
-	Format(sTitle, sizeof(sTitle), "%s - Information", sGang);
-	Format(sPoints, sizeof(sPoints), "Points: %d", Gang_GetGangPoints(gangid));
-	Format(sOnline, sizeof(sOnline), "Online: %d", Gang_GetOnlinePlayerCount(gangid));
-	Format(sMembers, sizeof(sMembers), "Members: %d", Gang_GetGangMembersCount(gangid));
-	Format(sMaxMembers, sizeof(sMaxMembers), "Max. Members: %d", Gang_GetGangMaxMembers(gangid));
+	Format(sTitle, sizeof(sTitle), "%s - Information", sGang); // TODO: Translation
+	Format(sPoints, sizeof(sPoints), "Points: %d", Gang_GetGangPoints(gangid)); // TODO: Translation
+	Format(sOnline, sizeof(sOnline), "Online: %d", Gang_GetOnlinePlayerCount(gangid)); // TODO: Translation
+	Format(sMembers, sizeof(sMembers), "Members: %d", Gang_GetGangMembersCount(gangid)); // TODO: Translation
+	Format(sMaxMembers, sizeof(sMaxMembers), "Max. Members: %d", Gang_GetGangMaxMembers(gangid)); // TODO: Translation
 	
 	Menu menu = new Menu(Menu_GangMain);
 	menu.SetTitle(sTitle);
@@ -360,19 +360,19 @@ stock bool CheckGangRename(int client, const char[] sGang)
 	
 	if(MatchRegex(hRegex, sGang) != 1)
 	{
-		PrintToChat(client, "Der Gang Name enthält verbotene Zeichen!");
+		PrintToChat(client, "Der Gang Name enthält verbotene Zeichen!"); // TODO: Translation
 		return false;
 	}
 	
 	if (strlen(sGang) < g_cGangCreateMinLen.IntValue)
 	{
-		PrintToChat(client, "Der Gang Name ist zu kurz!");
+		PrintToChat(client, "Der Gang Name ist zu kurz!"); // TODO: Translation
 		return false;
 	}
 	
 	if (strlen(sGang) > g_cGangCreateMaxLen.IntValue)
 	{
-		PrintToChat(client, "Der Gang Name ist zu lang!");
+		PrintToChat(client, "Der Gang Name ist zu lang!"); // TODO: Translation
 		return false;
 	}
 	
@@ -383,7 +383,7 @@ stock bool CheckGangRename(int client, const char[] sGang)
 
 		if (StrEqual(iGang[sGangName], sGang, false))
 		{
-			PrintToChat(client, "Der Gang Name wird bereits genutzt!");
+			PrintToChat(client, "Der Gang Name wird bereits genutzt!"); // TODO: Translation
 			return false;
 		}
 	}
@@ -393,13 +393,13 @@ stock bool CheckGangRename(int client, const char[] sGang)
 	
 	if(StrEqual(sOGang, sGang, false))
 	{
-		PrintToChat(client, "Der Gang muss sich unterscheiden!");
+		PrintToChat(client, "Der Gang muss sich unterscheiden!"); // TODO: Translation
 		return false;
 	}
 	
 	if(CanCreateGang(client))
 	{
-		ReplyToCommand(client, "Sie sind in keiner Gang!");
+		ReplyToCommand(client, "Sie sind in keiner Gang!"); // TODO: Translation
 		return false;
 	}
 	
@@ -434,7 +434,7 @@ stock int AddGangPoints(int gangid, int points)
 		if (iGang[iGangID] == gangid)
 		{
 			int tmp_iPoints = iGang[iPoints] + points;
-			g_aCacheGang.Set(i, tmp_iPoints, _:iPoints);
+			g_aCacheGang.Set(i, tmp_iPoints, view_as<int>(iPoints));
 			
 			char sQuery[512];
 			Format(sQuery, sizeof(sQuery), "UPDATE gang SET `Points`=%d WHERE `GangID`='%d'", tmp_iPoints, gangid);
@@ -456,7 +456,7 @@ stock int RemoveGangPoints(int gangid, int points)
 		if (iGang[iGangID] == gangid)
 		{
 			int tmp_iPoints = iGang[iPoints] - points;
-			g_aCacheGang.Set(i, tmp_iPoints, _:iPoints);
+			g_aCacheGang.Set(i, tmp_iPoints, view_as<int>(iPoints));
 			
 			char sQuery[512];
 			Format(sQuery, sizeof(sQuery), "UPDATE gang SET `Points`=%d WHERE `GangID`='%d'", tmp_iPoints, gangid);

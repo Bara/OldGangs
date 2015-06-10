@@ -18,7 +18,7 @@ public void Gang_Connected(Handle owner, Handle hndl, const char[] error, any da
 	Gang_FillCache();
 
 	Call_StartForward(g_hSQLConnected);
-	Call_PushCell(_:g_hDatabase);
+	Call_PushCell(view_as<Handle>(g_hDatabase));
 	Call_Finish();
 }
 
@@ -88,7 +88,7 @@ public void SQL_SaveClientGangID(Handle owner, Handle hndl, const char[] error, 
 			if(SQL_FetchInt(hndl, 0) > 0)
 			{
 				AddGangToArray(SQL_FetchInt(hndl, 0), sGang);
-				Log_File(_, _, INFO, "Gang \"%S\" wurde erstellt!", client, sGang);
+				Log_File(_, _, INFO, "Gang \"%S\" wurde erstellt!", client, sGang); // TODO: Translation
 				g_iClientGang[client] = SQL_FetchInt(hndl, 0);
 				AddClientToGang(client, g_iClientGang[client]);
 			}
@@ -118,16 +118,16 @@ public void SQL_UpdateGangMembers(Handle owner, Handle hndl, const char[] error,
 	
 	if(g_iClientGang[client] < 1 && !g_bIsInGang[client])
 	{
-		ReplyToCommand(client, "Die Gang konnte nicht gegründet werden...");
+		ReplyToCommand(client, "Die Gang konnte nicht gegründet werden..."); // TODO: Translation
 		return;
 	}
 	
 	char sGang[64];
 	Gang_GetGangName(g_iClientGang[client], sGang, sizeof(sGang));
 	
-	PrintToChatAll("%N hat die Gang \"%s\" gegründet!", client, sGang);
+	PrintToChatAll("%N hat die Gang \"%s\" gegründet!", client, sGang); // TODO: Translation
 	
-	Log_File(_, _, INFO, "\"%N\" hat die Gang \"%s\" gegründet!", client, sGang);
+	Log_File(_, _, INFO, "\"%N\" hat die Gang \"%s\" gegründet!", client, sGang); // TODO: Translation
 	
 	Gang_PushClientArray(client);
 	
@@ -163,7 +163,7 @@ public void SQL_GetGangMemberCount(Handle owner, Handle hndl, const char[] error
 	
 			if (iGang[iGangID] == gangid)
 			{
-				g_aCacheGang.Set(i, count, _:iMembers);
+				g_aCacheGang.Set(i, count, view_as<int>(iMembers));
 
 				Log_File(_, _, DEBUG, "(SQL_GetGangMemberCount) GangID: %d - Members: %d", iGang[iGangID], count);
 				break;
@@ -190,7 +190,7 @@ public void SQL_RenameGang(Handle owner, Handle hndl, const char[] error, any pa
 	ReadPackString(pack, newgangname, sizeof(newgangname));
 	CloseHandle(pack);
 	
-	PrintToChatAll("%N hat die Gang (%s) in %s umbenannt!", client, oldgangname, newgangname);
+	PrintToChatAll("%N hat die Gang (%s) in %s umbenannt!", client, oldgangname, newgangname); // TODO: Translation
 	
 	for (int i = 0; i < g_aCacheGang.Length; i++)
 	{
