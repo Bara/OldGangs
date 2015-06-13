@@ -301,38 +301,35 @@ stock bool IsClientFounder(int client, int gangid)
 
 stock void OpenClientGang(int client)
 {
-	char sGang[64], sTitle[64];
-	Gang_GetGangName(Gang_GetClientGang(client), sGang, sizeof(sGang));
-	Format(sTitle, sizeof(sTitle), "%s - Main", sGang); // TODO: Translation
+	int GangID = Gang_GetClientGang(client);
 	
-	Menu menu = new Menu(Menu_GangMain);
-	menu.SetTitle(sTitle);
-	menu.AddItem("info", "Information"); // TODO: Translation
-	menu.ExitButton = true;
-	menu.Display(client, g_cGangMenuDisplayTime.IntValue);
-}
-
-stock void OpenClientGangInfo(int client)
-{
-	int gangid = Gang_GetClientGang(client);
+	char sGang[64], sTitle[64], sPoints[32], sOnline[32];
 	
-	char sGang[64], sTitle[64], sPoints[64], sOnline[64], sMembers[64], sMaxMembers[64];
-	Gang_GetGangName(gangid, sGang, sizeof(sGang));
+	Gang_GetGangName(GangID, sGang, sizeof(sGang));
+	int points = Gang_GetGangPoints(GangID);
+	int online = Gang_GetOnlinePlayerCount(GangID);
+	int members = Gang_GetGangMembersCount(GangID);
 	
-	Format(sTitle, sizeof(sTitle), "%s - Information", sGang); // TODO: Translation
-	Format(sPoints, sizeof(sPoints), "Points: %d", Gang_GetGangPoints(gangid)); // TODO: Translation
-	Format(sOnline, sizeof(sOnline), "Online: %d", Gang_GetOnlinePlayerCount(gangid)); // TODO: Translation
-	Format(sMembers, sizeof(sMembers), "Members: %d", Gang_GetGangMembersCount(gangid)); // TODO: Translation
-	Format(sMaxMembers, sizeof(sMaxMembers), "Max. Members: %d", Gang_GetGangMaxMembers(gangid)); // TODO: Translation
+	Format(sTitle, sizeof(sTitle), "%s", sGang); // TODO: Translation
+	Format(sPoints, sizeof(sPoints), "Points: %d", points); // TODO: Translation
+	Format(sOnline, sizeof(sOnline), "Online: %d/%s", online, members); // TODO: Translation
 	
-	Menu menu = new Menu(Menu_GangMain);
-	menu.SetTitle(sTitle);
-	menu.AddItem("", sPoints, ITEMDRAW_DISABLED);
-	menu.AddItem("", sOnline, ITEMDRAW_DISABLED);
-	menu.AddItem("", sMembers, ITEMDRAW_DISABLED);
-	menu.AddItem("", sMaxMembers, ITEMDRAW_DISABLED);
-	menu.ExitBackButton = true;
-	menu.Display(client, g_cGangMenuDisplayTime.IntValue);
+	Panel panel = new Panel();
+	panel.SetTitle(sTitle);
+	panel.DrawText(" ");
+	panel.DrawText(sPoints);
+	panel.DrawText(" ");
+	panel.DrawText(sOnline);
+	panel.DrawText(" ");
+	panel.DrawText("Skills");
+	panel.DrawText("Members");
+	if(Gang_GetClientAccessLevel(client) < GANG_LEADER)
+		panel.DrawText("Settings");
+	panel.DrawText(" ");
+	panel.DrawText("Left Gang");
+	panel.DrawText(" ");
+	panel.DrawItem("Close");
+	panel.Send(client, Panel_MainMenu, g_cGangMenuDisplayTime.IntValue);
 }
 
 stock int GetOnlinePlayerCount(int gangid)
