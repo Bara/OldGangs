@@ -225,3 +225,42 @@ public void SQL_RenameGang(Handle owner, Handle hndl, const char[] error, any pa
 	Call_PushString(newgangname);
 	Call_Finish();
 }
+
+public void SQL_CheckName(Handle owner, Handle hndl, const char[] error, any pack)
+{
+	if (error[0])
+	{
+		Log_File("gang", "core", ERROR, "(SQL_CheckName) Query failed: %s", error);
+		CloseHandle(pack);
+		return;
+	}
+		
+	char newname[64];
+
+	ResetPack(pack);
+	int client = GetClientOfUserId(ReadPackCell(pack));
+	ReadPackString(pack, newname, sizeof(newname));
+	CloseHandle(pack);
+	
+	if(client < 1 || !IsClientInGame(client))
+		return;
+	
+	if (hndl != null)
+	{
+		while(SQL_FetchRow(hndl))
+		{
+			char sSName[MAX_NAME_LENGTH];
+			SQL_FetchString(hndl, 0, sSName, sizeof(sSName));
+			
+			if(!StrEqual(newname, sSName, true))
+			{
+				UpdateNameInCache(client, newname);
+				
+				char sQuery[512], sEName[MAX_NAME_LENGTH];
+				SQL_EscapeString(g_hDatabase, newname, sEName, sizeof(sEName));
+				Format(sQuery, sizeof(sQuery), "UPDATE `gang_members` SET `PlayerName` = '%s' WHERE `CommunityID` = '%d'", sEName, g_sClientID[client]);
+				SQLQuery(sQuery);
+			}
+		}
+	}
+}

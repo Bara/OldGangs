@@ -115,6 +115,7 @@ public void OnPluginStart()
 	HookEvent("hostage_rescued", Event_HostageRescued);
 	HookEvent("vip_escaped", Event_VipEscape);
 	HookEvent("vip_killed", Event_VipKilled);
+	HookEvent("player_changename", Event_ChangeName);
 }
 
 public void OnClientPutInServer(int client)
@@ -247,3 +248,13 @@ public Action Event_VipKilled(Event event, const char[] name, bool dontBroadcast
 		Gang_AddGangPoints(Gang_GetClientGang(client), g_cGangPointsVipKilled.IntValue);
 	}
 }
+
+public Action Event_ChangeName(Event event, const char[] name, bool dontBroadcast)
+{
+	int client = GetClientOfUserId(event.GetInt("userid"));
+	char newname[MAX_NAME_LENGTH];
+	
+	event.GetString("newname", newname, sizeof(newname));
+	CheckName(client, newname);
+}
+

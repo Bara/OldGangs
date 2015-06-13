@@ -14,6 +14,7 @@ enum Cache_Gang_Members
 {
 	iGangID = 0,
 	String:sCommunityID[64],
+	String:sPlayerN[MAX_NAME_LENGTH],
 	iAccessLevel
 };
 

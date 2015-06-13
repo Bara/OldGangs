@@ -18,7 +18,7 @@ stock void Gang_CreateTables()
 	Format(sQuery, sizeof(sQuery), "CREATE TABLE IF NOT EXISTS `skills` (`SkillID` int(11) NOT NULL AUTO_INCREMENT, `SkillName` varchar(65) NOT NULL DEFAULT '', `MaxLevel` int(11) NOT NULL DEFAULT '0', PRIMARY KEY (`SkillID`), UNIQUE KEY `SkillID` (`SkillID`), UNIQUE KEY `SkillName` (`SkillName`)) ENGINE=InnoDB DEFAULT CHARSET=utf8;");
 	SQLQuery(sQuery);
 	
-	Format(sQuery, sizeof(sQuery), "CREATE TABLE IF NOT EXISTS `gang_members` (`GangID` int(11) NOT NULL DEFAULT '0', `CommunityID` varchar(65) NOT NULL DEFAULT '', `AccessLevel` int(11) NOT NULL DEFAULT '0', PRIMARY KEY (`CommunityID`), UNIQUE KEY `CommunityID` (`CommunityID`)) ENGINE=InnoDB DEFAULT CHARSET=utf8;");
+	Format(sQuery, sizeof(sQuery), "CREATE TABLE IF NOT EXISTS `gang_members` (`GangID` int(11) NOT NULL DEFAULT '0', `CommunityID` varchar(65) NOT NULL DEFAULT '', `PlayerName` varchar(255) NOT NULL DEFAULT '', `AccessLevel` int(11) NOT NULL DEFAULT '0', PRIMARY KEY (`CommunityID`), UNIQUE KEY `CommunityID` (`CommunityID`)) ENGINE=InnoDB DEFAULT CHARSET=utf8;");
 	SQLQuery(sQuery);
 	
 	Format(sQuery, sizeof(sQuery), "CREATE TABLE IF NOT EXISTS `gang_skills` (`GangID` int(11) NOT NULL DEFAULT '0', `SkillID` int(11) NOT NULL DEFAULT '0', `Level` int(11) NOT NULL DEFAULT '0') ENGINE=InnoDB DEFAULT CHARSET=utf8;");
@@ -98,10 +98,9 @@ stock void Gang_EraseClientArray(int client)
 stock void Gang_PushClientArray(int client)
 {
 	char sQuery[512];
-	
 	GetClientAuthId(client, AuthId_SteamID64, g_sClientID[client], sizeof(g_sClientID[]));
 	
-	Format(sQuery, sizeof(sQuery), "SELECT GangID, CommunityID, AccessLevel FROM `gang_members` WHERE `CommunityID` = '%s'", g_sClientID[client]);
+	Format(sQuery, sizeof(sQuery), "SELECT GangID, CommunityID, PlayerName, AccessLevel FROM `gang_members` WHERE `CommunityID` = '%s'", g_sClientID[client]);
 	SQL_TQuery(g_hDatabase, TQuery_GangMembers, sQuery, GetClientUserId(client), DBPrio_High);
 }
 
@@ -152,8 +151,12 @@ stock void CreateGang(int client, const char[] gang)
 
 stock void AddClientToGang(int client, int gang)
 {
-	char sQuery[512];
-	Format(sQuery, sizeof(sQuery), "INSERT INTO `gang_members` (`GangID`, `CommunityID`, `AccessLevel`) VALUES ('%d', '%s', '6')", g_iClientGang[client], g_sClientID[client]);
+	char sQuery[512], sName[MAX_NAME_LENGTH], sEName[MAX_NAME_LENGTH];
+	
+	GetClientName(client, sName, sizeof(sName));
+	SQL_EscapeString(g_hDatabase, sName, sEName, sizeof(sEName));
+	
+	Format(sQuery, sizeof(sQuery), "INSERT INTO `gang_members` (`GangID`, `CommunityID`, `PlayerName`, `AccessLevel`) VALUES ('%d', '%s', '%s', '6')", g_iClientGang[client], g_sClientID[client], sEName);
 	SQL_TQuery(g_hDatabase, SQL_UpdateGangMembers, sQuery, GetClientUserId(client));
 }
 
@@ -319,20 +322,20 @@ stock void OpenClientGang(int client)
 	
 	menu.SetTitle(sTitle);
 	
-	menu.AddItem("", "Skills");
+	menu.AddItem("skills", "Skills");
 	if(Gang_GetClientAccessLevel(client) == GANG_LEADER)
 	{
-		menu.AddItem("", "Members");
-		menu.AddItem("", "Settings\n ");
+		menu.AddItem("members", "Members");
+		menu.AddItem("settings", "Settings\n ");
 	}	
 	else
 	{
-		menu.AddItem("", "Members\n ");
+		menu.AddItem("members", "Members\n ");
 	}
 	
 	if(Gang_GetClientAccessLevel(client) < GANG_LEADER)
 	{
-		menu.AddItem("", "Left Gang\n ");
+		menu.AddItem("leftgang", "Left Gang\n ");
 	}
 	menu.ExitButton = true;
 	
@@ -522,4 +525,40 @@ stock bool IsWeaponGrenade(const char[] sWeapon)
 		return true;
 	}
 	return false;
+}
+
+stock void CheckName(int client, const char[] newname)
+{
+	char sQuery[512];
+	Format(sQuery, sizeof(sQuery), "SELECT PlayerName FROM `gang_members` WHERE `CommunityID` = '%s'", g_sClientID[client]);
+	
+	Handle hPack = CreateDataPack();
+	WritePackCell(hPack, GetClientUserId(client));
+	WritePackString(hPack, newname);
+	SQL_TQuery(g_hDatabase, SQL_CheckName, sQuery, hPack);
+}
+
+stock void UpdateNameInCache(int client, const char[] newname)
+{
+	for (int i = 0; i < g_aCacheGangMembers.Length; i++)
+	{
+		int iGangMembers[Cache_Gang_Members];
+		g_aCacheGangMembers.GetArray(i, iGangMembers[0]);
+
+		if(StrEqual(iGangMembers[sCommunityID], g_sClientID[client], true))
+		{
+			int itmpGang[Cache_Gang_Members];
+			
+			itmpGang[iGangID] = iGangMembers[iGangID];
+			strcopy(itmpGang[sCommunityID], 64, g_sClientID[client]);
+			strcopy(itmpGang[sPlayerN], MAX_NAME_LENGTH, newname);
+			itmpGang[iAccessLevel] = iGangMembers[iAccessLevel];
+
+			Log_File(_, _, DEBUG, "(UpdateNameInCache) GangID: %d - CommunityID: %s - PlayerName: %s - AccessLevel: %d", itmpGang[iGangID], itmpGang[sCommunityID], itmpGang[sPlayerN], itmpGang[iAccessLevel]);
+
+			g_aCacheGangMembers.Erase(i);
+			g_aCacheGangMembers.PushArray(itmpGang[0]);
+			break;
+		}
+	}
 }

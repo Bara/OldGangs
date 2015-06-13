@@ -52,10 +52,26 @@ public void TQuery_GangMembers(Handle owner, Handle hndl, const char[] error, an
 			if(SQL_FetchInt(hndl, 0) > 0)
 			{
 				int iGang[Cache_Gang_Members];
-
+				char sCName[MAX_NAME_LENGTH], sSName[MAX_NAME_LENGTH];
+				GetClientName(client, sCName, sizeof(sCName));
+				
 				iGang[iGangID] = SQL_FetchInt(hndl, 0);
 				SQL_FetchString(hndl, 1, iGang[sCommunityID], 64);
-				iGang[iAccessLevel] = SQL_FetchInt(hndl, 2);
+				SQL_FetchString(hndl, 2, sSName, sizeof(sSName));
+				iGang[iAccessLevel] = SQL_FetchInt(hndl, 3);
+				
+				// currentname != sqlname
+				if(!StrEqual(sCName, sSName, true))
+				{
+					// Insert new name in cache
+					Format(iGang[sCommunityID], MAX_NAME_LENGTH, "%s", sCName);
+					
+					// Update name in database
+					char sQuery[512], sCEName[MAX_NAME_LENGTH];
+					SQL_EscapeString(g_hDatabase, sCName, sCEName, sizeof(sCEName));
+					Format(sQuery, sizeof(sQuery), "UPDATE `gang_members` SET `PlayerName` = '%s' WHERE `CommunityID` = '%s'", sCEName, iGang[sCommunityID]);
+					SQLQuery(sQuery);
+				}
 				
 				Log_File(_, _, DEBUG, "[TQuery_GangMembers] GangID: %d - CommunityID: %s - AccessLevel: %d", iGang[iGangID], iGang[sCommunityID], iGang[iAccessLevel]);
 	
@@ -67,8 +83,7 @@ public void TQuery_GangMembers(Handle owner, Handle hndl, const char[] error, an
 					g_iClientGang[client] = iGang[iGangID];
 				}
 			}
-			else
-				g_bIsInGang[client] = false;
+			g_bIsInGang[client] = false;
 		}
 	}
 }
