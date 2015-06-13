@@ -13,6 +13,13 @@ enum ELOG_LEVEL
 	ERROR
 };
 
+#define GANG_LEADER 6
+#define GANG_COLEADER 5
+#define GANG_SKILLER 4
+#define GANG_INVITER 3
+#define GANG_MEMBER 2
+#define GANG_TRIAL 1
+
 char g_sELogLevel[6][32] = {
 	"default",
 	"trace",
