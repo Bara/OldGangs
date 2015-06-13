@@ -60,119 +60,124 @@ Configs:
         gang_prefix_global           - Insert a gang prefix before a name?
         gang_prefix_colors           - Default colors after buying prefix
 
-API:
-        Gang_OnSQLConnected
-        Gang_OnGangCreated
-        Gang_OnGangLeft
-        
-        Gang_IsClientInGang
-        Gang_GetClientAccessLevel
-        Gang_GetClientGang
-        Gang_ClientLeftGang
-        Gang_CreateClientGang
-        
-        Gang_GetClientName
-
-
-Gang staff:
-        Founder                      - Access to all
-        Admin                        - Access to all (but can't kick founder and admins)
+Gang rangs:
+        Leader                       - Access to all
+        CoLeader                     - Access to all (but can't kick leader and admins)
         Skiller                      - Gang Chat, Upgrade skills
         Inviter                      - Gang Chat, Inviter players
         Member                       - Gang Chat
         Trial                        - Gang Chat
 
 
-Gang Menu Main:
-        | Gang Name        |
-        |------------------|
-        | Info's           |
-        |------------------|
-        | Skills           |
-        | Members          |
-        | Settings         |
-        |------------------|
-        | Close            |
-        |------------------|
+Gang Menu:
+	|-------------------|
+	| Name     	        |
+	|-------------------|
+	| Points: 14151     |
+	|-------------------|
+	| Online: 2  	    |
+	|-------------------|
+	| Skills            |
+	| Members           |
+	| (L)Gang Settings  |
+	|-------------------|
+	| Left Gang         |
+	|-------------------|
+	| Close             |
+	|-------------------|
 
-Gang Menu Info's:
-        |------------------|
-        | Name: Example    |
-        | Points: 14151    |
-        | Max. Members: 8  |
-        | Online: 2        |
-        | Members: 5       |
-        |------------------|
-        | Back             |
-        | Close            |
-        |------------------|
-
-Gang Menu Skills:
-        |------------------|
-        |(Lvl/Max.) Skills |
-        |------------------|
-        | Back             |
-        | Close            |
-        |------------------|
-
-Gang Menu (Lvl/Max.) Skills:
-        |------------------|
-        | Upgrade skill    |
-        | Downgrade skill  |
-        |------------------|
-        | Back             |
-        | Close            |
-        |------------------|
-
-Gang Menu Members:
-        |------------------|
-        | [Founder] Bara   |
-        | [Admin] Noobie   |
-        | [Skiller] Gate   |
-        |------------------|
-        | Back             |
-        | Close            |
-        |------------------|
-
-Gang Menu Settings:
-        |------------------|
-        | Points: 14151    |
-        |------------------|
-        |Left-/ Delete Gang|
-        | Delete Gang      |
-        |------------------|
-        | Buy Chat         |
-        | Buy-/ Prefix     |
-        | Upgrade members  |
-        | Manage members   |
-        |------------------|
-        | Back             |
-        | Close            |
-        |------------------|
-
-Gang Menu Buy-/ Prefix:
-        |------------------|
-        | Buy prefix       |
-        | Colors list      |
-        |------------------|
-        | Back             |
-        | Close            |
-        |------------------|
-
-Gang Menu Manage members:
-        |------------------|
-        |(A)List of members|
-        |------------------|
-        | Back             |
-        | Close            |
-        |------------------|
-
-Gang Menu (A)List of members:
-        |------------------|
-        | Upgrade          | 
-        | Degrade          |
-        | Kick             |
-        |------------------|
-        | Back             |
-        | Close            |
-        |------------------|
+	
+	
+		Gang Menu - Skills
+			|-------------------|
+			|(Lvl/Max.)Skill 1  |
+			|(Lvl/Max.)Skill 2  |
+			|(Lvl/Max.)Skill 3  |
+			| ...               |
+			|-------------------|
+			| Back              |
+			| Close             |
+			|-------------------|
+				
+				Gang Menu - Skills - (L)(S)Manage - (Lvl/Max.)Skill 1/2/3.
+					|-------------------|
+					| Upgrade           |
+					| Downgrade 	    |
+					|-------------------|
+					| Back              |
+					| Close             |
+					|-------------------|
+					
+					
+					
+		Gang Menu - Members:
+			|-------------------|
+			| Members: 2/4/Max  |
+			|-------------------|
+			| (Lvl/Max)Member 1 |
+			| (Lvl/Max)Member 2 |
+			| (Lvl/Max)Member 3 |
+			| ...               |
+			|-------------------|
+			| Back              |
+			| Close             |
+			|-------------------| 
+				
+				Gang Menu - Members - (L)Manage - (Lvl/Max)Member 1/2/3...
+					|-------------------|
+					| Upgrade           |
+					| Degrade           |
+					| Kick              |
+					|-------------------|
+					| Back              |
+					| Close             |
+					|-------------------|
+					
+					
+					
+		Gang Menu - Gang Settings	
+			|-------------------|
+			| Rename Gang       |
+			| Delete Gang       |
+			| Mute Member       |
+			| Prefix Color      |
+			|-------------------|
+			| Buy Gang Chat     |
+			| Buy Prefix        |
+			|-------------------|
+			| Back              |
+			| Close             |
+			|-------------------|
+				
+				Gang Menu - Gang Settings - Gang Chat - Mute
+					|-------------------|
+					| (Lvl/Max)Member 1 |
+					| (Lvl/Max)Member 2 |
+					| (Lvl/Max)Member 3 |
+					| ...               |
+					|-------------------|
+					| Back              |
+					| Close             |
+					|-------------------|
+				
+				
+				Gang Menu - Gang Settings - Buy Prefix
+					|-------------------|
+					| Red               |
+					| Blue              |
+					| Pink              |
+					| ...               |
+					|-------------------|
+					| Back              |
+					| Close             |
+					|-------------------|
+					
+					
+						
+		Gang Menu - Left Gang
+			|-------------------|
+			| Really ?!         |	
+			|-------------------|
+			| Yes !             |
+			| No, sry !         |
+			|-------------------|
