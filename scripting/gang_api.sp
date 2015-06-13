@@ -16,7 +16,7 @@ public Plugin myinfo =
 
 public void OnPluginStart()
 {
-	RegConsoleCmd("sm_gangapi", Command_IsInGang);
+	RegConsoleCmd("sm_gangapi", Command_GangAPI);
 }
 
 public void Gang_OnSQLConnected(Handle database)
@@ -25,7 +25,7 @@ public void Gang_OnSQLConnected(Handle database)
 	
 	g_hDatabase = CloneHandle(database);
 	
-	PrintToServer("(Gang_OnSQLConnected)  database: %d - g_hDatabase: %d", database, g_hDatabase);
+	PrintToServer("(Gang_OnSQLConnected) database: %d - g_hDatabase: %d", database, g_hDatabase);
 }
 
 public void Gang_OnGangCreated(int client, int iGang)
@@ -41,7 +41,7 @@ public void Gang_OnGangCreated(int client, int iGang)
 		Format(sName, sizeof(sName), "keine Gang");
 	}
 	
-	PrintToChat(client, "(Gang_OnGangCreated) Gang_GetClientName - %s", sName);
+	PrintToChat(client, "(Gang_OnGangCreated) Gang_GetGangName - %s", sName);
 }
 
 public void Gang_OnGangRename(int client, int iGang, const char[] oldname, const char[] newname)
@@ -74,7 +74,7 @@ public void Gang_OnGangDelete(int client, int iGang, const char[] sGang)
 	PrintToChat(client, "(Gang_OnGangDelete) Gang Name - %s", sGang);
 }
 
-public Action Command_IsInGang(int client, int args)
+public Action Command_GangAPI(int client, int args)
 {
 	PrintToChat(client, "(Command_IsInGang) Gang_IsClientInGang - %d", Gang_IsClientInGang(client));
 	

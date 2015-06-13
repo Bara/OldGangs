@@ -290,7 +290,7 @@ stock bool IsClientFounder(int client, int gangid)
 			int iGang[Cache_Gang_Members];
 			g_aCacheGangMembers.GetArray(i, iGang[0]);
 	
-			if (StrEqual(iGang[sCommunityID], sComID, false) && iGang[iAccessLevel] == 6)
+			if (StrEqual(iGang[sCommunityID], sComID, false) && iGang[iAccessLevel] == GANG_LEADER)
 			{
 				return true;
 			}
@@ -310,26 +310,33 @@ stock void OpenClientGang(int client)
 	int online = Gang_GetOnlinePlayerCount(GangID);
 	int members = Gang_GetGangMembersCount(GangID);
 	
-	Format(sTitle, sizeof(sTitle), "%s", sGang); // TODO: Translation
 	Format(sPoints, sizeof(sPoints), "Points: %d", points); // TODO: Translation
-	Format(sOnline, sizeof(sOnline), "Online: %d/%s", online, members); // TODO: Translation
+	Format(sOnline, sizeof(sOnline), "Online: %d/%d", online, members); // TODO: Translation
 	
-	Panel panel = new Panel();
-	panel.SetTitle(sTitle);
-	panel.DrawText(" ");
-	panel.DrawText(sPoints);
-	panel.DrawText(" ");
-	panel.DrawText(sOnline);
-	panel.DrawText(" ");
-	panel.DrawText("Skills");
-	panel.DrawText("Members");
+	Format(sTitle, sizeof(sTitle), "%s\n \n%s\n \n%s\n ", sGang, sPoints, sOnline); // TODO: Translation
+	
+	Menu menu = new Menu(Menu_GangMenu);
+	
+	menu.SetTitle(sTitle);
+	
+	menu.AddItem("", "Skills");
+	if(Gang_GetClientAccessLevel(client) == GANG_LEADER)
+	{
+		menu.AddItem("", "Members");
+		menu.AddItem("", "Settings\n ");
+	}	
+	else
+	{
+		menu.AddItem("", "Members\n ");
+	}
+	
 	if(Gang_GetClientAccessLevel(client) < GANG_LEADER)
-		panel.DrawText("Settings");
-	panel.DrawText(" ");
-	panel.DrawText("Left Gang");
-	panel.DrawText(" ");
-	panel.DrawItem("Close");
-	panel.Send(client, Panel_MainMenu, g_cGangMenuDisplayTime.IntValue);
+	{
+		menu.AddItem("", "Left Gang\n ");
+	}
+	menu.ExitButton = true;
+	
+	menu.Display(client, g_cGangMenuDisplayTime.IntValue);
 }
 
 stock int GetOnlinePlayerCount(int gangid)
