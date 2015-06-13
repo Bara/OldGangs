@@ -11,6 +11,7 @@
 		- Forwards
 
 	ToDo:
+		- Menu Designs
 		- Create Gang via. Store (alongub)
 		- Rename (not sure)
 		- Invite System (more cvars, max members, ...)
