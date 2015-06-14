@@ -123,7 +123,7 @@ public void SQL_UpdateGangMembers(Handle owner, Handle hndl, const char[] error,
 	}
 	
 	char sGang[64];
-	Gang_GetGangName(g_iClientGang[client], sGang, sizeof(sGang));
+	Gang_GetName(g_iClientGang[client], sGang, sizeof(sGang));
 	
 	PrintToChatAll("%N hat die Gang \"%s\" gegründet!", client, sGang); // TODO: Translation
 	

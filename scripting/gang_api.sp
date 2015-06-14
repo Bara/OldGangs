@@ -34,14 +34,14 @@ public void Gang_OnGangCreated(int client, int iGang)
 	PrintToChat(client, "(Gang_OnGangCreated) Gang ID - %d", iGang);
 	
 	char sName[64];
-	Gang_GetGangName(iGang, sName, sizeof(sName));
+	Gang_GetName(iGang, sName, sizeof(sName));
 	
 	if(StrEqual(sName, "", false))
 	{
 		Format(sName, sizeof(sName), "keine Gang");
 	}
 	
-	PrintToChat(client, "(Gang_OnGangCreated) Gang_GetGangName - %s", sName);
+	PrintToChat(client, "(Gang_OnGangCreated) Gang_GetName - %s", sName);
 }
 
 public void Gang_OnGangRename(int client, int iGang, const char[] oldname, const char[] newname)
@@ -57,14 +57,14 @@ public void Gang_OnGangLeft(int client, int iGang)
 	PrintToChat(client, "(Gang_OnGangLeft) Gang ID - %d", iGang);
 	
 	char sName[64];
-	Gang_GetGangName(iGang, sName, sizeof(sName));
+	Gang_GetName(iGang, sName, sizeof(sName));
 	
 	if(StrEqual(sName, "", false))
 	{
 		Format(sName, sizeof(sName), "keine Gang");
 	}
 	
-	PrintToChat(client, "(Gang_OnGangLeft) Gang_GetGangName - %s", sName);
+	PrintToChat(client, "(Gang_OnGangLeft) Gang_GetName - %s", sName);
 }
 
 public void Gang_OnGangDelete(int client, int iGang, const char[] sGang)
@@ -76,20 +76,23 @@ public void Gang_OnGangDelete(int client, int iGang, const char[] sGang)
 
 public Action Command_GangAPI(int client, int args)
 {
+	if(client < 1 || !IsClientInGame(client))
+		return Plugin_Handled;
+	
 	PrintToChat(client, "(Command_GangAPI) Gang_IsClientInGang - %d", Gang_IsClientInGang(client));
 	
 	int iGang = Gang_GetClientGang(client);
 	PrintToChat(client, "(Command_GangAPI) Gang_GetClientGang - %d", iGang);
 	
 	char sName[64];
-	Gang_GetGangName(iGang, sName, sizeof(sName));
+	Gang_GetName(iGang, sName, sizeof(sName));
 	
 	if(StrEqual(sName, "", false))
 	{
 		Format(sName, sizeof(sName), "keine Gang");
 	}
 	
-	PrintToChat(client, "(Command_GangAPI) Gang_GetGangName - %s", sName);
+	PrintToChat(client, "(Command_GangAPI) Gang_GetName - %s", sName);
 	
 	return Plugin_Continue;
 }

@@ -100,13 +100,13 @@ public int Native_RenameClientGang(Handle plugin, int numParams)
 		return;
 	}
 	
-	if (Gang_GetClientAccessLevel(client) < g_cGangRenameRank.IntValue)
+	if (Gang_GetClientLevel(client) < g_cGangRenameRank.IntValue)
 	{
 		PrintToChat(client, "Sie besitzen nicht genügend Rechte!"); // TODO: Translation
 		return;
 	}
 	
-	if(Gang_GetGangPoints(gangid) < g_cGangRenameCost.IntValue)
+	if(Gang_GetPoints(gangid) < g_cGangRenameCost.IntValue)
 	{
 		PrintToChat(client, "Die Gang besitzt nicht genug Punkte!"); // TODO: Translation
 		return;
@@ -132,7 +132,7 @@ public int Native_DeleteClientGang(Handle plugin, int numParams)
 		return;
 	}
 	
-	if(Gang_GetClientAccessLevel(client) < GANG_LEADER)
+	if(Gang_GetClientLevel(client) < GANG_LEADER)
 	{
 		PrintToChat(client, "Sie sind nicht Founder der Gang!"); // TODO: Translation
 		return;

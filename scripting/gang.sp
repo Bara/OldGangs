@@ -5,6 +5,8 @@
 		- Delete
 		- Rename
 		- Left
+		- new mainmenu
+		- Renamed some natives
 		
 		- List all gangs
 		- Natives
@@ -17,18 +19,6 @@
 		- Invite System (more cvars, max members, ...)
 		- Points System (not sure)
 		- List all online gangs
-		
-		- Rename...
-			- Gang_GetClientAccessLevel -> Gang_GetClientAccess
-			- Gang_GetOnlinePlayerCount -> Gang_GetOnlinePlayers
-			- Gang_GetGangMembersCount -> Gang_GetMembersCount
-			- Gang_GetGangMaxMembers -> Gang_GetMaxMembers
-			- Gang_RemoveGangPoints -> Gang_RemovePoints
-			- Gang_GetGangName -> Gang_GetName
-			- Gang_GetGangPoints -> Gang_GetPoints
-			- Gang_AddGangPoints -> Gang_AddPoints
-		
-		
 
 */
 
@@ -60,7 +50,7 @@ public APLRes AskPluginLoad2(Handle myself, bool late, char[] error, int err_max
 	g_hGangRename = CreateGlobalForward("Gang_OnGangRename", ET_Ignore, Param_Cell, Param_Cell, Param_String, Param_String);
 	
 	CreateNative("Gang_IsClientInGang", Native_IsClientInGang);
-	CreateNative("Gang_GetClientAccessLevel", Native_GetClientAccessLevel);
+	CreateNative("Gang_GetClientLevel", Native_GetClientAccessLevel);
 	CreateNative("Gang_GetClientGang", Native_GetClientGang);
 	CreateNative("Gang_ClientLeftGang", Native_LeftClientGang);
 	CreateNative("Gang_CreateClientGang", Native_CreateClientGang);
@@ -68,13 +58,13 @@ public APLRes AskPluginLoad2(Handle myself, bool late, char[] error, int err_max
 	CreateNative("Gang_OpenClientGang", Native_OpenClientGang);
 	CreateNative("Gang_RenameClientGang", Native_RenameClientGang);
 	
-	CreateNative("Gang_GetGangName", Native_GetGangName);
-	CreateNative("Gang_GetGangPoints", Native_GetGangPoints);
-	CreateNative("Gang_AddGangPoints", Native_AddGangPoints);
-	CreateNative("Gang_RemoveGangPoints", Native_RemoveGangPoints);
-	CreateNative("Gang_GetGangMaxMembers", Native_GetGangMaxMembers);
-	CreateNative("Gang_GetGangMembersCount", Native_GetGangMembersCount);
-	CreateNative("Gang_GetOnlinePlayerCount", Native_GetOnlinePlayerCount);
+	CreateNative("Gang_GetName", Native_GetGangName);
+	CreateNative("Gang_GetPoints", Native_GetGangPoints);
+	CreateNative("Gang_AddPoints", Native_AddGangPoints);
+	CreateNative("Gang_RemovePoints", Native_RemoveGangPoints);
+	CreateNative("Gang_GetMaxMembers", Native_GetGangMaxMembers);
+	CreateNative("Gang_GetMembersCount", Native_GetGangMembersCount);
+	CreateNative("Gang_GetOnlinePlayers", Native_GetOnlinePlayerCount);
 	
 	RegPluginLibrary("gang");
 	
@@ -158,7 +148,7 @@ public Action Event_PlayerDeath(Event event, const char[] name, bool dontBroadca
 				else
 					points += g_cGangPointsKill.IntValue;
 				
-				Gang_AddGangPoints(Gang_GetClientGang(client), points);
+				Gang_AddPoints(Gang_GetClientGang(client), points);
 				
 				if(GetEngineVersion() == Engine_CSGO)
 				{
@@ -173,7 +163,7 @@ public Action Event_PlayerDeath(Event event, const char[] name, bool dontBroadca
 						
 						apoints += g_cGangPointsAssists.IntValue;
 						
-						Gang_AddGangPoints(Gang_GetClientGang(assister), apoints);
+						Gang_AddPoints(Gang_GetClientGang(assister), apoints);
 					}
 				}
 			}
@@ -187,7 +177,7 @@ public Action Event_BombPlanted(Event event, const char[] name, bool dontBroadca
 	
 	if(g_cGangPointsEnable.BoolValue && IsClientInGame(client))
 	{
-		Gang_AddGangPoints(Gang_GetClientGang(client), g_cGangPointsBombPlanted.IntValue);
+		Gang_AddPoints(Gang_GetClientGang(client), g_cGangPointsBombPlanted.IntValue);
 	}
 }
 
@@ -197,7 +187,7 @@ public Action Event_BombExploded(Event event, const char[] name, bool dontBroadc
 	
 	if(g_cGangPointsEnable.BoolValue && IsClientInGame(client))
 	{
-		Gang_AddGangPoints(Gang_GetClientGang(client), g_cGangPointsBombExploded.IntValue);
+		Gang_AddPoints(Gang_GetClientGang(client), g_cGangPointsBombExploded.IntValue);
 	}
 }
 
@@ -207,7 +197,7 @@ public Action Event_BombDefused(Event event, const char[] name, bool dontBroadca
 	
 	if(g_cGangPointsEnable.BoolValue && IsClientInGame(client))
 	{
-		Gang_AddGangPoints(Gang_GetClientGang(client), g_cGangPointsBombDefused.IntValue);
+		Gang_AddPoints(Gang_GetClientGang(client), g_cGangPointsBombDefused.IntValue);
 	}
 }
 
@@ -217,7 +207,7 @@ public Action Event_HostageFollow(Event event, const char[] name, bool dontBroad
 	
 	if(g_cGangPointsEnable.BoolValue && IsClientInGame(client))
 	{
-		Gang_AddGangPoints(Gang_GetClientGang(client), g_cGangPointsHostageFollow.IntValue);
+		Gang_AddPoints(Gang_GetClientGang(client), g_cGangPointsHostageFollow.IntValue);
 	}
 }
 
@@ -227,7 +217,7 @@ public Action Event_HostageRescued(Event event, const char[] name, bool dontBroa
 	
 	if(g_cGangPointsEnable.BoolValue && IsClientInGame(client))
 	{
-		Gang_AddGangPoints(Gang_GetClientGang(client), g_cGangPointsHostageRescue.IntValue);
+		Gang_AddPoints(Gang_GetClientGang(client), g_cGangPointsHostageRescue.IntValue);
 	}
 }
 
@@ -237,7 +227,7 @@ public Action Event_VipEscape(Event event, const char[] name, bool dontBroadcast
 	
 	if(g_cGangPointsEnable.BoolValue && IsClientInGame(client))
 	{
-		Gang_AddGangPoints(Gang_GetClientGang(client), g_cGangPointsVipEscape.IntValue);
+		Gang_AddPoints(Gang_GetClientGang(client), g_cGangPointsVipEscape.IntValue);
 	}
 }
 
@@ -247,7 +237,7 @@ public Action Event_VipKilled(Event event, const char[] name, bool dontBroadcast
 	
 	if(g_cGangPointsEnable.BoolValue && IsClientInGame(client))
 	{
-		Gang_AddGangPoints(Gang_GetClientGang(client), g_cGangPointsVipKilled.IntValue);
+		Gang_AddPoints(Gang_GetClientGang(client), g_cGangPointsVipKilled.IntValue);
 	}
 }
 

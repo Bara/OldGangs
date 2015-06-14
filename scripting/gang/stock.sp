@@ -187,7 +187,7 @@ stock void RemoveClientFromGang(int client, int gangid)
 		return;
 	}
 	
-	if(Gang_GetClientAccessLevel(client) > 5)
+	if(Gang_GetClientLevel(client) > 5)
 	{
 		ReplyToCommand(client, "Sie können diesen nicht als Founder ausführen."); // TODO: Translation
 		return;
@@ -200,7 +200,7 @@ stock void RemoveClientFromGang(int client, int gangid)
 	SQLQuery(sQuery);
 	
 	char sGang[64];
-	Gang_GetGangName(gangid, sGang, sizeof(sGang));
+	Gang_GetName(gangid, sGang, sizeof(sGang));
 	Log_File(_, _, INFO, "\"%N\" hat die Gang \"%s\" verlassen!", client, sGang); // TODO: Translation
 	
 	for (int i = 0; i < g_aCacheGang.Length; i++)
@@ -228,7 +228,7 @@ stock void RemoveClientFromGang(int client, int gangid)
 stock void DeleteGang(int client, int gangid)
 {
 	char sGang[64];
-	Gang_GetGangName(gangid, sGang, sizeof(sGang));
+	Gang_GetName(gangid, sGang, sizeof(sGang));
 	
 	PrintToChatAll("%N hat die Gang \"%s\" gelöscht!", client, sGang); // TODO: Translation
 	
@@ -288,10 +288,10 @@ stock void OpenClientGang(int client)
 	
 	char sGang[64], sTitle[64], sPoints[32], sOnline[32];
 	
-	Gang_GetGangName(GangID, sGang, sizeof(sGang));
-	int points = Gang_GetGangPoints(GangID);
-	int online = Gang_GetOnlinePlayerCount(GangID);
-	int members = Gang_GetGangMembersCount(GangID);
+	Gang_GetName(GangID, sGang, sizeof(sGang));
+	int points = Gang_GetPoints(GangID);
+	int online = Gang_GetOnlinePlayers(GangID);
+	int members = Gang_GetMembersCount(GangID);
 	
 	Format(sPoints, sizeof(sPoints), "Points: %d", points); // TODO: Translation
 	Format(sOnline, sizeof(sOnline), "Online: %d/%d", online, members); // TODO: Translation
@@ -303,7 +303,7 @@ stock void OpenClientGang(int client)
 	menu.SetTitle(sTitle);
 	
 	menu.AddItem("skills", "Skills");
-	if(Gang_GetClientAccessLevel(client) == GANG_LEADER)
+	if(Gang_GetClientLevel(client) == GANG_LEADER)
 	{
 		menu.AddItem("members", "Members");
 		menu.AddItem("settings", "Settings\n ");
@@ -313,7 +313,7 @@ stock void OpenClientGang(int client)
 		menu.AddItem("members", "Members\n ");
 	}
 	
-	if(Gang_GetClientAccessLevel(client) < GANG_LEADER)
+	if(Gang_GetClientLevel(client) < GANG_LEADER)
 	{
 		menu.AddItem("leftgang", "Left Gang\n ");
 	}
@@ -378,7 +378,7 @@ stock bool CheckGangRename(int client, const char[] sGang)
 	int GangID = Gang_GetClientGang(client);
 	
 	char sOGang[64];
-	Gang_GetGangName(GangID, sOGang, sizeof(sOGang));
+	Gang_GetName(GangID, sOGang, sizeof(sOGang));
 	
 	if(StrEqual(sOGang, sGang, false))
 	{
@@ -392,13 +392,13 @@ stock bool CheckGangRename(int client, const char[] sGang)
 		return false;
 	}
 	
-	if(Gang_GetClientAccessLevel(client) < g_cGangRenameRank.IntValue)
+	if(Gang_GetClientLevel(client) < g_cGangRenameRank.IntValue)
 	{
 		ReplyToCommand(client, "Sie besitzen nicht die Rechte um eine Gang umzubenennen.");
 		return false;
 	}
 	
-	if(Gang_GetGangPoints(GangID) < g_cGangRenameCost.IntValue)
+	if(Gang_GetPoints(GangID) < g_cGangRenameCost.IntValue)
 	{
 		ReplyToCommand(client, "Die Gang verfügt über nicht genug Punkte um sie umzubenennen.");
 		return false;
@@ -412,7 +412,7 @@ stock void RenameGang(int client, int gangid, const char[] newgangname)
 	Format(sQuery, sizeof(sQuery), "UPDATE `gang` SET `GangName` = '%s' WHERE `GangID` = '%d'", newgangname, gangid);
 	
 	char oldgangname[64];
-	Gang_GetGangName(gangid, oldgangname, sizeof(oldgangname));
+	Gang_GetName(gangid, oldgangname, sizeof(oldgangname));
 	
 	Handle hDP = CreateDataPack();
 	WritePackCell(hDP, GetClientUserId(client));

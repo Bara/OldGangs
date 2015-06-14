@@ -94,7 +94,7 @@ forward void Gang_OnGangDelete(int client, int gangid, const char[] gangname);
 forward void Gang_OnGangRename(int client, int gangid, const char[] oldgangname, const char[] newgangname);
 
 native bool Gang_IsClientInGang(int client);
-native int Gang_GetClientAccessLevel(int client);
+native int Gang_GetClientLevel(int client);
 native int Gang_GetClientGang(int client);
 native void Gang_ClientLeftGang(int client);
 native void Gang_CreateClientGang(int client, const char[] gangname);
@@ -102,13 +102,13 @@ native void Gang_DeleteClientGang(int client, int gangid);
 native void Gang_OpenClientGang(int client);
 native void Gang_RenameClientGang(int client, int gangid, const char[] gangname);
 
-native void Gang_GetGangName(int gangid, const char[] name, int maxlength);
-native int Gang_GetGangPoints(int gangid);
-native int Gang_AddGangPoints(int gangid, int points);
-native int Gang_RemoveGangPoints(int gangid, int points);
-native int Gang_GetGangMaxMembers(int gangid);
-native int Gang_GetGangMembersCount(int gangid);
-native int Gang_GetOnlinePlayerCount(int gangid);
+native void Gang_GetName(int gangid, const char[] name, int maxlength);
+native int Gang_GetPoints(int gangid);
+native int Gang_AddPoints(int gangid, int points);
+native int Gang_RemovePoints(int gangid, int points);
+native int Gang_GetMaxMembers(int gangid);
+native int Gang_GetMembersCount(int gangid);
+native int Gang_GetOnlinePlayers(int gangid);
 
 public SharedPlugin __pl_gang =
 {
@@ -126,7 +126,7 @@ public SharedPlugin __pl_gang =
 public __pl_gang_SetNTVOptional()
 {
 	MarkNativeAsOptional("Gang_IsClientInGang");
-	MarkNativeAsOptional("Gang_GetClientAccessLevel");
+	MarkNativeAsOptional("Gang_GetClientLevel");
 	MarkNativeAsOptional("Gang_GetClientGang");
 	MarkNativeAsOptional("Gang_ClientLeftGang");
 	MarkNativeAsOptional("Gang_CreateClientGang");
@@ -134,12 +134,12 @@ public __pl_gang_SetNTVOptional()
 	MarkNativeAsOptional("Gang_OpenClientGang");
 	MarkNativeAsOptional("Gang_RenameClientGang");
 	
-	MarkNativeAsOptional("Gang_GetGangName");
-	MarkNativeAsOptional("Gang_GetGangPoints");
-	MarkNativeAsOptional("Gang_AddGangPoints");
-	MarkNativeAsOptional("Gang_RemoveGangPoints");
-	MarkNativeAsOptional("Gang_GetGangMaxMembers");
-	MarkNativeAsOptional("Gang_GetGangMembersCount");
-	MarkNativeAsOptional("Gang_GetOnlinePlayerCount");
+	MarkNativeAsOptional("Gang_GetName");
+	MarkNativeAsOptional("Gang_GetPoints");
+	MarkNativeAsOptional("Gang_AddPoints");
+	MarkNativeAsOptional("Gang_RemovePoints");
+	MarkNativeAsOptional("Gang_GetMaxMembers");
+	MarkNativeAsOptional("Gang_GetMembersCount");
+	MarkNativeAsOptional("Gang_GetOnlinePlayers");
 }
 #endif
