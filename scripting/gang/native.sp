@@ -48,41 +48,6 @@ public int Native_GetClientAccessLevel(Handle plugin, int numParams)
 	return -1;
 }
 
-public int Native_RenameClientGang(Handle plugin, int numParams)
-{
-	int client = GetNativeCell(1);
-	int gangid = GetNativeCell(2);
-	
-	char sGang[64];
-	GetNativeString(3, sGang, sizeof(sGang));
-	
-	if(client < 1 || !IsClientInGame(client))
-	{
-		ThrowNativeError(SP_ERROR_ABORTED, "Client %d is invalid!");
-		return;
-	}
-	
-	if(!CheckGangRename(client, sGang))
-	{
-		PrintToChat(client, "Die Gang (%s) konnte nicht umbenannt werden!", sGang); // TODO: Translation
-		return;
-	}
-	
-	if (Gang_GetClientLevel(client) < g_cGangRenameRank.IntValue)
-	{
-		PrintToChat(client, "Sie besitzen nicht genügend Rechte!"); // TODO: Translation
-		return;
-	}
-	
-	if(Gang_GetPoints(gangid) < g_cGangRenameCost.IntValue)
-	{
-		PrintToChat(client, "Die Gang besitzt nicht genug Punkte!"); // TODO: Translation
-		return;
-	}
-	
-	RenameGang(client, gangid, sGang);
-}
-
 public int Native_GetGangMaxMembers(Handle plugin, int numParams)
 {
 	int gangid = GetNativeCell(1);

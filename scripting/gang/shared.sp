@@ -25,3 +25,26 @@ stock void Gang_EraseClientArray(int client)
 		}
 	}
 }
+
+stock bool CanCreateGang(int client)
+{
+	if(!g_bIsInGang[client] && g_iClientGang[client] == 0)
+		return true;
+	return false;
+}
+
+void SQLQuery(char[] sQuery)
+{
+	Handle hPack = CreateDataPack();
+	WritePackString(hPack, sQuery);
+	SQL_TQuery(g_hDatabase, SQL_Callback, sQuery, hPack);
+}
+
+public void SQL_Callback(Handle owner, Handle hndl, const char[] error, any data)
+{
+	if (error[0])
+	{
+		Log_File(_, _, ERROR, "(SQL_Callback) Query failed: %s", error);
+		return;
+	}
+}

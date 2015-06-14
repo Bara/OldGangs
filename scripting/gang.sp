@@ -32,9 +32,9 @@
 #include "gang/global.sp"
 #include "gang/config.sp"
 #include "gang/events.sp"
+#include "gang/sqlconnect.sp"
 
 // old structur
-#include "gang/cache.sp"
 #include "gang/sql.sp"
 #include "gang/native.sp"
 #include "gang/stock.sp"

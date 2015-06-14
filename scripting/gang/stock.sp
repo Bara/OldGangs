@@ -1,37 +1,3 @@
-stock void Gang_SQLConnect()
-{
-	if (!SQL_CheckConfig("gang"))
-	{
-		Log_File(_, _, ERROR, "(Gang_SQLConnect) Database failure: Couldn't find Database entry \"gang\"");
-		return;
-	}
-	SQL_TConnect(Gang_Connected, "gang");
-}
-
-stock void Gang_CreateTables()
-{
-	char sQuery[1024];
-	
-	Format(sQuery, sizeof(sQuery), "CREATE TABLE IF NOT EXISTS `gang` (`GangID` int(11) NOT NULL AUTO_INCREMENT, `GangName` varchar(65) NOT NULL DEFAULT '', `Points` int(11) NOT NULL DEFAULT '0', `Chat` tinyint(4) NOT NULL DEFAULT '0', `Prefix` tinyint(4) NOT NULL DEFAULT '0', `PrefixColor` varchar(65) NOT NULL DEFAULT 'GREEN', `MaxMembers` int(11) NOT NULL DEFAULT '2', PRIMARY KEY (`GangID`, `GangName`), UNIQUE KEY `GangName` (`GangName`), UNIQUE KEY `GangID` (`GangID`)) ENGINE=InnoDB DEFAULT CHARSET=utf8;");
-	SQLQuery(sQuery);
-	
-	Format(sQuery, sizeof(sQuery), "CREATE TABLE IF NOT EXISTS `skills` (`SkillID` int(11) NOT NULL AUTO_INCREMENT, `SkillName` varchar(65) NOT NULL DEFAULT '', `MaxLevel` int(11) NOT NULL DEFAULT '0', PRIMARY KEY (`SkillID`), UNIQUE KEY `SkillID` (`SkillID`), UNIQUE KEY `SkillName` (`SkillName`)) ENGINE=InnoDB DEFAULT CHARSET=utf8;");
-	SQLQuery(sQuery);
-	
-	Format(sQuery, sizeof(sQuery), "CREATE TABLE IF NOT EXISTS `gang_members` (`GangID` int(11) NOT NULL DEFAULT '0', `CommunityID` varchar(65) NOT NULL DEFAULT '', `PlayerName` varchar(255) NOT NULL DEFAULT '', `AccessLevel` int(11) NOT NULL DEFAULT '0', PRIMARY KEY (`CommunityID`), UNIQUE KEY `CommunityID` (`CommunityID`)) ENGINE=InnoDB DEFAULT CHARSET=utf8;");
-	SQLQuery(sQuery);
-	
-	Format(sQuery, sizeof(sQuery), "CREATE TABLE IF NOT EXISTS `gang_skills` (`GangID` int(11) NOT NULL DEFAULT '0', `SkillID` int(11) NOT NULL DEFAULT '0', `Level` int(11) NOT NULL DEFAULT '0') ENGINE=InnoDB DEFAULT CHARSET=utf8;");
-	SQLQuery(sQuery);
-}
-
-stock bool CanCreateGang(int client)
-{
-	if(!g_bIsInGang[client] && g_iClientGang[client] == 0)
-		return true;
-	return false;
-}
-
 stock void Gang_CreateCache()
 {
 	if(g_aCacheGang != null)
@@ -52,20 +18,6 @@ stock void Gang_CreateCache()
 	g_aCacheSkills =       new ArrayList(sizeof(g_iCacheSkills));
 }
 
-stock void Gang_FillCache()
-{
-	char sQuery[512];
-	
-	Format(sQuery, sizeof(sQuery), "SELECT GangID, GangName, Points, Chat, Prefix, PrefixColor, MaxMembers FROM `gang`");
-	SQL_TQuery(g_hDatabase, TQuery_Gang, sQuery, _, DBPrio_Low);
-	
-	Format(sQuery, sizeof(sQuery), "SELECT GangID, SkillID, Level FROM `gang_skills`");
-	SQL_TQuery(g_hDatabase, TQuery_GangSkills, sQuery, _, DBPrio_Low);
-	
-	Format(sQuery, sizeof(sQuery), "SELECT SkillID, SkillName, MaxLevel FROM `skills`");
-	SQL_TQuery(g_hDatabase, TQuery_Skills, sQuery, _, DBPrio_Low);
-}
-
 stock int GetOnlinePlayerCount(int gangid)
 {
 	int count = 0;
@@ -81,89 +33,6 @@ stock int GetOnlinePlayerCount(int gangid)
 	}
 	
 	return count;
-}
-
-stock bool CheckGangRename(int client, const char[] sGang)
-{
-	char sRegex[128];
-	g_cGangCreateRegex.GetString(sRegex, sizeof(sRegex));
-	Handle hRegex = CompileRegex(sRegex);
-	
-	if(MatchRegex(hRegex, sGang) != 1)
-	{
-		PrintToChat(client, "Der Gang Name enthält verbotene Zeichen."); // TODO: Translation
-		return false;
-	}
-	
-	if (strlen(sGang) < g_cGangCreateMinLen.IntValue)
-	{
-		PrintToChat(client, "Der Gang Name ist zu kurz."); // TODO: Translation
-		return false;
-	}
-	
-	if (strlen(sGang) > g_cGangCreateMaxLen.IntValue)
-	{
-		PrintToChat(client, "Der Gang Name ist zu lang."); // TODO: Translation
-		return false;
-	}
-	
-	for (int i = 0; i < g_aCacheGang.Length; i++)
-	{
-		int iGang[Cache_Gang];
-		g_aCacheGang.GetArray(i, iGang[0]);
-
-		if (StrEqual(iGang[sGangName], sGang, false))
-		{
-			PrintToChat(client, "Der Gang Name wird bereits genutzt."); // TODO: Translation
-			return false;
-		}
-	}
-	
-	int GangID = Gang_GetClientGang(client);
-	
-	char sOGang[64];
-	Gang_GetName(GangID, sOGang, sizeof(sOGang));
-	
-	if(StrEqual(sOGang, sGang, false))
-	{
-		ReplyToCommand(client, "Der Gang Name muss sich unterscheiden."); // TODO: Translation
-		return false;
-	}
-	
-	if(CanCreateGang(client))
-	{
-		ReplyToCommand(client, "Sie sind in keiner Gang."); // TODO: Translation
-		return false;
-	}
-	
-	if(Gang_GetClientLevel(client) < g_cGangRenameRank.IntValue)
-	{
-		ReplyToCommand(client, "Sie besitzen nicht die Rechte um eine Gang umzubenennen.");
-		return false;
-	}
-	
-	if(Gang_GetPoints(GangID) < g_cGangRenameCost.IntValue)
-	{
-		ReplyToCommand(client, "Die Gang verfügt über nicht genug Punkte um sie umzubenennen.");
-		return false;
-	}
-	return true;
-}
-
-stock void RenameGang(int client, int gangid, const char[] newgangname)
-{
-	char sQuery[512];
-	Format(sQuery, sizeof(sQuery), "UPDATE `gang` SET `GangName` = '%s' WHERE `GangID` = '%d'", newgangname, gangid);
-	
-	char oldgangname[64];
-	Gang_GetName(gangid, oldgangname, sizeof(oldgangname));
-	
-	Handle hDP = CreateDataPack();
-	WritePackCell(hDP, GetClientUserId(client));
-	WritePackCell(hDP, gangid);
-	WritePackString(hDP, oldgangname);
-	WritePackString(hDP, newgangname);
-	SQL_TQuery(g_hDatabase, SQL_RenameGang, sQuery, hDP);
 }
 
 stock int AddGangPoints(int gangid, int points)

@@ -1,43 +1,3 @@
-public void Gang_Connected(Handle owner, Handle hndl, const char[] error, any data)
-{
-	if (hndl == null)
-	{
-		if (error[0])
-		{
-			Log_File(_, _, ERROR, "(Gang_Connected) Connection to database failed!: %s", error);
-			return;
-		}
-	}
-
-	g_hDatabase = CloneHandle(hndl);
-
-	Gang_CreateTables();
-
-	SQL_SetCharset(g_hDatabase, "utf8");
-	
-	Gang_FillCache();
-
-	Call_StartForward(g_hSQLConnected);
-	Call_PushCell(view_as<Handle>(g_hDatabase));
-	Call_Finish();
-}
-
-void SQLQuery(char[] sQuery)
-{
-	Handle hPack = CreateDataPack();
-	WritePackString(hPack, sQuery);
-	SQL_TQuery(g_hDatabase, SQL_Callback, sQuery, hPack);
-}
-
-public void SQL_Callback(Handle owner, Handle hndl, const char[] error, any data)
-{
-	if (error[0])
-	{
-		Log_File(_, _, ERROR, "(SQL_Callback) Query failed: %s", error);
-		return;
-	}
-}
-
 public void SQL_GetGangMemberCount(Handle owner, Handle hndl, const char[] error, any data)
 {
 	if (hndl != null)
@@ -71,60 +31,6 @@ public void SQL_GetGangMemberCount(Handle owner, Handle hndl, const char[] error
 			}
 		}
 	}
-}
-
-public void SQL_RenameGang(Handle owner, Handle hndl, const char[] error, any pack)
-{
-	if (error[0])
-	{
-		Log_File(_, _, ERROR, "(SQL_RenameGang) Query failed: %s", error);
-		CloseHandle(pack);
-		return;
-	}
-		
-	char oldgangname[64], newgangname[64];
-
-	ResetPack(pack);
-	int client = GetClientOfUserId(ReadPackCell(pack));
-	int gangid = ReadPackCell(pack);
-	ReadPackString(pack, oldgangname, sizeof(oldgangname));
-	ReadPackString(pack, newgangname, sizeof(newgangname));
-	CloseHandle(pack);
-	
-	PrintToChatAll("%N hat die Gang (%s) in %s umbenannt!", client, oldgangname, newgangname); // TODO: Translation
-	
-	for (int i = 0; i < g_aCacheGang.Length; i++)
-	{
-		int iGang[Cache_Gang];
-		g_aCacheGang.GetArray(i, iGang[0]);
-
-		if (iGang[iGangID] == gangid)
-		{
-			int itmpGang[Cache_Gang];
-			
-			itmpGang[iGangID] = iGang[iGangID];
-			strcopy(itmpGang[sGangName], 64, newgangname);
-			itmpGang[iPoints] = iGang[iPoints];
-			itmpGang[bChat] = iGang[bChat];
-			itmpGang[bPrefix] = iGang[bPrefix];
-			strcopy(itmpGang[sPrefixColor], 64, iGang[sPrefixColor]);
-			itmpGang[iMaxMembers] = iGang[iMaxMembers];
-			itmpGang[iMembers] = iGang[iMembers];
-
-			Log_File(_, _, DEBUG, "(SQL_RenameGang) GangID: %d - OldGangName: %s - NewGangName: %s", gangid, oldgangname, newgangname);
-
-			g_aCacheGang.Erase(i);
-			g_aCacheGang.PushArray(itmpGang[0]);
-			break;
-		}
-	}
-	
-	Call_StartForward(g_hGangRename);
-	Call_PushCell(client);
-	Call_PushCell(gangid);
-	Call_PushString(oldgangname);
-	Call_PushString(newgangname);
-	Call_Finish();
 }
 
 public void SQL_CheckName(Handle owner, Handle hndl, const char[] error, any pack)
