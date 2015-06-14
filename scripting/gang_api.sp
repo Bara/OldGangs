@@ -7,11 +7,11 @@ Handle g_hDatabase;
 
 public Plugin myinfo = 
 {
-	name = "Gang - API Test",
-	author = "Bara",
-	description = "",
-	version = "1.0.0",
-	url = ""
+	name = GANG_NAME ... "API Test",
+	author = GANG_AUTHOR,
+	description = GANG_DESCRIPTION,
+	version = GANG_VERSION,
+	url = GANG_URL
 };
 
 public void OnPluginStart()

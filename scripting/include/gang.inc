@@ -13,6 +13,12 @@ enum ELOG_LEVEL
 	ERROR
 };
 
+#define GANG_NAME "Gang - "
+#define GANG_AUTHOR "Bara"
+#define GANG_DESCRIPTION "Coming soon..."
+#define GANG_VERSION "1.0.0-dev"
+#define GANG_URL "fotg.net"
+
 #define GANG_LEADER 6
 #define GANG_COLEADER 5
 #define GANG_SKILLER 4

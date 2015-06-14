@@ -29,9 +29,6 @@
 #include <gang>
 #include <regex>
 
-#define PLUGIN_AUTHOR "Bara"
-#define PLUGIN_VERSION "1.0.0-dev"
-
 #include "gang/global.sp"
 #include "gang/config.sp"
 
@@ -81,11 +78,11 @@ public APLRes AskPluginLoad2(Handle myself, bool late, char[] error, int err_max
 
 public Plugin myinfo = 
 {
-	name = "Gang - Core",
-	author = PLUGIN_AUTHOR,
-	description = "",
-	version = PLUGIN_VERSION,
-	url = "fotg.net"
+	name = GANG_NAME ... "Core",
+	author = GANG_AUTHOR,
+	description = GANG_DESCRIPTION,
+	version = GANG_VERSION,
+	url = GANG_URL
 };
 
 public void OnPluginStart()
