@@ -46,6 +46,7 @@
 // new structur
 #include "gang/shared.sp"
 #include "gang/creategang.sp"
+#include "gang/deletegang.sp"
 
 public APLRes AskPluginLoad2(Handle myself, bool late, char[] error, int err_max)
 {

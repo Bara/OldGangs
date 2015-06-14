@@ -69,13 +69,3 @@ public Action Command_LeftGang(int client, int args)
 	
 	return Plugin_Handled;
 }
-
-public Action Command_DeleteGang(int client, int args)
-{
-	if (client < 1 || !IsClientInGame(client) )
-		return Plugin_Handled;
-	
-	Gang_DeleteClientGang(client, Gang_GetClientGang(client));
-	
-	return Plugin_Handled;
-}

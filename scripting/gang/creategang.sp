@@ -228,16 +228,6 @@ public void SQL_UpdateGangMembers(Handle owner, Handle hndl, const char[] error,
 	Call_Finish();
 }
 
-stock void Gang_PushClientArray(int client)
-{
-	char sQuery[512];
-	if(GetClientAuthId(client, AuthId_SteamID64, g_sClientID[client], sizeof(g_sClientID[])))
-	{
-		Format(sQuery, sizeof(sQuery), "SELECT GangID, CommunityID, PlayerName, AccessLevel FROM `gang_members` WHERE `CommunityID` = '%s'", g_sClientID[client]);
-		SQL_TQuery(g_hDatabase, TQuery_GangMembers, sQuery, GetClientUserId(client), DBPrio_High);
-	}
-}
-
 public void TQuery_GangMembers(Handle owner, Handle hndl, const char[] error, any userid)
 {
 	int client = GetClientOfUserId(userid);
