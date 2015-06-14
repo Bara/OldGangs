@@ -46,6 +46,7 @@
 // new structur
 #include "gang/shared.sp"
 #include "gang/creategang.sp"
+#include "gang/listgang.sp"
 #include "gang/deletegang.sp"
 
 public APLRes AskPluginLoad2(Handle myself, bool late, char[] error, int err_max)
@@ -84,7 +85,7 @@ public Plugin myinfo =
 	author = PLUGIN_AUTHOR,
 	description = "",
 	version = PLUGIN_VERSION,
-	url = "gang.ovh"
+	url = "fotg.net"
 };
 
 public void OnPluginStart()
