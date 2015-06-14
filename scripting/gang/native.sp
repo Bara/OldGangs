@@ -48,16 +48,6 @@ public int Native_GetClientAccessLevel(Handle plugin, int numParams)
 	return -1;
 }
 
-public int Native_LeftClientGang(Handle plugin, int numParams)
-{
-	int client = GetNativeCell(1);
-	
-	RemoveClientFromGang(client, Gang_GetClientGang(client));
-	
-	g_bIsInGang[client] = false;
-	g_iClientGang[client] = 0;
-}
-
 public int Native_RenameClientGang(Handle plugin, int numParams)
 {
 	int client = GetNativeCell(1);
@@ -91,25 +81,6 @@ public int Native_RenameClientGang(Handle plugin, int numParams)
 	}
 	
 	RenameGang(client, gangid, sGang);
-}
-
-public int Native_OpenClientGang(Handle plugin, int numParams)
-{
-	int client = GetNativeCell(1);
-	
-	if (client < 1 || !IsClientInGame(client))
-	{
-		ThrowNativeError(SP_ERROR_ABORTED, "Client %d is invalid!");
-		return;
-	}
-	
-	if (!g_bIsInGang[client])
-	{
-		PrintToChat(client, "Sie sind in keiner Gang!"); // TODO: Translation
-		return;
-	}
-	
-	OpenClientGang(client);
 }
 
 public int Native_GetGangMaxMembers(Handle plugin, int numParams)

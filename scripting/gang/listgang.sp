@@ -19,3 +19,9 @@ public Action Command_ListGang(int client, int args)
 	
 	return Plugin_Handled;
 }
+
+public int Menu_GangList(Menu panel, MenuAction action, int client, int param)
+{
+	if(action == MenuAction_End)
+		CloseHandle(panel);
+}
