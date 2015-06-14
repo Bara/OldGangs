@@ -25,51 +25,6 @@ stock void Gang_CreateTables()
 	SQLQuery(sQuery);
 }
 
-stock bool CheckGangName(int client, const char[] sArg)
-{
-	char sRegex[128];
-	g_cGangCreateRegex.GetString(sRegex, sizeof(sRegex));
-	Handle hRegex = CompileRegex(sRegex);
-	
-	if(MatchRegex(hRegex, sArg) != 1)
-	{
-		PrintToChat(client, "Der Gang Name enthält verbotene Zeichen."); // TODO: Translation
-		return false;
-	}
-	
-	if (strlen(sArg) < g_cGangCreateMinLen.IntValue)
-	{
-		PrintToChat(client, "Der Gang Name ist zu kurz."); // TODO: Translation
-		return false;
-	}
-	
-	if (strlen(sArg) > g_cGangCreateMaxLen.IntValue)
-	{
-		PrintToChat(client, "Der Gang Name ist zu lang."); // TODO: Translation
-		return false;
-	}
-	
-	for (int i = 0; i < g_aCacheGang.Length; i++)
-	{
-		int iGang[Cache_Gang];
-		g_aCacheGang.GetArray(i, iGang[0]);
-
-		if (StrEqual(iGang[sGangName], sArg, false))
-		{
-			PrintToChat(client, "Der Gang Name wird bereits genutzt."); // TODO: Translation
-			return false;
-		}
-	}
-	
-	if(!CanCreateGang(client))
-	{
-		ReplyToCommand(client, "Sie sind bereits in einer Gang."); // TODO: Translation
-		return false;
-	}
-	
-	return true;
-}
-
 stock bool CanCreateGang(int client)
 {
 	if(!g_bIsInGang[client] && g_iClientGang[client] == 0)
@@ -92,16 +47,6 @@ stock void Gang_EraseClientArray(int client)
 				break;
 			}
 		}
-	}
-}
-
-stock void Gang_PushClientArray(int client)
-{
-	char sQuery[512];
-	if(GetClientAuthId(client, AuthId_SteamID64, g_sClientID[client], sizeof(g_sClientID[])))
-	{
-		Format(sQuery, sizeof(sQuery), "SELECT GangID, CommunityID, PlayerName, AccessLevel FROM `gang_members` WHERE `CommunityID` = '%s'", g_sClientID[client]);
-		SQL_TQuery(g_hDatabase, TQuery_GangMembers, sQuery, GetClientUserId(client), DBPrio_High);
 	}
 }
 
@@ -137,46 +82,6 @@ stock void Gang_FillCache()
 	
 	Format(sQuery, sizeof(sQuery), "SELECT SkillID, SkillName, MaxLevel FROM `skills`");
 	SQL_TQuery(g_hDatabase, TQuery_Skills, sQuery, _, DBPrio_Low);
-}
-
-stock void CreateGang(int client, const char[] gang)
-{
-	char sQuery[512];
-	Format(sQuery, sizeof(sQuery), "INSERT INTO `gang` (`GangName`) VALUES ('%s')", gang);
-
-	Handle hDP = CreateDataPack();
-	WritePackCell(hDP, GetClientUserId(client));
-	WritePackString(hDP, gang);
-	SQL_TQuery(g_hDatabase, SQL_CreateGang, sQuery, hDP);
-}
-
-stock void AddClientToGang(int client, int gang)
-{
-	char sQuery[512], sName[MAX_NAME_LENGTH], sEName[MAX_NAME_LENGTH];
-	
-	GetClientName(client, sName, sizeof(sName));
-	SQL_EscapeString(g_hDatabase, sName, sEName, sizeof(sEName));
-	
-	Format(sQuery, sizeof(sQuery), "INSERT INTO `gang_members` (`GangID`, `CommunityID`, `PlayerName`, `AccessLevel`) VALUES ('%d', '%s', '%s', '6')", g_iClientGang[client], g_sClientID[client], sEName);
-	SQL_TQuery(g_hDatabase, SQL_UpdateGangMembers, sQuery, GetClientUserId(client));
-}
-
-stock void AddGangToArray(int GangID, const char[] sGang)
-{
-	int iGang[Cache_Gang];
-
-	iGang[iGangID] = GangID;
-	Format(iGang[sGangName], 64, "%s", sGang);
-	iGang[iPoints] = 0;
-	iGang[bChat] = false;
-	iGang[bPrefix] = false;
-	Format(iGang[sPrefixColor], 64, "");
-	iGang[iMaxMembers] = 2;
-	iGang[iMembers] = 1;
-
-	Log_File(_, _, DEBUG, "[AddGangToArray] GangID: %d - GangName: %s - Points: %d - Chat: %d - Prefix: %d - PrefixColor: %s - MaxMembers: %d", iGang[iGangID], iGang[sGangName], iGang[iPoints], iGang[bChat], iGang[bPrefix], iGang[sPrefixColor], iGang[iMaxMembers]);
-
-	g_aCacheGang.PushArray(iGang[0]);
 }
 
 stock void RemoveClientFromGang(int client, int gangid)

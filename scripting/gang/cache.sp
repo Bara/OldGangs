@@ -32,65 +32,6 @@ public void TQuery_Gang(Handle owner, Handle hndl, const char[] error, any data)
 	}
 }
 
-public void TQuery_GangMembers(Handle owner, Handle hndl, const char[] error, any userid)
-{
-	int client = GetClientOfUserId(userid);
-	
-	if(client < 1 || !IsClientInGame(client))
-		return;
-	
-	if (hndl != null)
-	{
-		if (error[0])
-		{
-			Log_File("gang", "core", ERROR, "(TQuery_GangMembers) Query failed: %s", error);
-			return;
-		}
-		
-		while(SQL_FetchRow(hndl))
-		{
-			if(SQL_FetchInt(hndl, 0) > 0)
-			{
-				int iGang[Cache_Gang_Members];
-				char sCName[MAX_NAME_LENGTH], sSName[MAX_NAME_LENGTH];
-				GetClientName(client, sCName, sizeof(sCName));
-				
-				iGang[iGangID] = SQL_FetchInt(hndl, 0);
-				SQL_FetchString(hndl, 1, iGang[sCommunityID], 64);
-				SQL_FetchString(hndl, 2, sSName, sizeof(sSName));
-				iGang[iAccessLevel] = SQL_FetchInt(hndl, 3);
-				
-				// currentname != sqlname
-				if(!StrEqual(sCName, sSName, true))
-				{
-					// Insert new name in cache
-					strcopy(iGang[sPlayerN], MAX_NAME_LENGTH, sCName);
-					
-					// Update name in database
-					char sQuery[512], sCEName[MAX_NAME_LENGTH];
-					SQL_EscapeString(g_hDatabase, sCName, sCEName, sizeof(sCEName));
-					Format(sQuery, sizeof(sQuery), "UPDATE `gang_members` SET `PlayerName` = '%s' WHERE `CommunityID` = '%s'", sCEName, iGang[sCommunityID]);
-					SQLQuery(sQuery);
-				}
-				else
-					strcopy(iGang[sPlayerN], MAX_NAME_LENGTH, sSName);
-				
-				Log_File(_, _, DEBUG, "[TQuery_GangMembers] GangID: %d - CommunityID: %s - PlayerName: %s - AccessLevel: %d", iGang[iGangID], iGang[sCommunityID], iGang[sPlayerN], iGang[iAccessLevel]);
-	
-				g_aCacheGangMembers.PushArray(iGang[0]);
-				
-				if(iGang[iGangID] > 0)
-				{
-					g_bIsInGang[client] = true;
-					g_iClientGang[client] = iGang[iGangID];
-				}
-			}
-			else
-				g_bIsInGang[client] = false;
-		}
-	}
-}
-
 public void TQuery_GangSkills(Handle owner, Handle hndl, const char[] error, any data)
 {
 	if (hndl != null)

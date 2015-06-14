@@ -34,12 +34,18 @@
 
 #include "gang/global.sp"
 #include "gang/config.sp"
+
+// old structur
 #include "gang/cache.sp"
 #include "gang/sql.sp"
 #include "gang/native.sp"
 #include "gang/cmd.sp"
 #include "gang/stock.sp"
 #include "gang/menu.sp"
+
+// new structur
+#include "gang/shared.sp"
+#include "gang/creategang.sp"
 
 public APLRes AskPluginLoad2(Handle myself, bool late, char[] error, int err_max)
 {

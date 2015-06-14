@@ -1,0 +1,298 @@
+public Action Command_CreateGang(int client, int args)
+{
+	if (client < 1 || !IsClientInGame(client) )
+		return Plugin_Handled;
+	
+	if(!g_cGangCreateEnable.BoolValue)
+	{
+		PrintToChat(client, "Es können derzeit keine Gangs erstellt werden!"); // TODO: Translation
+		return Plugin_Handled;
+	}
+	
+	if(args < 1)
+	{
+		PrintToChat(client, "Syntax: sm_creategang <Name>"); // TODO: Translation
+		return Plugin_Handled;
+	}
+	
+	char sArg[64];
+	GetCmdArgString(sArg, sizeof(sArg));
+	
+	Gang_CreateClientGang(client, sArg);
+	return Plugin_Handled;
+}
+
+public int Native_CreateClientGang(Handle plugin, int numParams)
+{
+	int client = GetNativeCell(1);
+	
+	if(client < 1 || !IsClientInGame(client))
+	{
+		ThrowNativeError(SP_ERROR_ABORTED, "Client %d is invalid!");
+		return;
+	}
+	
+	char sGang[64];
+	GetNativeString(2, sGang, sizeof(sGang));
+	
+	if(!CheckGangName(client, sGang))
+	{
+		PrintToChat(client, "Die Gang (%s) konnte nicht erstellt werden!", sGang); // TODO: Translation
+		return;
+	}
+	
+	CreateGang(client, sGang);
+}
+
+stock bool CheckGangName(int client, const char[] sArg)
+{
+	char sRegex[128];
+	g_cGangCreateRegex.GetString(sRegex, sizeof(sRegex));
+	Handle hRegex = CompileRegex(sRegex);
+	
+	if(MatchRegex(hRegex, sArg) != 1)
+	{
+		PrintToChat(client, "Der Gang Name enthält verbotene Zeichen."); // TODO: Translation
+		return false;
+	}
+	
+	if (strlen(sArg) < g_cGangCreateMinLen.IntValue)
+	{
+		PrintToChat(client, "Der Gang Name ist zu kurz."); // TODO: Translation
+		return false;
+	}
+	
+	if (strlen(sArg) > g_cGangCreateMaxLen.IntValue)
+	{
+		PrintToChat(client, "Der Gang Name ist zu lang."); // TODO: Translation
+		return false;
+	}
+	
+	for (int i = 0; i < g_aCacheGang.Length; i++)
+	{
+		int iGang[Cache_Gang];
+		g_aCacheGang.GetArray(i, iGang[0]);
+
+		if (StrEqual(iGang[sGangName], sArg, false))
+		{
+			PrintToChat(client, "Der Gang Name wird bereits genutzt."); // TODO: Translation
+			return false;
+		}
+	}
+	
+	if(!CanCreateGang(client))
+	{
+		ReplyToCommand(client, "Sie sind bereits in einer Gang."); // TODO: Translation
+		return false;
+	}
+	
+	return true;
+}
+
+stock void CreateGang(int client, const char[] gang)
+{
+	char sQuery[512];
+	Format(sQuery, sizeof(sQuery), "INSERT INTO `gang` (`GangName`) VALUES ('%s')", gang);
+
+	Handle hDP = CreateDataPack();
+	WritePackCell(hDP, GetClientUserId(client));
+	WritePackString(hDP, gang);
+	SQL_TQuery(g_hDatabase, SQL_CreateGang, sQuery, hDP);
+}
+
+public void SQL_CreateGang(Handle owner, Handle hndl, const char[] error, any pack)
+{
+	if (error[0])
+	{
+		Log_File("gang", "core", ERROR, "(SQL_CreateGang) Query failed: %s", error);
+		CloseHandle(pack);
+		return;
+	}
+		
+	char sGang[64];
+
+	ResetPack(pack);
+	int client = GetClientOfUserId(ReadPackCell(pack));
+	ReadPackString(pack, sGang, sizeof(sGang));
+	CloseHandle(pack);
+
+	char sQuery[512];
+	Format(sQuery, sizeof(sQuery), "SELECT GangID FROM `gang` WHERE `GangName` ='%s'", sGang);
+	
+	Handle hPack = CreateDataPack();
+	WritePackCell(hPack, GetClientUserId(client));
+	WritePackString(hPack, sGang);
+	SQL_TQuery(g_hDatabase, SQL_SaveClientGangID, sQuery, hPack, DBPrio_Low);
+}
+
+public void SQL_SaveClientGangID(Handle owner, Handle hndl, const char[] error, any pack)
+{
+	if (error[0])
+	{
+		Log_File("gang", "core", ERROR, "(SQL_SaveClientGangID) Query failed: %s", error);
+		return;
+	}
+	
+	char sGang[64];
+
+	ResetPack(pack);
+	int client = GetClientOfUserId(ReadPackCell(pack));
+	ReadPackString(pack, sGang, sizeof(sGang));
+	CloseHandle(pack);
+
+	if(!IsClientInGame(client))
+		return;
+	
+	if (hndl != null)
+	{
+		while(SQL_FetchRow(hndl))
+		{
+			if(SQL_FetchInt(hndl, 0) > 0)
+			{
+				AddGangToArray(SQL_FetchInt(hndl, 0), sGang);
+				Log_File(_, _, INFO, "Gang \"%s\" wurde erstellt!", client, sGang); // TODO: Translation
+				g_iClientGang[client] = SQL_FetchInt(hndl, 0);
+				AddClientToGang(client, g_iClientGang[client]);
+			}
+			else
+			{
+				g_bIsInGang[client] = false;
+				g_iClientGang[client] = 0;
+			}
+		}
+	}
+}
+
+stock void AddGangToArray(int GangID, const char[] sGang)
+{
+	int iGang[Cache_Gang];
+
+	iGang[iGangID] = GangID;
+	Format(iGang[sGangName], 64, "%s", sGang);
+	iGang[iPoints] = 0;
+	iGang[bChat] = false;
+	iGang[bPrefix] = false;
+	Format(iGang[sPrefixColor], 64, "");
+	iGang[iMaxMembers] = 2;
+	iGang[iMembers] = 1;
+
+	Log_File(_, _, DEBUG, "[AddGangToArray] GangID: %d - GangName: %s - Points: %d - Chat: %d - Prefix: %d - PrefixColor: %s - MaxMembers: %d", iGang[iGangID], iGang[sGangName], iGang[iPoints], iGang[bChat], iGang[bPrefix], iGang[sPrefixColor], iGang[iMaxMembers]);
+
+	g_aCacheGang.PushArray(iGang[0]);
+}
+
+stock void AddClientToGang(int client, int gang)
+{
+	char sQuery[512], sName[MAX_NAME_LENGTH], sEName[MAX_NAME_LENGTH];
+	
+	GetClientName(client, sName, sizeof(sName));
+	SQL_EscapeString(g_hDatabase, sName, sEName, sizeof(sEName));
+	
+	Format(sQuery, sizeof(sQuery), "INSERT INTO `gang_members` (`GangID`, `CommunityID`, `PlayerName`, `AccessLevel`) VALUES ('%d', '%s', '%s', '6')", g_iClientGang[client], g_sClientID[client], sEName);
+	SQL_TQuery(g_hDatabase, SQL_UpdateGangMembers, sQuery, GetClientUserId(client));
+}
+
+public void SQL_UpdateGangMembers(Handle owner, Handle hndl, const char[] error, any userid)
+{
+	if (error[0])
+	{
+		Log_File("gang", "core", ERROR, "(SQL_Callback) Query failed: %s", error);
+		return;
+	}
+	
+	int client = GetClientOfUserId(userid);
+	
+	if(!IsClientInGame(client))
+		return;
+		
+	g_bIsInGang[client] = true;
+	
+	if(g_iClientGang[client] < 1 && !g_bIsInGang[client])
+	{
+		ReplyToCommand(client, "Die Gang konnte nicht gegründet werden..."); // TODO: Translation
+		return;
+	}
+	
+	char sGang[64];
+	Gang_GetName(g_iClientGang[client], sGang, sizeof(sGang));
+	
+	PrintToChatAll("%N hat die Gang \"%s\" gegründet!", client, sGang); // TODO: Translation
+	
+	Log_File(_, _, INFO, "\"%N\" hat die Gang \"%s\" gegründet!", client, sGang); // TODO: Translation
+	
+	Gang_PushClientArray(client);
+	
+	Call_StartForward(g_hGangCreated);
+	Call_PushCell(client);
+	Call_PushCell(g_iClientGang[client]);
+	Call_Finish();
+}
+
+stock void Gang_PushClientArray(int client)
+{
+	char sQuery[512];
+	if(GetClientAuthId(client, AuthId_SteamID64, g_sClientID[client], sizeof(g_sClientID[])))
+	{
+		Format(sQuery, sizeof(sQuery), "SELECT GangID, CommunityID, PlayerName, AccessLevel FROM `gang_members` WHERE `CommunityID` = '%s'", g_sClientID[client]);
+		SQL_TQuery(g_hDatabase, TQuery_GangMembers, sQuery, GetClientUserId(client), DBPrio_High);
+	}
+}
+
+public void TQuery_GangMembers(Handle owner, Handle hndl, const char[] error, any userid)
+{
+	int client = GetClientOfUserId(userid);
+	
+	if(client < 1 || !IsClientInGame(client))
+		return;
+	
+	if (hndl != null)
+	{
+		if (error[0])
+		{
+			Log_File("gang", "core", ERROR, "(TQuery_GangMembers) Query failed: %s", error);
+			return;
+		}
+		
+		while(SQL_FetchRow(hndl))
+		{
+			if(SQL_FetchInt(hndl, 0) > 0)
+			{
+				int iGang[Cache_Gang_Members];
+				char sCName[MAX_NAME_LENGTH], sSName[MAX_NAME_LENGTH];
+				GetClientName(client, sCName, sizeof(sCName));
+				
+				iGang[iGangID] = SQL_FetchInt(hndl, 0);
+				SQL_FetchString(hndl, 1, iGang[sCommunityID], 64);
+				SQL_FetchString(hndl, 2, sSName, sizeof(sSName));
+				iGang[iAccessLevel] = SQL_FetchInt(hndl, 3);
+				
+				// currentname != sqlname
+				if(!StrEqual(sCName, sSName, true))
+				{
+					// Insert new name in cache
+					strcopy(iGang[sPlayerN], MAX_NAME_LENGTH, sCName);
+					
+					// Update name in database
+					char sQuery[512], sCEName[MAX_NAME_LENGTH];
+					SQL_EscapeString(g_hDatabase, sCName, sCEName, sizeof(sCEName));
+					Format(sQuery, sizeof(sQuery), "UPDATE `gang_members` SET `PlayerName` = '%s' WHERE `CommunityID` = '%s'", sCEName, iGang[sCommunityID]);
+					SQLQuery(sQuery);
+				}
+				else
+					strcopy(iGang[sPlayerN], MAX_NAME_LENGTH, sSName);
+				
+				Log_File(_, _, DEBUG, "[TQuery_GangMembers] GangID: %d - CommunityID: %s - PlayerName: %s - AccessLevel: %d", iGang[iGangID], iGang[sCommunityID], iGang[sPlayerN], iGang[iAccessLevel]);
+	
+				g_aCacheGangMembers.PushArray(iGang[0]);
+				
+				if(iGang[iGangID] > 0)
+				{
+					g_bIsInGang[client] = true;
+					g_iClientGang[client] = iGang[iGangID];
+				}
+			}
+			else
+				g_bIsInGang[client] = false;
+		}
+	}
+}

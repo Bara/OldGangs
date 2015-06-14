@@ -14,30 +14,6 @@ public Action Command_Gang(int client, int args)
 	return Plugin_Handled;
 }
 
-public Action Command_CreateGang(int client, int args)
-{
-	if (client < 1 || !IsClientInGame(client) )
-		return Plugin_Handled;
-	
-	if(!g_cGangCreateEnable.BoolValue)
-	{
-		PrintToChat(client, "Es können derzeit keine Gangs erstellt werden!"); // TODO: Translation
-		return Plugin_Handled;
-	}
-	
-	if(args < 1)
-	{
-		PrintToChat(client, "Syntax: sm_creategang <Name>"); // TODO: Translation
-		return Plugin_Handled;
-	}
-	
-	char sArg[64];
-	GetCmdArgString(sArg, sizeof(sArg));
-	
-	Gang_CreateClientGang(client, sArg);
-	return Plugin_Handled;
-}
-
 public Action Command_RenameGang(int client, int args)
 {
 	if (client < 1 || !IsClientInGame(client) )
