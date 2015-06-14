@@ -1,5 +1,8 @@
 public Action Command_Gang(int client, int args)
 {
+	if (client < 1 || !IsClientInGame(client) )
+		return Plugin_Handled;
+	
 	if(args > 0)
 	{
 		PrintToChat(client, "HAX! Dein Daten werden zur Sicherheit gespeichert."); // TODO: Translation
@@ -13,7 +16,7 @@ public Action Command_Gang(int client, int args)
 
 public Action Command_CreateGang(int client, int args)
 {
-	if (client < 1 )
+	if (client < 1 || !IsClientInGame(client) )
 		return Plugin_Handled;
 	
 	if(!g_cGangCreateEnable.BoolValue)
@@ -37,7 +40,7 @@ public Action Command_CreateGang(int client, int args)
 
 public Action Command_RenameGang(int client, int args)
 {
-	if (client < 1 )
+	if (client < 1 || !IsClientInGame(client) )
 		return Plugin_Handled;
 	
 	if(!g_cGangRenameEnable.BoolValue)
@@ -61,7 +64,7 @@ public Action Command_RenameGang(int client, int args)
 
 public Action Command_ListGang(int client, int args)
 {
-	if (client < 1 )
+	if (client < 1 || !IsClientInGame(client) )
 		return Plugin_Handled;
 	
 	Menu mMenu = new Menu(Menu_GangList);
@@ -83,6 +86,9 @@ public Action Command_ListGang(int client, int args)
 
 public Action Command_LeftGang(int client, int args)
 {
+	if (client < 1 || !IsClientInGame(client) )
+		return Plugin_Handled;
+	
 	Gang_ClientLeftGang(client);
 	
 	return Plugin_Handled;
@@ -90,6 +96,9 @@ public Action Command_LeftGang(int client, int args)
 
 public Action Command_DeleteGang(int client, int args)
 {
+	if (client < 1 || !IsClientInGame(client) )
+		return Plugin_Handled;
+	
 	Gang_DeleteClientGang(client, Gang_GetClientGang(client));
 	
 	return Plugin_Handled;
