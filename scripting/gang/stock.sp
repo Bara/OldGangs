@@ -282,27 +282,6 @@ stock void RemoveGangFromArray(int gangid)
 	}
 }
 
-stock bool IsClientFounder(int client, int gangid)
-{
-	char sComID[64];
-	GetClientAuthId(client, AuthId_SteamID64, sComID, sizeof(sComID));
-	
-	if(g_bIsInGang[client])
-	{
-		for (int i = 0; i < g_aCacheGangMembers.Length; i++)
-		{
-			int iGang[Cache_Gang_Members];
-			g_aCacheGangMembers.GetArray(i, iGang[0]);
-	
-			if (StrEqual(iGang[sCommunityID], sComID, false) && iGang[iAccessLevel] == GANG_LEADER)
-			{
-				return true;
-			}
-		}
-	}
-	return false;
-}
-
 stock void OpenClientGang(int client)
 {
 	int GangID = Gang_GetClientGang(client);

@@ -132,7 +132,7 @@ public int Native_DeleteClientGang(Handle plugin, int numParams)
 		return;
 	}
 	
-	if(!IsClientFounder(client, gangid))
+	if(Gang_GetClientAccessLevel(client) < GANG_LEADER)
 	{
 		PrintToChat(client, "Sie sind nicht Founder der Gang!"); // TODO: Translation
 		return;
