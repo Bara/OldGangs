@@ -73,7 +73,7 @@ public int Native_CreateClientGang(Handle plugin, int numParams)
 	
 	if(!CheckGangName(client, sGang))
 	{
-		PrintToChat(client, "Die Gang (%s) konnte nicht erstellt werden!"); // TODO: Translation
+		PrintToChat(client, "Die Gang (%s) konnte nicht erstellt werden!", sGang); // TODO: Translation
 		return;
 	}
 	
@@ -96,7 +96,7 @@ public int Native_RenameClientGang(Handle plugin, int numParams)
 	
 	if(!CheckGangRename(client, sGang))
 	{
-		PrintToChat(client, "Die Gang (%s) konnte nicht umbenannt werden!"); // TODO: Translation
+		PrintToChat(client, "Die Gang (%s) konnte nicht umbenannt werden!", sGang); // TODO: Translation
 		return;
 	}
 	
