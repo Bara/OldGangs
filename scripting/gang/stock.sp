@@ -106,7 +106,7 @@ stock void RemoveClientFromGang(int client, int gangid)
 	
 	char sGang[64];
 	Gang_GetName(gangid, sGang, sizeof(sGang));
-	Log_File(_, _, INFO, "\"%N\" hat die Gang \"%s\" verlassen!", client, sGang); // TODO: Translation
+	Log_File(_, _, INFO, "\"%L\" hat die Gang \"%s\" verlassen!", client, sGang); // TODO: Translation
 	
 	for (int i = 0; i < g_aCacheGang.Length; i++)
 	{

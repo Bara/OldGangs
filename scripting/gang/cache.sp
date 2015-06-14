@@ -4,7 +4,7 @@ public void TQuery_Gang(Handle owner, Handle hndl, const char[] error, any data)
 	{
 		if (error[0])
 		{
-			Log_File("gang", "core", ERROR, "(TQuery_Gang) Query failed: %s", error);
+			Log_File(_, _, ERROR, "(TQuery_Gang) Query failed: %s", error);
 			return;
 		}
 		
@@ -38,7 +38,7 @@ public void TQuery_GangSkills(Handle owner, Handle hndl, const char[] error, any
 	{
 		if (error[0])
 		{
-			Log_File("gang", "core", ERROR, "(TQuery_GangSkills) Query failed: %s", error);
+			Log_File(_, _, ERROR, "(TQuery_GangSkills) Query failed: %s", error);
 			return;
 		}
 		
@@ -63,7 +63,7 @@ public void TQuery_Skills(Handle owner, Handle hndl, const char[] error, any dat
 	{
 		if (error[0])
 		{
-			Log_File("gang", "core", ERROR, "(TQuery_Skills) Query failed: %s", error);
+			Log_File(_, _, ERROR, "(TQuery_Skills) Query failed: %s", error);
 			return;
 		}
 		

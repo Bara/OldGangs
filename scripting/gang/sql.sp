@@ -33,7 +33,7 @@ public void SQL_Callback(Handle owner, Handle hndl, const char[] error, any data
 {
 	if (error[0])
 	{
-		Log_File("gang", "core", ERROR, "(SQL_Callback) Query failed: %s", error);
+		Log_File(_, _, ERROR, "(SQL_Callback) Query failed: %s", error);
 		return;
 	}
 }
@@ -44,7 +44,7 @@ public void SQL_GetGangMemberCount(Handle owner, Handle hndl, const char[] error
 	{
 		if (error[0])
 		{
-			Log_File("gang", "core", ERROR, "(TQuery_Gang) Query failed: %s", error);
+			Log_File(_, _, ERROR, "(TQuery_Gang) Query failed: %s", error);
 			return;
 		}
 		
@@ -77,7 +77,7 @@ public void SQL_RenameGang(Handle owner, Handle hndl, const char[] error, any pa
 {
 	if (error[0])
 	{
-		Log_File("gang", "core", ERROR, "(SQL_RenameGang) Query failed: %s", error);
+		Log_File(_, _, ERROR, "(SQL_RenameGang) Query failed: %s", error);
 		CloseHandle(pack);
 		return;
 	}
@@ -131,7 +131,7 @@ public void SQL_CheckName(Handle owner, Handle hndl, const char[] error, any pac
 {
 	if (error[0])
 	{
-		Log_File("gang", "core", ERROR, "(SQL_CheckName) Query failed: %s", error);
+		Log_File(_, _, ERROR, "(SQL_CheckName) Query failed: %s", error);
 		CloseHandle(pack);
 		return;
 	}

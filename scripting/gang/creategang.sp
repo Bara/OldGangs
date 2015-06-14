@@ -104,7 +104,7 @@ public void SQL_CreateGang(Handle owner, Handle hndl, const char[] error, any pa
 {
 	if (error[0])
 	{
-		Log_File("gang", "core", ERROR, "(SQL_CreateGang) Query failed: %s", error);
+		Log_File(_, _, ERROR, "(SQL_CreateGang) Query failed: %s", error);
 		CloseHandle(pack);
 		return;
 	}
@@ -129,7 +129,7 @@ public void SQL_SaveClientGangID(Handle owner, Handle hndl, const char[] error, 
 {
 	if (error[0])
 	{
-		Log_File("gang", "core", ERROR, "(SQL_SaveClientGangID) Query failed: %s", error);
+		Log_File(_, _, ERROR, "(SQL_SaveClientGangID) Query failed: %s", error);
 		return;
 	}
 	
@@ -150,7 +150,7 @@ public void SQL_SaveClientGangID(Handle owner, Handle hndl, const char[] error, 
 			if(SQL_FetchInt(hndl, 0) > 0)
 			{
 				AddGangToArray(SQL_FetchInt(hndl, 0), sGang);
-				Log_File(_, _, INFO, "Gang \"%s\" wurde erstellt!", client, sGang); // TODO: Translation
+				Log_File(_, _, INFO, "Gang \"%s\" wurde von \"%L\" erstellt!", sGang, client); // TODO: Translation
 				g_iClientGang[client] = SQL_FetchInt(hndl, 0);
 				AddClientToGang(client, g_iClientGang[client]);
 			}
@@ -196,7 +196,7 @@ public void SQL_UpdateGangMembers(Handle owner, Handle hndl, const char[] error,
 {
 	if (error[0])
 	{
-		Log_File("gang", "core", ERROR, "(SQL_Callback) Query failed: %s", error);
+		Log_File(_, _, ERROR, "(SQL_Callback) Query failed: %s", error);
 		return;
 	}
 	
@@ -218,7 +218,7 @@ public void SQL_UpdateGangMembers(Handle owner, Handle hndl, const char[] error,
 	
 	PrintToChatAll("%N hat die Gang \"%s\" gegründet!", client, sGang); // TODO: Translation
 	
-	Log_File(_, _, INFO, "\"%N\" hat die Gang \"%s\" gegründet!", client, sGang); // TODO: Translation
+	Log_File(_, _, INFO, "\"%L\" hat die Gang \"%s\" gegründet!", client, sGang); // TODO: Translation
 	
 	Gang_PushClientArray(client);
 	
@@ -249,7 +249,7 @@ public void TQuery_GangMembers(Handle owner, Handle hndl, const char[] error, an
 	{
 		if (error[0])
 		{
-			Log_File("gang", "core", ERROR, "(TQuery_GangMembers) Query failed: %s", error);
+			Log_File(_, _, ERROR, "(TQuery_GangMembers) Query failed: %s", error);
 			return;
 		}
 		
