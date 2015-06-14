@@ -22,12 +22,14 @@ public int Native_DeleteClientGang(Handle plugin, int numParams)
 	if (!g_bIsInGang[client])
 	{
 		ThrowNativeError(SP_ERROR_ABORTED, "Sie sind in keiner Gang!"); // TODO: Translation
+		PrintToChat(client, "Sie sind in keiner Gang!"); // TODO: Translation
 		return;
 	}
 	
 	if(Gang_GetClientLevel(client) < GANG_LEADER)
 	{
 		ThrowNativeError(SP_ERROR_ABORTED, "Sie sind nicht Leader der Gang!"); // TODO: Translation
+		PrintToChat(client, "Sie sind nicht Leader der Gang!"); // TODO: Translation
 		return;
 	}
 	

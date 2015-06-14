@@ -37,6 +37,7 @@ public int Native_CreateClientGang(Handle plugin, int numParams)
 	
 	if(!CheckGangName(client, sGang))
 	{
+		ThrowNativeError(SP_ERROR_ABORTED, "Die Gang (%s) konnte nicht erstellt werden!", sGang); // TODO: Translation
 		PrintToChat(client, "Die Gang (%s) konnte nicht erstellt werden!", sGang); // TODO: Translation
 		return;
 	}
