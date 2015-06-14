@@ -120,12 +120,14 @@ public void OnPluginStart()
 
 public void OnClientPutInServer(int client)
 {
+	Format(g_sClientID[client], sizeof(g_sClientID[]), "0");
 	Gang_PushClientArray(client);
 }
 
 public void OnClientDisconnect(int client)
 {
 	Gang_EraseClientArray(client);
+	Format(g_sClientID[client], sizeof(g_sClientID[]), "0");
 }
 
 public Action Event_PlayerDeath(Event event, const char[] name, bool dontBroadcast)

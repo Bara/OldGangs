@@ -235,7 +235,7 @@ public void SQL_CheckName(Handle owner, Handle hndl, const char[] error, any pac
 		return;
 	}
 		
-	char newname[64];
+	char newname[MAX_NAME_LENGTH];
 
 	ResetPack(pack);
 	int client = GetClientOfUserId(ReadPackCell(pack));
@@ -258,7 +258,7 @@ public void SQL_CheckName(Handle owner, Handle hndl, const char[] error, any pac
 				
 				char sQuery[512], sEName[MAX_NAME_LENGTH];
 				SQL_EscapeString(g_hDatabase, newname, sEName, sizeof(sEName));
-				Format(sQuery, sizeof(sQuery), "UPDATE `gang_members` SET `PlayerName` = '%s' WHERE `CommunityID` = '%d'", sEName, g_sClientID[client]);
+				Format(sQuery, sizeof(sQuery), "UPDATE `gang_members` SET `PlayerName` = '%s' WHERE `CommunityID` = '%s'", sEName, g_sClientID[client]);
 				SQLQuery(sQuery);
 			}
 		}

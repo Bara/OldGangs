@@ -64,7 +64,7 @@ public void TQuery_GangMembers(Handle owner, Handle hndl, const char[] error, an
 				if(!StrEqual(sCName, sSName, true))
 				{
 					// Insert new name in cache
-					Format(iGang[sCommunityID], MAX_NAME_LENGTH, "%s", sCName);
+					strcopy(iGang[sPlayerN], MAX_NAME_LENGTH, sCName);
 					
 					// Update name in database
 					char sQuery[512], sCEName[MAX_NAME_LENGTH];
@@ -72,8 +72,10 @@ public void TQuery_GangMembers(Handle owner, Handle hndl, const char[] error, an
 					Format(sQuery, sizeof(sQuery), "UPDATE `gang_members` SET `PlayerName` = '%s' WHERE `CommunityID` = '%s'", sCEName, iGang[sCommunityID]);
 					SQLQuery(sQuery);
 				}
+				else
+					strcopy(iGang[sPlayerN], MAX_NAME_LENGTH, sSName);
 				
-				Log_File(_, _, DEBUG, "[TQuery_GangMembers] GangID: %d - CommunityID: %s - AccessLevel: %d", iGang[iGangID], iGang[sCommunityID], iGang[iAccessLevel]);
+				Log_File(_, _, DEBUG, "[TQuery_GangMembers] GangID: %d - CommunityID: %s - PlayerName: %s - AccessLevel: %d", iGang[iGangID], iGang[sCommunityID], iGang[sPlayerN], iGang[iAccessLevel]);
 	
 				g_aCacheGangMembers.PushArray(iGang[0]);
 				
@@ -83,7 +85,8 @@ public void TQuery_GangMembers(Handle owner, Handle hndl, const char[] error, an
 					g_iClientGang[client] = iGang[iGangID];
 				}
 			}
-			g_bIsInGang[client] = false;
+			else
+				g_bIsInGang[client] = false;
 		}
 	}
 }
