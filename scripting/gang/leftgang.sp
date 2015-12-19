@@ -28,7 +28,7 @@ stock void RemoveClientFromGang(int client, int gangid)
 	
 	if(Gang_GetClientLevel(client) > 5)
 	{
-		ReplyToCommand(client, "Sie können diesen nicht als Founder ausführen."); // TODO: Translation
+		ReplyToCommand(client, "Sie können diesen Befehl nicht als Gründer ausführen."); // TODO: Translation
 		return;
 	}
 	

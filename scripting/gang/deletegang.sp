@@ -28,8 +28,8 @@ public int Native_DeleteClientGang(Handle plugin, int numParams)
 	
 	if(Gang_GetClientLevel(client) < GANG_LEADER)
 	{
-		ThrowNativeError(SP_ERROR_ABORTED, "Sie sind nicht Leader der Gang!"); // TODO: Translation
-		PrintToChat(client, "Sie sind nicht Leader der Gang!"); // TODO: Translation
+		ThrowNativeError(SP_ERROR_ABORTED, "Sie sind nicht Gründer dieser Gang!"); // TODO: Translation
+		PrintToChat(client, "Sie sind nicht Gründer dieser Gang!"); // TODO: Translation
 		return;
 	}
 	

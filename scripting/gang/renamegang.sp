@@ -42,18 +42,6 @@ public int Native_RenameClientGang(Handle plugin, int numParams)
 		return;
 	}
 	
-	if (Gang_GetClientLevel(client) < g_cGangRenameRank.IntValue)
-	{
-		PrintToChat(client, "Sie besitzen nicht genügend Rechte!"); // TODO: Translation
-		return;
-	}
-	
-	if(Gang_GetPoints(gangid) < g_cGangRenameCost.IntValue)
-	{
-		PrintToChat(client, "Die Gang besitzt nicht genug Punkte!"); // TODO: Translation
-		return;
-	}
-	
 	RenameGang(client, gangid, sGang);
 }
 
@@ -101,12 +89,6 @@ stock bool CheckGangRename(int client, const char[] sGang)
 	if(StrEqual(sOGang, sGang, false))
 	{
 		ReplyToCommand(client, "Der Gang Name muss sich unterscheiden."); // TODO: Translation
-		return false;
-	}
-	
-	if(CanCreateGang(client))
-	{
-		ReplyToCommand(client, "Sie sind in keiner Gang."); // TODO: Translation
 		return false;
 	}
 	
