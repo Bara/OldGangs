@@ -19,15 +19,11 @@ public int Native_OpenClientGang(Handle plugin, int numParams)
 	int client = GetNativeCell(1);
 	
 	if (client < 1 || !IsClientInGame(client))
-	{
-		ThrowNativeError(SP_ERROR_ABORTED, "Client %d is invalid!");
 		return;
-	}
 	
 	if (!g_bIsInGang[client])
 	{
 		PrintToChat(client, "Sie sind in keiner Gang!"); // TODO: Translation
-		ThrowNativeError(SP_ERROR_ABORTED, "Sie sind in keiner Gang!");
 		return;
 	}
 	

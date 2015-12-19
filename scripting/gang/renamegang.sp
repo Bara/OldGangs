@@ -32,15 +32,11 @@ public int Native_RenameClientGang(Handle plugin, int numParams)
 	
 	if(client < 1 || !IsClientInGame(client))
 	{
-		ThrowNativeError(SP_ERROR_ABORTED, "Client %d is invalid!");
 		return;
 	}
 	
 	if(!CheckGangRename(client, sGang))
-	{
-		PrintToChat(client, "Die Gang (%s) konnte nicht umbenannt werden!", sGang); // TODO: Translation
 		return;
-	}
 	
 	RenameGang(client, gangid, sGang);
 }
@@ -98,7 +94,7 @@ stock bool CheckGangRename(int client, const char[] sGang)
 		return false;
 	}
 	
-	if(Gang_GetPoints(GangID) < g_cGangRenameCost.IntValue)
+	if(g_cGangRenameCost.IntValue > 0 && Gang_GetPoints(GangID) < g_cGangRenameCost.IntValue)
 	{
 		ReplyToCommand(client, "Die Gang verfügt über nicht genug Punkte um sie umzubenennen.");
 		return false;

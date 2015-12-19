@@ -9,7 +9,7 @@ stock void CreateConfig()
 	//RenameGang
 	g_cGangRenameEnable = CreateConVar("gang_rename_enable", "1", "Enable \"Rename Gang\"?", _, true, 0.0, true, 1.0);
 	g_cGangRenameRank = CreateConVar("gang_rename_rank", "6", "What rank is required?", _, true, 1.0, true, 6.0);
-	g_cGangRenameCost = CreateConVar("gang_rename_cost", "2000", "How much costs this?");
+	g_cGangRenameCost = CreateConVar("gang_rename_cost", "2000", "How much costs this? (0 = DISABLED)");
 	
 	// PointsGang
 	g_cGangPointsEnable = CreateConVar("gang_points_enable", "1", "Enable \"Earning Points\"?");

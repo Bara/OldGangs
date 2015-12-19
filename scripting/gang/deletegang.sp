@@ -15,20 +15,17 @@ public int Native_DeleteClientGang(Handle plugin, int numParams)
 	
 	if (client < 1 || !IsClientInGame(client))
 	{
-		ThrowNativeError(SP_ERROR_ABORTED, "Client %d is invalid!");
 		return;
 	}
 	
 	if (!g_bIsInGang[client])
 	{
-		ThrowNativeError(SP_ERROR_ABORTED, "Sie sind in keiner Gang!"); // TODO: Translation
 		PrintToChat(client, "Sie sind in keiner Gang!"); // TODO: Translation
 		return;
 	}
 	
 	if(Gang_GetClientLevel(client) < GANG_LEADER)
 	{
-		ThrowNativeError(SP_ERROR_ABORTED, "Sie sind nicht Gründer dieser Gang!"); // TODO: Translation
 		PrintToChat(client, "Sie sind nicht Gründer dieser Gang!"); // TODO: Translation
 		return;
 	}
