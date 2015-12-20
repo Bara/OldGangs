@@ -17,7 +17,7 @@ enum ELOG_LEVEL
 #define GANG_AUTHOR "Bara"
 #define GANG_DESCRIPTION "Coming soon..."
 #define GANG_VERSION "1.0.0-dev"
-#define GANG_URL "fotg.net"
+#define GANG_URL "git.tf/Bara"
 
 #define GANG_LEADER 6
 #define GANG_COLEADER 5
@@ -25,6 +25,8 @@ enum ELOG_LEVEL
 #define GANG_INVITER 3
 #define GANG_MEMBER 2
 #define GANG_TRIAL 1
+
+#define LoopClients(%1) for(int %1 = 1; %1 <= MaxClients; %1++) if(IsClientInGame(%1))
 
 char g_sELogLevel[6][32] = {
 	"default",
