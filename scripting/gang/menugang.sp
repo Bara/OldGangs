@@ -41,9 +41,10 @@ stock void OpenClientGang(int client)
 	int points = Gang_GetPoints(GangID);
 	int online = Gang_GetOnlinePlayers(GangID);
 	int members = Gang_GetMembersCount(GangID);
+	int maxmembers = Gang_GetMaxMembers(GangID);
 	
 	Format(sPoints, sizeof(sPoints), "Points: %d", points); // TODO: Translation
-	Format(sOnline, sizeof(sOnline), "Online: %d/%d", online, members); // TODO: Translation
+	Format(sOnline, sizeof(sOnline), "Online: %d/%d/%d", online, members, maxmembers); // TODO: Translation
 	
 	Format(sTitle, sizeof(sTitle), "%s\n \n%s\n \n%s\n ", sGang, sPoints, sOnline); // TODO: Translation
 	
