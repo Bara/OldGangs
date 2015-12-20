@@ -1,33 +1,12 @@
-/*
-
-	Done (need tests)
-		- Create
-		- Delete
-		- Rename
-		- Left
-		- new mainmenu
-		- Renamed some natives
-		
-		- List all gangs
-		- Natives
-		- Forwards
-
-	ToDo:
-		- Menu Designs
-		- Create Gang via. Store (alongub)
-		- Rename (not sure)
-		- Invite System (more cvars, max members, ...)
-		- Points System (not sure)
-		- List all online gangs
-
-*/
-
 #pragma semicolon 1
 #pragma newdecls required
 
 #include <sourcemod>
 #include <gang>
 #include <regex>
+
+// 3rd includes
+#include <multicolors>
 
 #include "gang/global.sp"
 #include "gang/config.sp"
@@ -47,6 +26,7 @@
 #include "gang/menugang.sp"
 #include "gang/deletegang.sp"
 #include "gang/renamegang.sp"
+#include "gang/gangchat.sp"
 
 public APLRes AskPluginLoad2(Handle myself, bool late, char[] error, int err_max)
 {
@@ -95,15 +75,14 @@ public void OnPluginStart()
 	
 	CreateConfig();
 	
-	// Commands
 	RegConsoleCmd("sm_gang", Command_Gang);
+	RegConsoleCmd("sm_g", Command_GangChat);
 	RegConsoleCmd("sm_creategang", Command_CreateGang);
 	RegConsoleCmd("sm_listgang", Command_ListGang);
 	RegConsoleCmd("sm_leftgang", Command_LeftGang);
 	RegConsoleCmd("sm_deletegang", Command_DeleteGang);
 	RegConsoleCmd("sm_renamegang", Command_RenameGang);
 	
-	//Events
 	HookEvent("player_death", Event_PlayerDeath);
 	HookEvent("bomb_planted", Event_BombPlanted);
 	HookEvent("bomb_exploded", Event_BombExploded);
