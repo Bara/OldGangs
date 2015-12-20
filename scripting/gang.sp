@@ -44,6 +44,7 @@ public APLRes AskPluginLoad2(Handle myself, bool late, char[] error, int err_max
 	CreateNative("Gang_DeleteClientGang", Native_DeleteClientGang);
 	CreateNative("Gang_OpenClientGang", Native_OpenClientGang);
 	CreateNative("Gang_RenameClientGang", Native_RenameClientGang);
+	CreateNative("Gang_GetRangName", Native_GetRangName);
 	
 	CreateNative("Gang_GetName", Native_GetGangName);
 	CreateNative("Gang_GetPoints", Native_GetGangPoints);

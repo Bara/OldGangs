@@ -46,27 +46,20 @@ stock void OpenClientGang(int client)
 	Format(sPoints, sizeof(sPoints), "Points: %d", points); // TODO: Translation
 	Format(sOnline, sizeof(sOnline), "Online: %d/%d/%d", online, members, maxmembers); // TODO: Translation
 	
-	Format(sTitle, sizeof(sTitle), "%s\n \n%s\n \n%s\n ", sGang, sPoints, sOnline); // TODO: Translation
+	Format(sTitle, sizeof(sTitle), "%s\n%s\n%s\n \n", sGang, sPoints, sOnline); // TODO: Translation
 	
 	Menu menu = new Menu(Menu_GangMenu);
 	
 	menu.SetTitle(sTitle);
 	
-	menu.AddItem("skills", "Skills");
-	if(Gang_GetClientLevel(client) == GANG_LEADER)
-	{
-		menu.AddItem("members", "Members");
-		menu.AddItem("settings", "Settings\n ");
-	}	
-	else
-	{
-		menu.AddItem("members", "Members\n ");
-	}
+	menu.AddItem("skills", "Skills"); // TODO: Translation
+	menu.AddItem("members", "Members"); // TODO: Translation
 	
-	if(Gang_GetClientLevel(client) < GANG_LEADER)
-	{
-		menu.AddItem("leftgang", "Left Gang\n ");
-	}
+	if(Gang_GetClientLevel(client) == GANG_LEADER)
+		menu.AddItem("settings", "Settings"); // TODO: Translation
+	else
+		menu.AddItem("leftgang", "Left Gang\n "); // TODO: Translation
+	
 	menu.ExitButton = true;
 	
 	menu.Display(client, g_cGangMenuDisplayTime.IntValue);
@@ -74,7 +67,64 @@ stock void OpenClientGang(int client)
 
 public int Menu_GangMenu(Menu menu, MenuAction action, int client, int param)
 {
+	if (action == MenuAction_Select)
+	{
+		char sParam[32];
+		menu.GetItem(param, sParam, sizeof(sParam));
+		
+		if(StrContains(sParam, "members", false))
+			ShowMembers(client);
+	}
 	if (action == MenuAction_End)
-		CloseHandle(menu);
+		delete menu;
 }
 
+stock void ShowMembers(int client)
+{
+	char sGang[12], sRang[18], sName[MAX_NAME_LENGTH], sSteam[64];
+	int GangID = Gang_GetClientGang(client);
+	Gang_GetName(GangID, sGang, sizeof(sGang));
+	
+	GetClientAuthId(client, AuthId_SteamID64, sSteam, sizeof(sSteam));
+	
+	Menu menu = new Menu(Menu_GangMembers);
+	menu.SetTitle(sGang);
+	for (int i = 0; i < g_aCacheGangMembers.Length; i++)
+	{
+		int iGangMembers[Cache_Gang_Members];
+		g_aCacheGangMembers.GetArray(i, iGangMembers[0]);
+		
+		if(iGangMembers[iAccessLevel] == GANG_LEADER)
+			Gang_GetRangName(GANG_LEADER, sRang, sizeof(sRang));
+		else if(iGangMembers[iAccessLevel] == GANG_COLEADER)
+			Gang_GetRangName(GANG_COLEADER, sRang, sizeof(sRang));
+		else if(iGangMembers[iAccessLevel] == GANG_SKILLER)
+			Gang_GetRangName(GANG_SKILLER, sRang, sizeof(sRang));
+		else if(iGangMembers[iAccessLevel] == GANG_INVITER)
+			Gang_GetRangName(GANG_INVITER, sRang, sizeof(sRang));
+		else if(iGangMembers[iAccessLevel] == GANG_MEMBER)
+			Gang_GetRangName(GANG_MEMBER, sRang, sizeof(sRang));
+		else if(iGangMembers[iAccessLevel] == GANG_TRIAL)
+			Gang_GetRangName(GANG_TRIAL, sRang, sizeof(sRang));
+	
+		Format(sName, sizeof(sName), "[%s] %s", sRang, iGangMembers[sPlayerN]);
+		
+		if(Gang_GetClientLevel(client) < GANG_LEADER || StrEqual(sSteam, iGangMembers[sCommunityID]))
+			menu.AddItem("", sName, ITEMDRAW_DISABLED);
+		else
+			menu.AddItem(iGangMembers[sCommunityID], sName);
+	}
+	
+	menu.ExitBackButton = true;
+	menu.ExitButton = false;
+	menu.Display(client, g_cGangMenuDisplayTime.IntValue);
+}
+
+public int Menu_GangMembers(Menu menu, MenuAction action, int client, int param)
+{
+	if (action == MenuAction_Cancel)
+		if(param == MenuCancel_ExitBack)
+			Gang_OpenClientGang(client);
+	if (action == MenuAction_End)
+		delete menu;
+}

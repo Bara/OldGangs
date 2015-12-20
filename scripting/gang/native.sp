@@ -121,3 +121,25 @@ public int Native_RemoveGangPoints(Handle plugin, int numParams)
 	
 	return RemoveGangPoints(gangid, points);
 }
+
+public int Native_GetRangName(Handle plugin, int numParams)
+{
+	char sName[64];
+	int rang = GetNativeCell(1);
+	
+	// TODO: Translations
+	if(rang == GANG_LEADER)
+		Format(sName, sizeof(sName), "Leader");
+	else if(rang == GANG_COLEADER)
+		Format(sName, sizeof(sName), "CoLeader");
+	else if(rang == GANG_SKILLER)
+		Format(sName, sizeof(sName), "Skiller");
+	else if(rang == GANG_INVITER)
+		Format(sName, sizeof(sName), "Inviter");
+	else if(rang == GANG_MEMBER)
+		Format(sName, sizeof(sName), "Member");
+	else if(rang == GANG_TRIAL)
+		Format(sName, sizeof(sName), "Trial");
+
+	SetNativeString(2, sName, GetNativeCell(3), false);
+}

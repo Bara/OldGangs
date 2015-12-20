@@ -109,6 +109,7 @@ native void Gang_CreateClientGang(int client, const char[] gangname);
 native void Gang_DeleteClientGang(int client, int gangid);
 native void Gang_OpenClientGang(int client);
 native void Gang_RenameClientGang(int client, int gangid, const char[] gangname);
+native void Gang_GetRangName(int rang, const char[] name, int maxlength);
 
 native void Gang_GetName(int gangid, const char[] name, int maxlength);
 native int Gang_GetPoints(int gangid);
@@ -141,6 +142,7 @@ public __pl_gang_SetNTVOptional()
 	MarkNativeAsOptional("Gang_DeleteClientGang");
 	MarkNativeAsOptional("Gang_OpenClientGang");
 	MarkNativeAsOptional("Gang_RenameClientGang");
+	MarkNativeAsOptional("Gang_GetRangName");
 	
 	MarkNativeAsOptional("Gang_GetName");
 	MarkNativeAsOptional("Gang_GetPoints");
