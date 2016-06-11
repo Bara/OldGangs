@@ -72,8 +72,11 @@ public int Menu_GangMenu(Menu menu, MenuAction action, int client, int param)
 		char sParam[32];
 		menu.GetItem(param, sParam, sizeof(sParam));
 		
-		if(StrContains(sParam, "members", false))
+		if(StrEqual(sParam, "members", false))
 			ShowMembers(client);
+		
+		if(StrEqual(sParam, "skills", false))
+			ShowSkills(client);
 	}
 	if (action == MenuAction_End)
 		delete menu;
@@ -121,6 +124,49 @@ stock void ShowMembers(int client)
 }
 
 public int Menu_GangMembers(Menu menu, MenuAction action, int client, int param)
+{
+	if (action == MenuAction_Cancel)
+		if(param == MenuCancel_ExitBack)
+			Gang_OpenClientGang(client);
+	if (action == MenuAction_End)
+		delete menu;
+}
+
+stock void ShowSkills(int client)
+{
+	char sGang[12];
+	int GangID = Gang_GetClientGang(client);
+	int count = 0;
+	char sSkill[12], sSkillID[12];
+	int iGangGangSkills[Cache_Gang_Skills];
+	
+	Gang_GetName(GangID, sGang, sizeof(sGang));
+	Menu menu = new Menu(Menu_GangSkillList);
+	menu.SetTitle(sGang);
+	for (int i = 0; i < g_aCacheGangSkills.Length; i++)
+	{
+		g_aCacheGangSkills.GetArray(i, iGangGangSkills[0]);
+		
+		if(iGangGangSkills[iSkillID] > 0)
+		{
+			count++;
+			Format(sSkill, sizeof(sSkill), "%d", iGangGangSkills[iSkillID]);
+			Format(sSkillID, sizeof(sSkillID), "%d", iGangGangSkills[iSkillID]);
+			menu.AddItem(sSkillID, sSkill);
+		}
+	}
+
+	if(count == 0)
+	{
+		menu.AddItem("noskill", "No skills found!", ITEMDRAW_DISABLED);
+	}
+	
+	menu.ExitBackButton = true;
+	menu.ExitButton = false;
+	menu.Display(client, g_cGangMenuDisplayTime.IntValue);
+}
+
+public int Menu_GangSkillList(Menu menu, MenuAction action, int client, int param)
 {
 	if (action == MenuAction_Cancel)
 		if(param == MenuCancel_ExitBack)

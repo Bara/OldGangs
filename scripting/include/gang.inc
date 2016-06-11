@@ -17,7 +17,7 @@ enum ELOG_LEVEL
 #define GANG_AUTHOR "Bara"
 #define GANG_DESCRIPTION "Coming soon..."
 #define GANG_VERSION "1.0.0-dev"
-#define GANG_URL "git.tf/Bara"
+#define GANG_URL "github.com/Bara20/Gangs"
 
 #define GANG_LEADER 6
 #define GANG_COLEADER 5
