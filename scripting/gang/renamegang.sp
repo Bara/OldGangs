@@ -5,7 +5,7 @@ public Action Command_RenameGang(int client, int args)
 	
 	if(!g_cGangRenameEnable.BoolValue)
 	{
-		ReplyToCommand(client, "Es können derzeit keine Gangs umbenannt werden!"); // TODO: Translation
+		ReplyToCommand(client, "Gang Renaming is currently disabled!"); // TODO: Translation
 		return Plugin_Handled;
 	}
 	
@@ -49,19 +49,19 @@ stock bool CheckGangRename(int client, const char[] sGang)
 	
 	if(MatchRegex(hRegex, sGang) != 1)
 	{
-		PrintToChat(client, "Der Gang Name enthält verbotene Zeichen."); // TODO: Translation
+		PrintToChat(client, "Forbidden chars in gang name"); // TODO: Translation
 		return false;
 	}
 	
 	if (strlen(sGang) < g_cGangCreateMinLen.IntValue)
 	{
-		PrintToChat(client, "Der Gang Name ist zu kurz."); // TODO: Translation
+		PrintToChat(client, "Gang name is too short"); // TODO: Translation
 		return false;
 	}
 	
 	if (strlen(sGang) > g_cGangCreateMaxLen.IntValue)
 	{
-		PrintToChat(client, "Der Gang Name ist zu lang."); // TODO: Translation
+		PrintToChat(client, "Gang name is too long"); // TODO: Translation
 		return false;
 	}
 	
@@ -72,7 +72,7 @@ stock bool CheckGangRename(int client, const char[] sGang)
 
 		if (StrEqual(iGang[sGangName], sGang, false))
 		{
-			PrintToChat(client, "Der Gang Name wird bereits genutzt."); // TODO: Translation
+			PrintToChat(client, "Gang name already in use"); // TODO: Translation
 			return false;
 		}
 	}
@@ -84,19 +84,19 @@ stock bool CheckGangRename(int client, const char[] sGang)
 	
 	if(StrEqual(sOGang, sGang, false))
 	{
-		ReplyToCommand(client, "Der Gang Name muss sich unterscheiden."); // TODO: Translation
+		ReplyToCommand(client, "Gang name must be different"); // TODO: Translation
 		return false;
 	}
 	
 	if(Gang_GetClientLevel(client) < g_cGangRenameRank.IntValue)
 	{
-		ReplyToCommand(client, "Sie besitzen nicht die Rechte um eine Gang umzubenennen.");
+		ReplyToCommand(client, "You've not enough access to do this");
 		return false;
 	}
 	
 	if(g_cGangRenameCost.IntValue > 0 && Gang_GetPoints(GangID) < g_cGangRenameCost.IntValue)
 	{
-		ReplyToCommand(client, "Die Gang verfügt über nicht genug Punkte um sie umzubenennen.");
+		ReplyToCommand(client, "Gang hasn't enough points for renaming");
 		return false;
 	}
 	return true;
@@ -136,8 +136,8 @@ public void SQL_RenameGang(Handle owner, Handle hndl, const char[] error, any pa
 	ReadPackString(pack, newgangname, sizeof(newgangname));
 	CloseHandle(pack);
 	
-	PrintToChatAll("%N hat die Gang (%s) in %s umbenannt!", client, oldgangname, newgangname); // TODO: Translation
-	Log_File(_, _, INFO, "\"%L\" hat die Gang (%s) in %s umbenannt!", client, oldgangname, newgangname); // TODO: Translation
+	PrintToChatAll("%N renamed %s to %s!", client, oldgangname, newgangname); // TODO: Translation
+	Log_File(_, _, INFO, "\"%L\" renamed %s to %s!", client, oldgangname, newgangname); // TODO: Translation
 	
 	for (int i = 0; i < g_aCacheGang.Length; i++)
 	{

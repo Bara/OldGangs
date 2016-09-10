@@ -23,7 +23,7 @@ public int Native_OpenClientGang(Handle plugin, int numParams)
 	
 	if (!g_bIsInGang[client])
 	{
-		PrintToChat(client, "Sie sind in keiner Gang!"); // TODO: Translation
+		PrintToChat(client, "You aren't in a gang"); // TODO: Translation
 		return;
 	}
 	

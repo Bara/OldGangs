@@ -22,13 +22,13 @@ stock void RemoveClientFromGang(int client, int gangid)
 {
 	if(!Gang_IsClientInGang(client))
 	{
-		ReplyToCommand(client, "Sie sind in keiner Gang."); // TODO: Translation
+		ReplyToCommand(client, "You aren't in a gang"); // TODO: Translation
 		return;
 	}
 	
 	if(Gang_GetClientLevel(client) > 5)
 	{
-		ReplyToCommand(client, "Sie können diesen Befehl nicht als Gründer ausführen."); // TODO: Translation
+		ReplyToCommand(client, "You can't run this command as owner"); // TODO: Translation
 		return;
 	}
 	
@@ -40,8 +40,8 @@ stock void RemoveClientFromGang(int client, int gangid)
 	
 	char sGang[64];
 	Gang_GetName(gangid, sGang, sizeof(sGang));
-	PrintToChatAll("\"%L\" hat die Gang \"%s\" verlassen!", client, sGang); // TODO: Translation
-	Log_File(_, _, INFO, "\"%L\" hat die Gang \"%s\" verlassen!", client, sGang); // TODO: Translation
+	PrintToChatAll("\"%L\" left %s!", client, sGang); // TODO: Translation
+	Log_File(_, _, INFO, "\"%L\" left %s!", client, sGang); // TODO: Translation
 	
 	for (int i = 0; i < g_aCacheGang.Length; i++)
 	{

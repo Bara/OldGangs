@@ -5,7 +5,7 @@ public Action Command_CreateGang(int client, int args)
 	
 	if(!g_cGangCreateEnable.BoolValue)
 	{
-		PrintToChat(client, "Es können derzeit keine Gangs erstellt werden!"); // TODO: Translation
+		PrintToChat(client, "Gang creation is currently disabled"); // TODO: Translation
 		return Plugin_Handled;
 	}
 	
@@ -34,7 +34,7 @@ public int Native_CreateClientGang(Handle plugin, int numParams)
 	
 	if(!CheckGangName(client, sGang))
 	{
-		PrintToChat(client, "Die Gang (%s) konnte nicht erstellt werden!", sGang); // TODO: Translation
+		PrintToChat(client, "Creation of %s failed!", sGang); // TODO: Translation
 		return;
 	}
 	
@@ -49,19 +49,19 @@ stock bool CheckGangName(int client, const char[] sArg)
 	
 	if(MatchRegex(hRegex, sArg) != 1)
 	{
-		PrintToChat(client, "Der Gang Name enthält verbotene Zeichen."); // TODO: Translation
+		PrintToChat(client, "Forbidden chars in gang name"); // TODO: Translation
 		return false;
 	}
 	
 	if (strlen(sArg) < g_cGangCreateMinLen.IntValue)
 	{
-		PrintToChat(client, "Der Gang Name ist zu kurz."); // TODO: Translation
+		PrintToChat(client, "Gang name is too short"); // TODO: Translation
 		return false;
 	}
 	
 	if (strlen(sArg) > g_cGangCreateMaxLen.IntValue)
 	{
-		PrintToChat(client, "Der Gang Name ist zu lang."); // TODO: Translation
+		PrintToChat(client, "Gang name is too long"); // TODO: Translation
 		return false;
 	}
 	
@@ -72,14 +72,14 @@ stock bool CheckGangName(int client, const char[] sArg)
 
 		if (StrEqual(iGang[sGangName], sArg, false))
 		{
-			PrintToChat(client, "Der Gang Name wird bereits genutzt."); // TODO: Translation
+			PrintToChat(client, "Gang name already in use"); // TODO: Translation
 			return false;
 		}
 	}
 	
 	if(!CanCreateGang(client))
 	{
-		ReplyToCommand(client, "Sie sind bereits in einer Gang."); // TODO: Translation
+		ReplyToCommand(client, "You already in a gang"); // TODO: Translation
 		return false;
 	}
 	
@@ -147,7 +147,7 @@ public void SQL_SaveClientGangID(Handle owner, Handle hndl, const char[] error, 
 			if(SQL_FetchInt(hndl, 0) > 0)
 			{
 				AddGangToArray(SQL_FetchInt(hndl, 0), sGang);
-				Log_File(_, _, INFO, "Gang \"%s\" wurde von \"%L\" erstellt!", sGang, client); // TODO: Translation
+				Log_File(_, _, INFO, "\"%L\" created %s!", sGang, client); // TODO: Translation
 				g_iClientGang[client] = SQL_FetchInt(hndl, 0);
 				AddClientToGang(client, g_iClientGang[client]);
 			}
@@ -206,16 +206,16 @@ public void SQL_UpdateGangMembers(Handle owner, Handle hndl, const char[] error,
 	
 	if(g_iClientGang[client] < 1 && !g_bIsInGang[client])
 	{
-		ReplyToCommand(client, "Die Gang konnte nicht gegründet werden..."); // TODO: Translation
+		ReplyToCommand(client, "Creation of %s failed"); // TODO: Translation
 		return;
 	}
 	
 	char sGang[64];
 	Gang_GetName(g_iClientGang[client], sGang, sizeof(sGang));
 	
-	PrintToChatAll("%N hat die Gang \"%s\" gegründet!", client, sGang); // TODO: Translation
+	PrintToChatAll("%N created %s!", client, sGang); // TODO: Translation
 	
-	Log_File(_, _, INFO, "\"%L\" hat die Gang \"%s\" gegründet!", client, sGang); // TODO: Translation
+	Log_File(_, _, INFO, "\"%L\" created %s!", client, sGang); // TODO: Translation
 	
 	Gang_PushClientArray(client);
 	
