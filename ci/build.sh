@@ -3,7 +3,7 @@
 git fetch --unshallow
 COUNT=$(git rev-list --count HEAD)
 HASH="$(git log --pretty=format:%h -n 1)"
-FILE=ttt-$2-$1-$COUNT-$HASH.zip
+FILE=gangs-$2-$1-$COUNT-$HASH.zip
 LATEST=gangs-latest-$2-$1.zip
 HOST=$3
 USER=$4
@@ -18,7 +18,7 @@ echo "Give compiler rights for compile"
 chmod +x addons/sourcemod/scripting/spcomp
 
 echo "Set plugins version"
-for file in addons/sourcemod/scripting/include/ttt.inc
+for file in addons/sourcemod/scripting/include/gangs.inc
 do
   sed -i "s/<ID>/$COUNT/g" $file > output.txt
   rm output.txt
