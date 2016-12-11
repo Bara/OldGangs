@@ -70,6 +70,9 @@ rm -r build/addons/sourcemod/scripting
 rm -r build/addons/sourcemod/translations
 rm build/addons/sourcemod/*.txt
 
+echo "Add LICENSE to build package"
+cp LICENSE build/
+
 echo "Create gangs log folder"
 mkdir build/addons/sourcemod/logs/gangs
 
