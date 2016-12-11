@@ -89,10 +89,10 @@ echo "Compress directories and files"
 zip -9rq $FILE addons materials sound
 
 echo "Upload file"
-lftp -c "open -u $USER,$PASS $HOST; put -O downloads/$2/ $FILE"
+lftp -c "open -u $USER,$PASS $HOST; put -O gangs/downloads/$2/ $FILE"
 
 echo "Add latest build"
 mv $FILE $LATEST
 
 echo "Upload latest build"
-lftp -c "open -u $USER,$PASS $HOST; put -O downloads/ $LATEST"
+lftp -c "open -u $USER,$PASS $HOST; put -O gangs/downloads/ $LATEST"
