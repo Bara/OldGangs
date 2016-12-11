@@ -86,7 +86,7 @@ echo "Go to build folder"
 cd build
 
 echo "Compress directories and files"
-zip -9rq $FILE addons materials sound
+zip -9rq $FILE addons
 
 echo "Upload file"
 lftp -c "open -u $USER,$PASS $HOST; put -O gangs/downloads/$2/ $FILE"

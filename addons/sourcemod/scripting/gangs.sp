@@ -3,7 +3,9 @@
 
 #include <sourcemod>
 #include <gangs>
+#pragma newdecls optional
 #include <regex>
+#pragma newdecls required
 
 // 3rd includes
 #include <multicolors>
