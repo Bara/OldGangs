@@ -91,7 +91,7 @@ echo "Go to build folder"
 cd build
 
 echo "Compress directories and files"
-zip -9rq $FILE addons
+zip -9rq $FILE addons LICENSE
 
 echo "Upload file"
 lftp -c "open -u $USER,$PASS $HOST; put -O gangs/downloads/$2/ $FILE"
