@@ -55,8 +55,8 @@ fi
 echo "Create clean build folder"
 mkdir build
 
-echo "Move addons, materials and sound folder"
-mv addons materials sound build/
+echo "Move addons folder"
+mv addons build/
 
 echo "Remove sourcemod folders"
 rm -r build/addons/metamod
@@ -70,6 +70,9 @@ rm -r build/addons/sourcemod/gamedata
 rm -r build/addons/sourcemod/scripting
 rm -r build/addons/sourcemod/translations
 rm build/addons/sourcemod/*.txt
+
+echo "Create gangs log folder"
+mkdir build/addons/sourcemod/logs/gangs
 
 # echo "Create clean translations folder"
 # mkdir build/addons/sourcemod/translations
