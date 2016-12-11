@@ -1,4 +1,4 @@
-stock void Gang_CreateCache()
+stock void Gangs_CreateCache()
 {
 	if(g_aCacheGang != null)
 		g_aCacheGang.Clear();
@@ -25,7 +25,7 @@ stock int GetOnlinePlayerCount(int gangid)
 	{
 		if(IsClientInGame(i))
 		{
-			if(Gang_GetClientGang(i) == gangid)
+			if(Gangs_GetClientGang(i) == gangid)
 			{
 				count++;
 			}
@@ -135,12 +135,12 @@ stock void UpdateNameInCache(int client, const char[] newname)
 {
 	for (int i = 0; i < g_aCacheGangMembers.Length; i++)
 	{
-		int iGangMembers[Cache_Gang_Members];
+		int iGangMembers[Cache_Gangs_Members];
 		g_aCacheGangMembers.GetArray(i, iGangMembers[0]);
 
 		if(StrEqual(iGangMembers[sCommunityID], g_sClientID[client], true))
 		{
-			int itmpGang[Cache_Gang_Members];
+			int itmpGang[Cache_Gangs_Members];
 			
 			itmpGang[iGangID] = iGangMembers[iGangID];
 			strcopy(itmpGang[sCommunityID], 64, g_sClientID[client]);

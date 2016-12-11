@@ -36,7 +36,7 @@ public int Native_GetClientAccessLevel(Handle plugin, int numParams)
 	
 	for (int i = 0; i < g_aCacheGangMembers.Length; i++)
 	{
-		int iGangMembers[Cache_Gang_Members];
+		int iGangMembers[Cache_Gangs_Members];
 		g_aCacheGangMembers.GetArray(i, iGangMembers[0]);
 		
 		if(StrEqual(sBuffer, iGangMembers[sCommunityID], false))
@@ -128,17 +128,17 @@ public int Native_GetRangName(Handle plugin, int numParams)
 	int rang = GetNativeCell(1);
 	
 	// TODO: Translations
-	if(rang == GANG_LEADER)
+	if(rang == GANGS_LEADER)
 		Format(sName, sizeof(sName), "Leader");
-	else if(rang == GANG_COLEADER)
+	else if(rang == GANGS_COLEADER)
 		Format(sName, sizeof(sName), "CoLeader");
-	else if(rang == GANG_SKILLER)
+	else if(rang == GANGS_SKILLER)
 		Format(sName, sizeof(sName), "Skiller");
-	else if(rang == GANG_INVITER)
+	else if(rang == GANGS_INVITER)
 		Format(sName, sizeof(sName), "Inviter");
-	else if(rang == GANG_MEMBER)
+	else if(rang == GANGS_MEMBER)
 		Format(sName, sizeof(sName), "Member");
-	else if(rang == GANG_TRIAL)
+	else if(rang == GANGS_TRIAL)
 		Format(sName, sizeof(sName), "Trial");
 
 	SetNativeString(2, sName, GetNativeCell(3), false);

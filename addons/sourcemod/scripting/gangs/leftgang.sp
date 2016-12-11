@@ -3,7 +3,7 @@ public Action Command_LeftGang(int client, int args)
 	if (client < 1 || !IsClientInGame(client) )
 		return Plugin_Handled;
 	
-	Gang_ClientLeftGang(client);
+	Gangs_ClientLeftGang(client);
 	
 	return Plugin_Handled;
 }
@@ -12,7 +12,7 @@ public int Native_LeftClientGang(Handle plugin, int numParams)
 {
 	int client = GetNativeCell(1);
 	
-	RemoveClientFromGang(client, Gang_GetClientGang(client));
+	RemoveClientFromGang(client, Gangs_GetClientGang(client));
 	
 	g_bIsInGang[client] = false;
 	g_iClientGang[client] = 0;
@@ -20,26 +20,26 @@ public int Native_LeftClientGang(Handle plugin, int numParams)
 
 stock void RemoveClientFromGang(int client, int gangid)
 {
-	if(!Gang_IsClientInGang(client))
+	if(!Gangs_IsClientInGang(client))
 	{
 		ReplyToCommand(client, "You aren't in a gang"); // TODO: Translation
 		return;
 	}
 	
-	if(Gang_GetClientLevel(client) > 5)
+	if(Gangs_GetClientLevel(client) > 5)
 	{
 		ReplyToCommand(client, "You can't run this command as owner"); // TODO: Translation
 		return;
 	}
 	
-	Gang_EraseClientArray(client);
+	Gangs_EraseClientArray(client);
 	
 	char sQuery[256];
 	Format(sQuery, sizeof(sQuery), "DELETE FROM `gang_members` WHERE `CommunityID` = '%s' AND `GangID` = '%d'", g_sClientID[client], g_iClientGang[client]);
 	SQLQuery(sQuery);
 	
 	char sGang[64];
-	Gang_GetName(gangid, sGang, sizeof(sGang));
+	Gangs_GetName(gangid, sGang, sizeof(sGang));
 	PrintToChatAll("\"%L\" left %s!", client, sGang); // TODO: Translation
 	Log_File(_, _, INFO, "\"%L\" left %s!", client, sGang); // TODO: Translation
 	

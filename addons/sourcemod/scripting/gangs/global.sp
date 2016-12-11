@@ -10,7 +10,7 @@ enum Cache_Gang
 	iMembers
 };
 
-enum Cache_Gang_Members
+enum Cache_Gangs_Members
 {
 	iGangID = 0,
 	String:sCommunityID[64],
@@ -18,7 +18,7 @@ enum Cache_Gang_Members
 	iAccessLevel
 };
 
-enum Cache_Gang_Skills
+enum Cache_Gangs_Skills
 {
 	iGangID = 0,
 	iSkillID,
@@ -36,10 +36,10 @@ enum Cache_Skills
 int g_iCacheGang[Cache_Gang];
 ArrayList g_aCacheGang = null;
 
-int g_iCacheGangMembers[Cache_Gang_Members];
+int g_iCacheGangMembers[Cache_Gangs_Members];
 ArrayList g_aCacheGangMembers = null;
 
-int g_iCacheGangSkills[Cache_Gang_Skills];
+int g_iCacheGangSkills[Cache_Gangs_Skills];
 ArrayList g_aCacheGangSkills = null;
 
 int g_iCacheSkills[Cache_Skills];

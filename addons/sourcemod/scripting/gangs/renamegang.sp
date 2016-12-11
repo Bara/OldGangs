@@ -18,7 +18,7 @@ public Action Command_RenameGang(int client, int args)
 	char sArg[64];
 	GetCmdArgString(sArg, sizeof(sArg));
 	
-	Gang_RenameClientGang(client, Gang_GetClientGang(client), sArg);
+	Gangs_RenameClientGang(client, Gangs_GetClientGang(client), sArg);
 	return Plugin_Handled;
 }
 
@@ -77,10 +77,10 @@ stock bool CheckGangRename(int client, const char[] sGang)
 		}
 	}
 	
-	int GangID = Gang_GetClientGang(client);
+	int GangID = Gangs_GetClientGang(client);
 	
 	char sOGang[64];
-	Gang_GetName(GangID, sOGang, sizeof(sOGang));
+	Gangs_GetName(GangID, sOGang, sizeof(sOGang));
 	
 	if(StrEqual(sOGang, sGang, false))
 	{
@@ -88,13 +88,13 @@ stock bool CheckGangRename(int client, const char[] sGang)
 		return false;
 	}
 	
-	if(Gang_GetClientLevel(client) < g_cGangRenameRank.IntValue)
+	if(Gangs_GetClientLevel(client) < g_cGangRenameRank.IntValue)
 	{
 		ReplyToCommand(client, "You've not enough access to do this");
 		return false;
 	}
 	
-	if(g_cGangRenameCost.IntValue > 0 && Gang_GetPoints(GangID) < g_cGangRenameCost.IntValue)
+	if(g_cGangRenameCost.IntValue > 0 && Gangs_GetPoints(GangID) < g_cGangRenameCost.IntValue)
 	{
 		ReplyToCommand(client, "Gang hasn't enough points for renaming");
 		return false;
@@ -108,7 +108,7 @@ stock void RenameGang(int client, int gangid, const char[] newgangname)
 	Format(sQuery, sizeof(sQuery), "UPDATE `gang` SET `GangName` = '%s' WHERE `GangID` = '%d'", newgangname, gangid);
 	
 	char oldgangname[64];
-	Gang_GetName(gangid, oldgangname, sizeof(oldgangname));
+	Gangs_GetName(gangid, oldgangname, sizeof(oldgangname));
 	
 	Handle hDP = CreateDataPack();
 	WritePackCell(hDP, GetClientUserId(client));

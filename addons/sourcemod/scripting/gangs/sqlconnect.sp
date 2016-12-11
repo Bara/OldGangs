@@ -1,38 +1,38 @@
-stock void Gang_SQLConnect()
+stock void Gangs_SQLConnect()
 {
 	if (!SQL_CheckConfig("gang"))
 	{
-		Log_File(_, _, ERROR, "(Gang_SQLConnect) Database failure: Couldn't find Database entry \"gang\"");
+		Log_File(_, _, ERROR, "(Gangs_SQLConnect) Database failure: Couldn't find Database entry \"gang\"");
 		return;
 	}
-	SQL_TConnect(Gang_Connected, "gang");
+	SQL_TConnect(Gangs_Connected, "gang");
 }
 
-public void Gang_Connected(Handle owner, Handle hndl, const char[] error, any data)
+public void Gangs_Connected(Handle owner, Handle hndl, const char[] error, any data)
 {
 	if (hndl == null)
 	{
 		if (error[0])
 		{
-			Log_File(_, _, ERROR, "(Gang_Connected) Connection to database failed!: %s", error);
+			Log_File(_, _, ERROR, "(Gangs_Connected) Connection to database failed!: %s", error);
 			return;
 		}
 	}
 
 	g_hDatabase = CloneHandle(hndl);
 
-	Gang_CreateTables();
+	Gangs_CreateTables();
 
 	SQL_SetCharset(g_hDatabase, "utf8");
 	
-	Gang_FillCache();
+	Gangs_FillCache();
 
 	Call_StartForward(g_hSQLConnected);
 	Call_PushCell(view_as<Handle>(g_hDatabase));
 	Call_Finish();
 }
 
-stock void Gang_CreateTables()
+stock void Gangs_CreateTables()
 {
 	char sQuery[1024];
 	
@@ -49,7 +49,7 @@ stock void Gang_CreateTables()
 	SQLQuery(sQuery);
 }
 
-stock void Gang_FillCache()
+stock void Gangs_FillCache()
 {
 	char sQuery[512];
 	
@@ -109,7 +109,7 @@ public void TQuery_GangSkills(Handle owner, Handle hndl, const char[] error, any
 		
 		while(SQL_FetchRow(hndl))
 		{
-			int iGang[Cache_Gang_Skills];
+			int iGang[Cache_Gangs_Skills];
 
 			iGang[iGangID] = SQL_FetchInt(hndl, 0);
 			iGang[iSkillID] = SQL_FetchInt(hndl, 1);

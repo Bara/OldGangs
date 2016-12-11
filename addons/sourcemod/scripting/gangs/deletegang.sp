@@ -3,7 +3,7 @@ public Action Command_DeleteGang(int client, int args)
 	if (client < 1 || !IsClientInGame(client) )
 		return Plugin_Handled;
 	
-	Gang_DeleteClientGang(client, Gang_GetClientGang(client));
+	Gangs_DeleteClientGang(client, Gangs_GetClientGang(client));
 	
 	return Plugin_Handled;
 }
@@ -24,7 +24,7 @@ public int Native_DeleteClientGang(Handle plugin, int numParams)
 		return;
 	}
 	
-	if(Gang_GetClientLevel(client) < GANG_LEADER)
+	if(Gangs_GetClientLevel(client) < GANGS_LEADER)
 	{
 		PrintToChat(client, "Just the owner can do this!"); // TODO: Translation
 		return;
@@ -36,7 +36,7 @@ public int Native_DeleteClientGang(Handle plugin, int numParams)
 stock void DeleteGang(int client, int gangid)
 {
 	char sGang[64];
-	Gang_GetName(gangid, sGang, sizeof(sGang));
+	Gangs_GetName(gangid, sGang, sizeof(sGang));
 	
 	PrintToChatAll("\"%L\" deleted %s!", client, sGang); // TODO: Translation
 	Log_File(_, _, INFO, "\"%L\" deleted %s!", client, sGang); // TODO: Translation
@@ -45,7 +45,7 @@ stock void DeleteGang(int client, int gangid)
 	{
 		if(g_iClientGang[i] == gangid)
 		{
-			Gang_EraseClientArray(i);
+			Gangs_EraseClientArray(i);
 			g_bIsInGang[i] = false;
 			g_iClientGang[i] = 0;
 		}

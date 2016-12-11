@@ -18,7 +18,7 @@ public Action Command_CreateGang(int client, int args)
 	char sArg[64];
 	GetCmdArgString(sArg, sizeof(sArg));
 	
-	Gang_CreateClientGang(client, sArg);
+	Gangs_CreateClientGang(client, sArg);
 	return Plugin_Handled;
 }
 
@@ -211,13 +211,13 @@ public void SQL_UpdateGangMembers(Handle owner, Handle hndl, const char[] error,
 	}
 	
 	char sGang[64];
-	Gang_GetName(g_iClientGang[client], sGang, sizeof(sGang));
+	Gangs_GetName(g_iClientGang[client], sGang, sizeof(sGang));
 	
 	PrintToChatAll("%N created %s!", client, sGang); // TODO: Translation
 	
 	Log_File(_, _, INFO, "\"%L\" created %s!", client, sGang); // TODO: Translation
 	
-	Gang_PushClientArray(client);
+	Gangs_PushClientArray(client);
 	
 	Call_StartForward(g_hGangCreated);
 	Call_PushCell(client);
@@ -244,7 +244,7 @@ public void TQuery_GangMembers(Handle owner, Handle hndl, const char[] error, an
 		{
 			if(SQL_FetchInt(hndl, 0) > 0)
 			{
-				int iGang[Cache_Gang_Members];
+				int iGang[Cache_Gangs_Members];
 				char sCName[MAX_NAME_LENGTH], sSName[MAX_NAME_LENGTH];
 				GetClientName(client, sCName, sizeof(sCName));
 				
