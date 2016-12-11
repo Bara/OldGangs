@@ -67,7 +67,6 @@ rm -r build/addons/sourcemod/configs
 rm -r build/addons/sourcemod/data
 rm -r build/addons/sourcemod/extensions
 rm -r build/addons/sourcemod/gamedata
-rm -r build/addons/sourcemod/logs
 rm -r build/addons/sourcemod/scripting
 rm -r build/addons/sourcemod/translations
 rm build/addons/sourcemod/*.txt
