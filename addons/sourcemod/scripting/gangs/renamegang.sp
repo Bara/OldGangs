@@ -105,7 +105,7 @@ stock bool CheckGangRename(int client, const char[] sGang)
 stock void RenameGang(int client, int gangid, const char[] newgangname)
 {
 	char sQuery[512];
-	Format(sQuery, sizeof(sQuery), "UPDATE `gang` SET `GangName` = '%s' WHERE `GangID` = '%d'", newgangname, gangid);
+	Format(sQuery, sizeof(sQuery), "UPDATE `gangs` SET `GangName` = '%s' WHERE `GangID` = '%d'", newgangname, gangid); // Add new table -> logs
 	
 	char oldgangname[64];
 	Gangs_GetName(gangid, oldgangname, sizeof(oldgangname));

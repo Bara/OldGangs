@@ -16,6 +16,9 @@ public Plugin myinfo =
 
 public void OnPluginStart()
 {
+	if(Gangs_Loaded())
+		SetFailState("Gangs not loaded!");
+	
 	RegConsoleCmd("sm_gangapi", Command_GangAPI);
 }
 

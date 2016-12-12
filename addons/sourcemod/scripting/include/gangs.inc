@@ -37,9 +37,9 @@ char g_sELogLevel[6][32] = {
 	"error"
 };
 
-stock bool Gangs_IsLoaded()
+stock bool Gangs_Loaded()
 {
-	return LibraryExists("gang");
+	return LibraryExists("gangs");
 }
 
 stock void Gangs_CheckGame()

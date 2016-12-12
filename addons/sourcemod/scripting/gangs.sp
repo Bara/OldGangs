@@ -56,7 +56,7 @@ public APLRes AskPluginLoad2(Handle myself, bool late, char[] error, int err_max
 	CreateNative("Gangs_GetMembersCount", Native_GetGangMembersCount);
 	CreateNative("Gangs_GetOnlinePlayers", Native_GetOnlinePlayerCount);
 	
-	RegPluginLibrary("gang");
+	RegPluginLibrary("gangs");
 	
 	return APLRes_Success;
 }

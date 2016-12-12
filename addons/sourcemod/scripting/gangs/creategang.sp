@@ -185,7 +185,7 @@ stock void AddClientToGang(int client, int gang)
 	GetClientName(client, sName, sizeof(sName));
 	SQL_EscapeString(g_hDatabase, sName, sEName, sizeof(sEName));
 	
-	Format(sQuery, sizeof(sQuery), "INSERT INTO `gang_members` (`GangID`, `CommunityID`, `PlayerName`, `AccessLevel`) VALUES ('%d', '%s', '%s', '6')", g_iClientGang[client], g_sClientID[client], sEName);
+	Format(sQuery, sizeof(sQuery), "INSERT INTO `gangs_members` (`GangID`, `CommunityID`, `PlayerName`, `AccessLevel`) VALUES ('%d', '%s', '%s', '6')", g_iClientGang[client], g_sClientID[client], sEName);
 	SQL_TQuery(g_hDatabase, SQL_UpdateGangMembers, sQuery, GetClientUserId(client));
 }
 
@@ -262,7 +262,7 @@ public void TQuery_GangMembers(Handle owner, Handle hndl, const char[] error, an
 					// Update name in database
 					char sQuery[512], sCEName[MAX_NAME_LENGTH];
 					SQL_EscapeString(g_hDatabase, sCName, sCEName, sizeof(sCEName));
-					Format(sQuery, sizeof(sQuery), "UPDATE `gang_members` SET `PlayerName` = '%s' WHERE `CommunityID` = '%s'", sCEName, iGang[sCommunityID]);
+					Format(sQuery, sizeof(sQuery), "UPDATE `gangs_members` SET `PlayerName` = '%s' WHERE `CommunityID` = '%s'", sCEName, iGang[sCommunityID]);
 					SQLQuery(sQuery);
 				}
 				else

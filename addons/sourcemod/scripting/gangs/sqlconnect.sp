@@ -36,16 +36,16 @@ stock void Gangs_CreateTables()
 {
 	char sQuery[1024];
 	
-	Format(sQuery, sizeof(sQuery), "CREATE TABLE IF NOT EXISTS `gang` (`GangID` int(11) NOT NULL AUTO_INCREMENT, `GangName` varchar(65) NOT NULL DEFAULT '', `Points` int(11) NOT NULL DEFAULT '0', `Chat` tinyint(4) NOT NULL DEFAULT '0', `Prefix` tinyint(4) NOT NULL DEFAULT '0', `PrefixColor` varchar(65) NOT NULL DEFAULT 'GREEN', `MaxMembers` int(11) NOT NULL DEFAULT '2', PRIMARY KEY (`GangID`, `GangName`), UNIQUE KEY `GangName` (`GangName`), UNIQUE KEY `GangID` (`GangID`)) ENGINE=InnoDB DEFAULT CHARSET=utf8;");
+	Format(sQuery, sizeof(sQuery), "CREATE TABLE IF NOT EXISTS `gangs` (`GangID` int(11) NOT NULL AUTO_INCREMENT, `GangName` varchar(65) NOT NULL DEFAULT '', `Points` int(11) NOT NULL DEFAULT '0', `Chat` tinyint(4) NOT NULL DEFAULT '0', `Prefix` tinyint(4) NOT NULL DEFAULT '0', `PrefixColor` varchar(65) NOT NULL DEFAULT 'GREEN', `MaxMembers` int(11) NOT NULL DEFAULT '2', PRIMARY KEY (`GangID`, `GangName`), UNIQUE KEY `GangName` (`GangName`), UNIQUE KEY `GangID` (`GangID`)) ENGINE=InnoDB DEFAULT CHARSET=utf8;");
 	SQLQuery(sQuery);
 	
 	Format(sQuery, sizeof(sQuery), "CREATE TABLE IF NOT EXISTS `skills` (`SkillID` int(11) NOT NULL AUTO_INCREMENT, `SkillName` varchar(65) NOT NULL DEFAULT '', `MaxLevel` int(11) NOT NULL DEFAULT '0', PRIMARY KEY (`SkillID`), UNIQUE KEY `SkillID` (`SkillID`), UNIQUE KEY `SkillName` (`SkillName`)) ENGINE=InnoDB DEFAULT CHARSET=utf8;");
 	SQLQuery(sQuery);
 	
-	Format(sQuery, sizeof(sQuery), "CREATE TABLE IF NOT EXISTS `gang_members` (`GangID` int(11) NOT NULL DEFAULT '0', `CommunityID` varchar(65) NOT NULL DEFAULT '', `PlayerName` varchar(255) NOT NULL DEFAULT '', `AccessLevel` int(11) NOT NULL DEFAULT '0', PRIMARY KEY (`CommunityID`), UNIQUE KEY `CommunityID` (`CommunityID`)) ENGINE=InnoDB DEFAULT CHARSET=utf8;");
+	Format(sQuery, sizeof(sQuery), "CREATE TABLE IF NOT EXISTS `gangs_members` (`GangID` int(11) NOT NULL DEFAULT '0', `CommunityID` varchar(65) NOT NULL DEFAULT '', `PlayerName` varchar(255) NOT NULL DEFAULT '', `AccessLevel` int(11) NOT NULL DEFAULT '0', PRIMARY KEY (`CommunityID`), UNIQUE KEY `CommunityID` (`CommunityID`)) ENGINE=InnoDB DEFAULT CHARSET=utf8;");
 	SQLQuery(sQuery);
 	
-	Format(sQuery, sizeof(sQuery), "CREATE TABLE IF NOT EXISTS `gang_skills` (`GangID` int(11) NOT NULL DEFAULT '0', `SkillID` int(11) NOT NULL DEFAULT '0', `Level` int(11) NOT NULL DEFAULT '0') ENGINE=InnoDB DEFAULT CHARSET=utf8;");
+	Format(sQuery, sizeof(sQuery), "CREATE TABLE IF NOT EXISTS `gangs_skills` (`GangID` int(11) NOT NULL DEFAULT '0', `SkillID` int(11) NOT NULL DEFAULT '0', `Level` int(11) NOT NULL DEFAULT '0') ENGINE=InnoDB DEFAULT CHARSET=utf8;");
 	SQLQuery(sQuery);
 }
 
@@ -53,10 +53,10 @@ stock void Gangs_FillCache()
 {
 	char sQuery[512];
 	
-	Format(sQuery, sizeof(sQuery), "SELECT GangID, GangName, Points, Chat, Prefix, PrefixColor, MaxMembers FROM `gang`");
+	Format(sQuery, sizeof(sQuery), "SELECT GangID, GangName, Points, Chat, Prefix, PrefixColor, MaxMembers FROM `gangs`");
 	SQL_TQuery(g_hDatabase, TQuery_Gang, sQuery, _, DBPrio_Low);
 	
-	Format(sQuery, sizeof(sQuery), "SELECT GangID, SkillID, Level FROM `gang_skills`");
+	Format(sQuery, sizeof(sQuery), "SELECT GangID, SkillID, Level FROM `gangs_skills`");
 	SQL_TQuery(g_hDatabase, TQuery_GangSkills, sQuery, _, DBPrio_Low);
 	
 	Format(sQuery, sizeof(sQuery), "SELECT SkillID, SkillName, MaxLevel FROM `skills`");
@@ -91,7 +91,7 @@ public void TQuery_Gang(Handle owner, Handle hndl, const char[] error, any data)
 			g_aCacheGang.PushArray(iGang[0]);
 			
 			char sQuery[256];
-			Format(sQuery, sizeof(sQuery), "SELECT GangID FROM `gang_members` WHERE `GangID` = '%d'", iGang[iGangID]);
+			Format(sQuery, sizeof(sQuery), "SELECT GangID FROM `gangs_members` WHERE `GangID` = '%d'", iGang[iGangID]);
 			SQL_TQuery(g_hDatabase, SQL_GetGangMemberCount, sQuery, iGang[iGangID], DBPrio_Low);
 		}
 	}

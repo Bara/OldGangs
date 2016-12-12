@@ -64,13 +64,13 @@ stock void DeleteGangEntries(int gangid)
 {
 	char sQuery[256];
 	
-	Format(sQuery, sizeof(sQuery), "DELETE FROM `gang` WHERE `GangID` = '%d'", gangid);
+	Format(sQuery, sizeof(sQuery), "DELETE FROM `gangs` WHERE `GangID` = '%d'", gangid);
 	SQLQuery(sQuery);
 	
-	Format(sQuery, sizeof(sQuery), "DELETE FROM `gang_members` WHERE `GangID` = '%d'", gangid);
+	Format(sQuery, sizeof(sQuery), "DELETE FROM `gangs_members` WHERE `GangID` = '%d'", gangid);
 	SQLQuery(sQuery);
 	
-	Format(sQuery, sizeof(sQuery), "DELETE FROM `gang_skills` WHERE `GangID` = '%d'", gangid);
+	Format(sQuery, sizeof(sQuery), "DELETE FROM `gangs_skills` WHERE `GangID` = '%d'", gangid);
 	SQLQuery(sQuery);
 	
 	RemoveGangFromArray(gangid);

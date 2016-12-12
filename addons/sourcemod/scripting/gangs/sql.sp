@@ -65,7 +65,7 @@ public void SQL_CheckName(Handle owner, Handle hndl, const char[] error, any pac
 				
 				char sQuery[512], sEName[MAX_NAME_LENGTH];
 				SQL_EscapeString(g_hDatabase, newname, sEName, sizeof(sEName));
-				Format(sQuery, sizeof(sQuery), "UPDATE `gang_members` SET `PlayerName` = '%s' WHERE `CommunityID` = '%s'", sEName, g_sClientID[client]);
+				Format(sQuery, sizeof(sQuery), "UPDATE `gangs_members` SET `PlayerName` = '%s' WHERE `CommunityID` = '%s'", sEName, g_sClientID[client]);
 				SQLQuery(sQuery);
 			}
 		}

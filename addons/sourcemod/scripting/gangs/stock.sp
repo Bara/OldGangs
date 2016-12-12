@@ -48,7 +48,7 @@ stock int AddGangPoints(int gangid, int points)
 			g_aCacheGang.Set(i, tmp_iPoints, view_as<int>(iPoints));
 			
 			char sQuery[512];
-			Format(sQuery, sizeof(sQuery), "UPDATE `gang` SET `Points`= '%d' WHERE `GangID` = '%d'", tmp_iPoints, gangid);
+			Format(sQuery, sizeof(sQuery), "UPDATE `gangs` SET `Points`= '%d' WHERE `GangID` = '%d'", tmp_iPoints, gangid);
 			SQLQuery(sQuery);
 			
 			return tmp_iPoints;
@@ -70,7 +70,7 @@ stock int RemoveGangPoints(int gangid, int points)
 			g_aCacheGang.Set(i, tmp_iPoints, view_as<int>(iPoints));
 			
 			char sQuery[512];
-			Format(sQuery, sizeof(sQuery), "UPDATE `gang` SET `Points` = '%d' WHERE `GangID` = '%d'", tmp_iPoints, gangid);
+			Format(sQuery, sizeof(sQuery), "UPDATE `gangs` SET `Points` = '%d' WHERE `GangID` = '%d'", tmp_iPoints, gangid);
 			SQLQuery(sQuery);
 			
 			return tmp_iPoints;
@@ -123,7 +123,7 @@ stock bool IsWeaponGrenade(const char[] sWeapon)
 stock void CheckName(int client, const char[] newname)
 {
 	char sQuery[512];
-	Format(sQuery, sizeof(sQuery), "SELECT PlayerName FROM `gang_members` WHERE `CommunityID` = '%s'", g_sClientID[client]);
+	Format(sQuery, sizeof(sQuery), "SELECT PlayerName FROM `gangs_members` WHERE `CommunityID` = '%s'", g_sClientID[client]);
 	
 	Handle hPack = CreateDataPack();
 	WritePackCell(hPack, GetClientUserId(client));

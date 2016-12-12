@@ -35,7 +35,7 @@ stock void RemoveClientFromGang(int client, int gangid)
 	Gangs_EraseClientArray(client);
 	
 	char sQuery[256];
-	Format(sQuery, sizeof(sQuery), "DELETE FROM `gang_members` WHERE `CommunityID` = '%s' AND `GangID` = '%d'", g_sClientID[client], g_iClientGang[client]);
+	Format(sQuery, sizeof(sQuery), "DELETE FROM `gangs_members` WHERE `CommunityID` = '%s' AND `GangID` = '%d'", g_sClientID[client], g_iClientGang[client]);
 	SQLQuery(sQuery);
 	
 	char sGang[64];
