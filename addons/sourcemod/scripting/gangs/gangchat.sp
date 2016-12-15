@@ -26,7 +26,7 @@ public Action Command_GangChat(int client, int args)
 	return Plugin_Continue;
 }
 
-public Action OnChatMessage(int& author, ArrayList recipients, eChatFlags& flag, char[] name, char[] message, bool& bProcessColors, bool& bRemoveColors)
+public Action OnChatMessage(int& author, ArrayList recipients, char[] flagstring, char[] name, char[] message, bool& processcolors, bool& removecolors)
 {
 	if(!Gangs_IsClientInGang(author))
 		return Plugin_Continue;
