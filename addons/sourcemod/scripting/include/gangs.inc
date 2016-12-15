@@ -121,8 +121,8 @@ native int Gangs_GetOnlinePlayers(int gangid);
 
 public SharedPlugin __pl_gang =
 {
-	name = "gang",
-	file = "gang.smx",
+	name = "Gangs - Core",
+	file = "gangs.smx",
 #if defined REQUIRE_PLUGIN
 	required = 1,
 #else
