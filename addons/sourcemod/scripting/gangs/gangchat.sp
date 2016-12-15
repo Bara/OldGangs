@@ -36,7 +36,7 @@ public Action OnChatMessage(int& author, ArrayList recipients, char[] flagstring
 	char[] sGang = new char[iLength];
 	
 	Gangs_GetName(iGang, sGang, iLength);
-	Format(name, MAXLENGTH_NAME, "{darkred}[%s] {darkblue}%s \x01", sGang, name);
+	Format(name, MAXLENGTH_NAME, "{darkred}[%s] {darkblue}%s\x01", sGang, name);
 	CFormatColor(name, MAXLENGTH_NAME);
 	
 	return Plugin_Changed;
