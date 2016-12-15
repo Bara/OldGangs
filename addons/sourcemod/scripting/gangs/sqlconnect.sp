@@ -1,11 +1,11 @@
 stock void Gangs_SQLConnect()
 {
-	if (!SQL_CheckConfig("gang"))
+	if (!SQL_CheckConfig("gangs"))
 	{
-		Log_File(_, _, ERROR, "(Gangs_SQLConnect) Database failure: Couldn't find Database entry \"gang\"");
+		Log_File(_, _, ERROR, "(Gangs_SQLConnect) Database failure: Couldn't find Database entry \"gangs\"");
 		return;
 	}
-	SQL_TConnect(Gangs_Connected, "gang");
+	SQL_TConnect(Gangs_Connected, "gangs");
 }
 
 public void Gangs_Connected(Handle owner, Handle hndl, const char[] error, any data)
