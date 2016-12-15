@@ -64,7 +64,7 @@ rm -r build/addons/metamod
 rm -r build/addons/sourcemod/bin
 rm -r build/addons/sourcemod/configs/geoip
 rm -r build/addons/sourcemod/configs/sql-init-scripts
-rm -r build/addons/sourcemod/configs
+find build/addons/sourcemod/configs/ ! -name 'chat_processor.cfg' -type f -exec rm -f {} +
 rm -r build/addons/sourcemod/data
 rm -r build/addons/sourcemod/extensions
 rm -r build/addons/sourcemod/gamedata
