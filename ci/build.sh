@@ -29,6 +29,8 @@ do
   addons/sourcemod/scripting/spcomp -E -v0 $file
 done
 
+addons/sourcemod/scripting/spcomp -E -v0 addons/sourcemod/scripting/chat-processor.sp
+
 echo "Remove plugins folder if exists"
 if [ -d "addons/sourcemod/plugins" ]; then
   rm -r addons/sourcemod/plugins

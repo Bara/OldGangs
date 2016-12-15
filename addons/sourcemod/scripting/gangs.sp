@@ -3,6 +3,8 @@
 
 #include <sourcemod>
 #include <gangs>
+#include <chat-processor>
+
 #pragma newdecls optional
 #include <regex>
 #pragma newdecls required
