@@ -89,7 +89,7 @@ stock bool CheckGangName(int client, const char[] sArg)
 stock void CreateGang(int client, const char[] gang)
 {
 	char sQuery[512];
-	Format(sQuery, sizeof(sQuery), "INSERT INTO `gang` (`GangName`) VALUES ('%s')", gang);
+	Format(sQuery, sizeof(sQuery), "INSERT INTO `gangs` (`GangName`) VALUES ('%s')", gang);
 
 	Handle hDP = CreateDataPack();
 	WritePackCell(hDP, GetClientUserId(client));
@@ -114,7 +114,7 @@ public void SQL_CreateGang(Handle owner, Handle hndl, const char[] error, any pa
 	CloseHandle(pack);
 
 	char sQuery[512];
-	Format(sQuery, sizeof(sQuery), "SELECT GangID FROM `gang` WHERE `GangName` ='%s'", sGang);
+	Format(sQuery, sizeof(sQuery), "SELECT GangID FROM `gangs` WHERE `GangName` ='%s'", sGang);
 	
 	Handle hPack = CreateDataPack();
 	WritePackCell(hPack, GetClientUserId(client));
