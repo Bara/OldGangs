@@ -18,7 +18,7 @@ public Action Command_CreateGang(int client, int args)
 	char sArg[64];
 	GetCmdArgString(sArg, sizeof(sArg));
 	
-	Gangs_CreateClientGang(client, sArg);
+	CreateGang(client, sArg);
 	return Plugin_Handled;
 }
 
@@ -35,12 +35,6 @@ public int Native_CreateClientGang(Handle plugin, int numParams)
 	if(!g_cGangCreate3rdEnable.BoolValue)
 	{
 		PrintToChat(client, "Gang creation by 3rd-party-plugins is currently disabled"); // TODO: Translation
-		return;
-	}
-	
-	if(!CheckGangName(client, sGang))
-	{
-		PrintToChat(client, "Creation of %s failed!", sGang); // TODO: Translation
 		return;
 	}
 	
@@ -94,6 +88,12 @@ stock bool CheckGangName(int client, const char[] sArg)
 
 stock void CreateGang(int client, const char[] gang)
 {
+	if(!CheckGangName(client, gang))
+	{
+		PrintToChat(client, "Creation of %s failed!", gang); // TODO: Translation
+		return;
+	}
+
 	char sQuery[512];
 	Format(sQuery, sizeof(sQuery), "INSERT INTO `gangs` (`GangName`) VALUES ('%s')", gang);
 
