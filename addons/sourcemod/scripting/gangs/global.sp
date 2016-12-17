@@ -90,5 +90,9 @@ ConVar g_cGangPointsBombDefused = null; // Main
 ConVar g_cGangPointsVipEscape = null; // Main
 ConVar g_cGangPointsVipKilled = null; // Main
 
+// Chat stuff
+ConVar g_cEnableGangChat = null;
+ConVar g_cEnableGangPrefix = null;
+
 // General settings
 ConVar g_cGangMenuDisplayTime = null;

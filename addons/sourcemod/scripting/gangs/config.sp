@@ -29,6 +29,10 @@ stock void CreateConfig()
 	g_cGangPointsVipEscape = CreateConVar("gangs_points_vip_escaped", "2", "How much points for \"vip_escaped\"?");
 	g_cGangPointsVipKilled = CreateConVar("gangs_points_vip_killed", "2", "How much points for \"vip_killed\"?");
 	
+	// Chat stuff
+	g_cEnableGangChat = CreateConVar("gangs_enable_chat_prefix", "1", "Enable \"Gang Ghat\"?");
+	g_cEnableGangPrefix = CreateConVar("gangs_enable_chat_prefix", "1", "Add a prefix to players name");
+	
 	// General settings
 	g_cGangMenuDisplayTime = CreateConVar("gangs_menu_display_time", "15", "How long should be open the menu? (time will replaced every time)");
 	

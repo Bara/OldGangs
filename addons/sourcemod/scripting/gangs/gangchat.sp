@@ -1,5 +1,11 @@
 public Action Command_GangChat(int client, int args)
 {
+	if(g_cEnableGangChat.BoolValue)
+	{
+		PrintToChat(client, "Gang chat is currently disabled!"); // TODO: Translation
+		return Plugin_Handled;
+	}
+	
 	if(!Gangs_IsClientInGang(client))
 		return Plugin_Handled;
 	
@@ -28,6 +34,9 @@ public Action Command_GangChat(int client, int args)
 
 public Action OnChatMessage(int& author, ArrayList recipients, char[] flagstring, char[] name, char[] message, bool& processcolors, bool& removecolors)
 {
+	if(g_cEnableGangPrefix.BoolValue)
+		return Plugin_Continue;
+	
 	if(!Gangs_IsClientInGang(author))
 		return Plugin_Continue;
 	
