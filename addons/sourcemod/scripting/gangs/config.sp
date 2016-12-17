@@ -11,7 +11,7 @@ stock void CreateConfig()
 	g_cGangRenameEnable = CreateConVar("gangs_rename_enable", "1", "Enable \"Rename Gang\"?", _, true, 0.0, true, 1.0);
 	g_cGangRenameRank = CreateConVar("gangs_rename_rank", "6", "What rank is required?", _, true, 1.0, true, 6.0);
 	g_cGangRenameCost = CreateConVar("gangs_rename_cost", "2000", "How much costs this? (0 = DISABLED)");
-	g_cGangRenameCost = CreateConVar("gangs_rename_time", "20.0", "Time in seconds for rename per menu");
+	g_cGangRenameTime = CreateConVar("gangs_rename_time", "20.0", "Time in seconds for rename per menu");
 	
 	// PointsGang
 	g_cGangPointsEnable = CreateConVar("gangs_points_enable", "1", "Enable \"Earning Points\"?");
