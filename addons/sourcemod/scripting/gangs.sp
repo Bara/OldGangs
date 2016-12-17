@@ -82,11 +82,11 @@ public void OnPluginStart()
 	
 	RegConsoleCmd("sm_gang", Command_Gang);
 	RegConsoleCmd("sm_g", Command_GangChat);
-	RegConsoleCmd("sm_creategang", Command_CreateGang);
-	RegConsoleCmd("sm_listgang", Command_ListGang);
-	RegConsoleCmd("sm_leftgang", Command_LeftGang);
-	RegConsoleCmd("sm_deletegang", Command_DeleteGang);
-	RegConsoleCmd("sm_renamegang", Command_RenameGang);
+	RegConsoleCmd("sm_gcreate", Command_CreateGang);
+	RegConsoleCmd("sm_glist", Command_ListGang);
+	RegConsoleCmd("sm_gleft", Command_LeftGang);
+	RegConsoleCmd("sm_gdelete", Command_DeleteGang);
+	RegConsoleCmd("sm_grename", Command_RenameGang);
 	
 	HookEvent("player_death", Event_PlayerDeath);
 	HookEvent("bomb_planted", Event_BombPlanted);
