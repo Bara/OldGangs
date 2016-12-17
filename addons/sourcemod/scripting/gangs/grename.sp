@@ -94,7 +94,7 @@ stock bool CheckGangRename(int client, const char[] sGang)
 		return false;
 	}
 	
-	if(g_cGangRenameCost.IntValue > 0 && Gangs_GetPoints(GangID) < g_cGangRenameCost.IntValue)
+	if(g_cGangPointsEnable.BoolValue && g_cGangRenameCost.IntValue > 0 && Gangs_GetPoints(GangID) < g_cGangRenameCost.IntValue)
 	{
 		PrintToChat(client, "Gang hasn't enough points for renaming");
 		return false;
