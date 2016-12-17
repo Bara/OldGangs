@@ -24,13 +24,13 @@
 
 // new structur
 #include "gangs/shared.sp"
-#include "gangs/creategang.sp"
-#include "gangs/listgang.sp"
-#include "gangs/leftgang.sp"
-#include "gangs/menugang.sp"
-#include "gangs/deletegang.sp"
-#include "gangs/renamegang.sp"
-#include "gangs/gangchat.sp"
+#include "gangs/gcreate.sp"
+#include "gangs/glist.sp"
+#include "gangs/gleft.sp"
+#include "gangs/gmenu.sp"
+#include "gangs/gdelete.sp"
+#include "gangs/grename.sp"
+#include "gangs/gchat.sp"
 
 public APLRes AskPluginLoad2(Handle myself, bool late, char[] error, int err_max)
 {
