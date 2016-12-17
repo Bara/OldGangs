@@ -32,6 +32,12 @@ public int Native_CreateClientGang(Handle plugin, int numParams)
 	char sGang[64];
 	GetNativeString(2, sGang, sizeof(sGang));
 	
+	if(!g_cGangCreate3rdEnable.BoolValue)
+	{
+		PrintToChat(client, "Gang creation by 3rd-party-plugins is currently disabled"); // TODO: Translation
+		return;
+	}
+	
 	if(!CheckGangName(client, sGang))
 	{
 		PrintToChat(client, "Creation of %s failed!", sGang); // TODO: Translation

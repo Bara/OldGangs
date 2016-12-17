@@ -2,6 +2,7 @@ stock void CreateConfig()
 {
 	// CreateGang
 	g_cGangCreateEnable = CreateConVar("gangs_create_enable", "1", "Enable \"Create Gang\"?", _, true, 0.0, true, 1.0);
+	g_cGangCreate3rdEnable = CreateConVar("gangs_create_3rd_enable", "1", "Enable \"Create Gang\" for 3rd-party-plugins?", _, true, 0.0, true, 1.0);
 	g_cGangCreateMinLen = CreateConVar("gangs_create_min_length", "3", "Minimum length of gang name", _, true, 3.0, true, 8.0);
 	g_cGangCreateMaxLen = CreateConVar("gangs_create_max_length", "8", "Maximum length of gang name", _, true, 3.0, true, 8.0);
 	g_cGangCreateRegex =  CreateConVar("gangs_create_regex", "^[a-zA-Z0-9]+$", "Allowed characters in gang name");

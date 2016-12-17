@@ -74,6 +74,7 @@ ConVar g_cGangRenameCost = null;
 
 // PointsGang
 ConVar g_cGangPointsEnable = null; // Global
+ConVar g_cGangCreate3rdEnable = null;
 ConVar g_cGangPointsBots = null; // Global
 ConVar g_cGangPointsKill = null;
 ConVar g_cGangPointsKnife = null;
