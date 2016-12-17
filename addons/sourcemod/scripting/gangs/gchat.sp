@@ -34,6 +34,19 @@ public Action Command_GangChat(int client, int args)
 
 public Action OnChatMessage(int& author, ArrayList recipients, char[] flagstring, char[] name, char[] message, bool& processcolors, bool& removecolors)
 {
+	if(g_bInRename[author])
+	{
+		if(CheckGangRename(author, message))
+		{
+			RenameGang(author, Gangs_GetClientGang(author), message);
+			
+			g_bInRename[author] = false;
+			g_hRenameTimer[author] = null;
+		}
+		
+		return Plugin_Handled;
+	}
+	
 	if(g_cEnableGangPrefix.BoolValue)
 		return Plugin_Continue;
 	

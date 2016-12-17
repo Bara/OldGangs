@@ -46,7 +46,7 @@ stock void OpenClientGang(int client)
 	Format(sPoints, sizeof(sPoints), "Points: %d", points); // TODO: Translation
 	Format(sOnline, sizeof(sOnline), "Online: %d/%d/%d", online, members, maxmembers); // TODO: Translation
 	
-	Format(sTitle, sizeof(sTitle), "%s\n%s\n%s\n \n", sGang, sPoints, sOnline); // TODO: Translation
+	Format(sTitle, sizeof(sTitle), "%s - Main\n%s\n%s\n \n", sGang, sPoints, sOnline); // TODO: Translation
 	
 	Menu menu = new Menu(Menu_GangMenu);
 	
@@ -77,6 +77,9 @@ public int Menu_GangMenu(Menu menu, MenuAction action, int client, int param)
 		
 		if(StrEqual(sParam, "skills", false))
 			ShowSkills(client);
+		
+		if(StrEqual(sParam, "settings", false))
+			ShowSettings(client);
 	}
 	if (action == MenuAction_End)
 		delete menu;
@@ -91,6 +94,7 @@ stock void ShowMembers(int client)
 	GetClientAuthId(client, AuthId_SteamID64, sSteam, sizeof(sSteam));
 	
 	Menu menu = new Menu(Menu_GangMembers);
+	Format(sGang, sizeof(sGang), "%s - Members", sGang); // TODO: Translations
 	menu.SetTitle(sGang);
 	for (int i = 0; i < g_aCacheGangMembers.Length; i++)
 	{
@@ -142,6 +146,7 @@ stock void ShowSkills(int client)
 	
 	Gangs_GetName(GangID, sGang, sizeof(sGang));
 	Menu menu = new Menu(Menu_GangSkillList);
+	Format(sGang, sizeof(sGang), "%s - Skills", sGang); // TODO: Translations
 	menu.SetTitle(sGang);
 	for (int i = 0; i < g_aCacheGangSkills.Length; i++)
 	{

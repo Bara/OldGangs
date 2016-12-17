@@ -68,9 +68,11 @@ ConVar g_cGangCreateMaxLen = null;
 ConVar g_cGangCreateRegex = null;
 
 // RenameGang
+// TODO: Rename Cooldown in days (we need a column in gangs LastRename)
 ConVar g_cGangRenameEnable = null;
 ConVar g_cGangRenameRank = null;
 ConVar g_cGangRenameCost = null;
+ConVar g_cGangRenameTime = null; // for menu
 
 // PointsGang
 ConVar g_cGangPointsEnable = null; // Global
@@ -96,3 +98,7 @@ ConVar g_cEnableGangPrefix = null;
 
 // General settings
 ConVar g_cGangMenuDisplayTime = null;
+
+// Rename
+Handle g_hRenameTimer[MAXPLAYERS + 1] =  { null, ... };
+bool g_bInRename[MAXPLAYERS + 1] =  { false, ... };

@@ -31,6 +31,7 @@
 #include "gangs/gdelete.sp"
 #include "gangs/grename.sp"
 #include "gangs/gchat.sp"
+#include "gangs/gsettings.sp" 
 
 public APLRes AskPluginLoad2(Handle myself, bool late, char[] error, int err_max)
 {

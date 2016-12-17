@@ -84,19 +84,19 @@ stock bool CheckGangRename(int client, const char[] sGang)
 	
 	if(StrEqual(sOGang, sGang, false))
 	{
-		ReplyToCommand(client, "Gang name must be different"); // TODO: Translation
+		PrintToChat(client, "Gang name must be different"); // TODO: Translation
 		return false;
 	}
 	
 	if(Gangs_GetClientLevel(client) < g_cGangRenameRank.IntValue)
 	{
-		ReplyToCommand(client, "You've not enough access to do this");
+		PrintToChat(client, "You've not enough access to do this");
 		return false;
 	}
 	
 	if(g_cGangRenameCost.IntValue > 0 && Gangs_GetPoints(GangID) < g_cGangRenameCost.IntValue)
 	{
-		ReplyToCommand(client, "Gang hasn't enough points for renaming");
+		PrintToChat(client, "Gang hasn't enough points for renaming");
 		return false;
 	}
 	return true;
@@ -171,4 +171,29 @@ public void SQL_RenameGang(Handle owner, Handle hndl, const char[] error, any pa
 	Call_PushString(oldgangname);
 	Call_PushString(newgangname);
 	Call_Finish();
+}
+
+stock void RenameGangMenu(int client)
+{
+	float fTime = g_cGangRenameTime.FloatValue;
+	
+	g_hRenameTimer[client] = CreateTimer(fTime, Timer_RenameEnd, GetClientUserId(client));
+	CPrintToChat(client, "You have %.2f seconds to enter a new gang name!", fTime);
+	
+	g_bInRename[client] = true;
+}
+
+public Action Timer_RenameEnd(Handle timer, any userid)
+{
+	int client = GetClientOfUserId(userid);
+	
+	if(client > 0 && IsClientInGame(client) && !g_hRenameTimer[client])
+	{
+		g_bInRename[client] = false;
+		
+		CPrintToChat(client, "Time to rename is over!");
+	}
+	
+	g_hRenameTimer[client] = null;
+	return Plugin_Stop;
 }
