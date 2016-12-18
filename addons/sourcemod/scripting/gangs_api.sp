@@ -2,6 +2,7 @@
 
 #include <sourcemod>
 #include <gangs>
+#include <multicolors>
 
 Handle g_hDatabase;
 
