@@ -23,7 +23,7 @@ public int Native_OpenClientGang(Handle plugin, int numParams)
 	
 	if (!g_bIsInGang[client])
 	{
-		PrintToChat(client, "You aren't in a gang"); // TODO: Translation
+		CPrintToChat(client, "You aren't in a gang"); // TODO: Translation
 		return;
 	}
 	
@@ -87,7 +87,7 @@ public int Menu_GangMenu(Menu menu, MenuAction action, int client, int param)
 
 stock void ShowMembers(int client)
 {
-	char sGang[12], sRang[18], sName[MAX_NAME_LENGTH], sSteam[64];
+	char sGang[32], sRang[18], sName[MAX_NAME_LENGTH], sSteam[64];
 	int GangID = Gangs_GetClientGang(client);
 	Gangs_GetName(GangID, sGang, sizeof(sGang));
 	
@@ -138,7 +138,7 @@ public int Menu_GangMembers(Menu menu, MenuAction action, int client, int param)
 
 stock void ShowSkills(int client)
 {
-	char sGang[12];
+	char sGang[32];
 	int GangID = Gangs_GetClientGang(client);
 	int count = 0;
 	char sSkill[12], sSkillID[12];

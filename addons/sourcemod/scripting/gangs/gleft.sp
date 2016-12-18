@@ -40,7 +40,7 @@ stock void RemoveClientFromGang(int client, int gangid)
 	
 	char sGang[64];
 	Gangs_GetName(gangid, sGang, sizeof(sGang));
-	PrintToChatAll("\"%L\" left %s!", client, sGang); // TODO: Translation
+	CPrintToChatAll("\"%L\" left %s!", client, sGang); // TODO: Translation
 	Log_File(_, _, INFO, "\"%L\" left %s!", client, sGang); // TODO: Translation
 	
 	for (int i = 0; i < g_aCacheGang.Length; i++)

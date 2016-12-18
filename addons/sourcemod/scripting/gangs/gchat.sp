@@ -1,8 +1,8 @@
 public Action Command_GangChat(int client, int args)
 {
-	if(g_cEnableGangChat.BoolValue)
+	if(!g_cEnableGangChat.BoolValue)
 	{
-		PrintToChat(client, "Gang chat is currently disabled!"); // TODO: Translation
+		CPrintToChat(client, "Gang chat is currently disabled!"); // TODO: Translation
 		return Plugin_Handled;
 	}
 	
@@ -27,27 +27,14 @@ public Action Command_GangChat(int client, int args)
 	LoopClients(i)
 		if(Gangs_IsClientInGang(i) && Gangs_GetClientGang(i) == iGang)
 			if(strlen(sText) > 2)
-				CPrintToChat(i, "{darkred}[%s] {darkblue}%N\x01: %s", sGang, client, sText);
+				CPrintToChat(i, "[Gang] {darkred}[%s] {darkblue}%N\x01: %s", sGang, client, sText);
 	
 	return Plugin_Continue;
 }
 
 public Action OnChatMessage(int& author, ArrayList recipients, char[] flagstring, char[] name, char[] message, bool& processcolors, bool& removecolors)
 {
-	if(g_bInRename[author])
-	{
-		if(CheckGangRename(author, message))
-		{
-			RenameGang(author, Gangs_GetClientGang(author), message);
-			
-			g_bInRename[author] = false;
-			g_hRenameTimer[author] = null;
-		}
-		
-		return Plugin_Handled;
-	}
-	
-	if(g_cEnableGangPrefix.BoolValue)
+	if(!g_cEnableGangPrefix.BoolValue)
 		return Plugin_Continue;
 	
 	if(!Gangs_IsClientInGang(author))
@@ -62,4 +49,28 @@ public Action OnChatMessage(int& author, ArrayList recipients, char[] flagstring
 	CFormatColor(name, MAXLENGTH_NAME);
 	
 	return Plugin_Changed;
+}
+
+public Action Command_Say(int client, const char[] command, int argc)
+{
+	if (g_bInRename[client] && !IsChatTrigger())
+	{
+		int iLength = g_cGangCreateMaxLen.IntValue + 1;
+		char[] sNewName = new char[iLength];
+		
+		GetCmdArgString(sNewName, iLength);
+		StripQuotes(sNewName);
+		
+		if(CheckGangRename(client, sNewName))
+		{
+			RenameGang(client, Gangs_GetClientGang(client), sNewName);
+			
+			g_bInRename[client] = false;
+			g_hRenameTimer[client] = null;
+		}
+				
+		return Plugin_Handled;
+	}
+	
+	return Plugin_Continue;
 }

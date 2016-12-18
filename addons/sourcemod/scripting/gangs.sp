@@ -3,13 +3,13 @@
 
 #include <sourcemod>
 #include <gangs>
-#include <chat-processor>
 
 #pragma newdecls optional
 #include <regex>
 #pragma newdecls required
 
 // 3rd includes
+#include <chat-processor>
 #include <multicolors>
 
 #include "gangs/global.sp"
@@ -31,7 +31,8 @@
 #include "gangs/gdelete.sp"
 #include "gangs/grename.sp"
 #include "gangs/gchat.sp"
-#include "gangs/gsettings.sp" 
+#include "gangs/gsettings.sp"
+#include "gangs/gabort.sp"
 
 public APLRes AskPluginLoad2(Handle myself, bool late, char[] error, int err_max)
 {
@@ -88,6 +89,12 @@ public void OnPluginStart()
 	RegConsoleCmd("sm_gleft", Command_LeftGang);
 	RegConsoleCmd("sm_gdelete", Command_DeleteGang);
 	RegConsoleCmd("sm_grename", Command_RenameGang);
+	RegConsoleCmd("sm_gabort", Command_AbortGang);
+	
+	// for rename
+	AddCommandListener(Command_Say, "say");
+	AddCommandListener(Command_Say, "say2");
+	AddCommandListener(Command_Say, "say_team");
 	
 	HookEvent("player_death", Event_PlayerDeath);
 	HookEvent("bomb_planted", Event_BombPlanted);

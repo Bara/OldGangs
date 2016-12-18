@@ -33,8 +33,8 @@ public void Gangs_OnSQLConnected(Handle database)
 
 public void Gangs_OnGangCreated(int client, int iGang)
 {
-	PrintToChat(client, "(Gangs_OnGangCreated) Gangs_IsClientInGang - %d", Gangs_IsClientInGang(client));
-	PrintToChat(client, "(Gangs_OnGangCreated) Gang ID - %d", iGang);
+	CPrintToChat(client, "(Gangs_OnGangCreated) Gangs_IsClientInGang - %d", Gangs_IsClientInGang(client));
+	CPrintToChat(client, "(Gangs_OnGangCreated) Gang ID - %d", iGang);
 	
 	char sName[64];
 	Gangs_GetName(iGang, sName, sizeof(sName));
@@ -44,20 +44,20 @@ public void Gangs_OnGangCreated(int client, int iGang)
 		Format(sName, sizeof(sName), "keine Gang");
 	}
 	
-	PrintToChat(client, "(Gangs_OnGangCreated) Gangs_GetName - %s", sName);
+	CPrintToChat(client, "(Gangs_OnGangCreated) Gangs_GetName - %s", sName);
 }
 
 public void Gangs_OnGangRename(int client, int iGang, const char[] oldname, const char[] newname)
 {
-	PrintToChat(client, "(Gangs_OnGangRename) Gang ID - %d", iGang);
-	PrintToChat(client, "(Gangs_OnGangCreated) OldName: - %s", oldname);
-	PrintToChat(client, "(Gangs_OnGangCreated) NewName: - %s", newname);
+	CPrintToChat(client, "(Gangs_OnGangRename) Gang ID - %d", iGang);
+	CPrintToChat(client, "(Gangs_OnGangCreated) OldName: - %s", oldname);
+	CPrintToChat(client, "(Gangs_OnGangCreated) NewName: - %s", newname);
 }
 
 public void Gangs_OnGangLeft(int client, int iGang)
 {
-	PrintToChat(client, "(Gangs_OnGangLeft) Gangs_IsClientInGang - %d", Gangs_IsClientInGang(client));
-	PrintToChat(client, "(Gangs_OnGangLeft) Gang ID - %d", iGang);
+	CPrintToChat(client, "(Gangs_OnGangLeft) Gangs_IsClientInGang - %d", Gangs_IsClientInGang(client));
+	CPrintToChat(client, "(Gangs_OnGangLeft) Gang ID - %d", iGang);
 	
 	char sName[64];
 	Gangs_GetName(iGang, sName, sizeof(sName));
@@ -67,14 +67,14 @@ public void Gangs_OnGangLeft(int client, int iGang)
 		Format(sName, sizeof(sName), "keine Gang");
 	}
 	
-	PrintToChat(client, "(Gangs_OnGangLeft) Gangs_GetName - %s", sName);
+	CPrintToChat(client, "(Gangs_OnGangLeft) Gangs_GetName - %s", sName);
 }
 
 public void Gangs_OnGangDelete(int client, int iGang, const char[] sGang)
 {
-	PrintToChat(client, "(Gangs_OnGangDelete) Gangs_IsClientInGang - %d", Gangs_IsClientInGang(client));
-	PrintToChat(client, "(Gangs_OnGangDelete) Gang ID - %d", iGang);
-	PrintToChat(client, "(Gangs_OnGangDelete) Gang Name - %s", sGang);
+	CPrintToChat(client, "(Gangs_OnGangDelete) Gangs_IsClientInGang - %d", Gangs_IsClientInGang(client));
+	CPrintToChat(client, "(Gangs_OnGangDelete) Gang ID - %d", iGang);
+	CPrintToChat(client, "(Gangs_OnGangDelete) Gang Name - %s", sGang);
 }
 
 public Action Command_GangAPI(int client, int args)
@@ -82,10 +82,10 @@ public Action Command_GangAPI(int client, int args)
 	if(client < 1 || !IsClientInGame(client))
 		return Plugin_Handled;
 	
-	PrintToChat(client, "(Command_GangAPI) Gangs_IsClientInGang - %d", Gangs_IsClientInGang(client));
+	CPrintToChat(client, "(Command_GangAPI) Gangs_IsClientInGang - %d", Gangs_IsClientInGang(client));
 	
 	int iGang = Gangs_GetClientGang(client);
-	PrintToChat(client, "(Command_GangAPI) Gangs_GetClientGang - %d", iGang);
+	CPrintToChat(client, "(Command_GangAPI) Gangs_GetClientGang - %d", iGang);
 	
 	char sName[64];
 	Gangs_GetName(iGang, sName, sizeof(sName));
@@ -95,7 +95,7 @@ public Action Command_GangAPI(int client, int args)
 		Format(sName, sizeof(sName), "keine Gang");
 	}
 	
-	PrintToChat(client, "(Command_GangAPI) Gangs_GetName - %s", sName);
+	CPrintToChat(client, "(Command_GangAPI) Gangs_GetName - %s", sName);
 	
 	return Plugin_Continue;
 }

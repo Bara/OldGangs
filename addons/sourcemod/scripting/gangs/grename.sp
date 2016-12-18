@@ -49,19 +49,19 @@ stock bool CheckGangRename(int client, const char[] sGang)
 	
 	if(MatchRegex(hRegex, sGang) != 1)
 	{
-		PrintToChat(client, "Forbidden chars in gang name"); // TODO: Translation
+		CPrintToChat(client, "Forbidden chars in gang name"); // TODO: Translation
 		return false;
 	}
 	
 	if (strlen(sGang) < g_cGangCreateMinLen.IntValue)
 	{
-		PrintToChat(client, "Gang name is too short"); // TODO: Translation
+		CPrintToChat(client, "Gang name is too short"); // TODO: Translation
 		return false;
 	}
 	
 	if (strlen(sGang) > g_cGangCreateMaxLen.IntValue)
 	{
-		PrintToChat(client, "Gang name is too long"); // TODO: Translation
+		CPrintToChat(client, "Gang name is too long"); // TODO: Translation
 		return false;
 	}
 	
@@ -72,7 +72,7 @@ stock bool CheckGangRename(int client, const char[] sGang)
 
 		if (StrEqual(iGang[sGangName], sGang, false))
 		{
-			PrintToChat(client, "Gang name already in use"); // TODO: Translation
+			CPrintToChat(client, "Gang name already in use"); // TODO: Translation
 			return false;
 		}
 	}
@@ -84,19 +84,19 @@ stock bool CheckGangRename(int client, const char[] sGang)
 	
 	if(StrEqual(sOGang, sGang, false))
 	{
-		PrintToChat(client, "Gang name must be different"); // TODO: Translation
+		CPrintToChat(client, "Gang name must be different"); // TODO: Translation
 		return false;
 	}
 	
 	if(Gangs_GetClientLevel(client) < g_cGangRenameRank.IntValue)
 	{
-		PrintToChat(client, "You've not enough access to do this");
+		CPrintToChat(client, "You've not enough access to do this");
 		return false;
 	}
 	
-	if(g_cGangPointsEnable.BoolValue && g_cGangRenameCost.IntValue > 0 && Gangs_GetPoints(GangID) < g_cGangRenameCost.IntValue)
+	if(!g_cGangPointsEnable.BoolValue && g_cGangRenameCost.IntValue > 0 && Gangs_GetPoints(GangID) < g_cGangRenameCost.IntValue)
 	{
-		PrintToChat(client, "Gang hasn't enough points for renaming");
+		CPrintToChat(client, "Gang hasn't enough points for rename");
 		return false;
 	}
 	return true;
@@ -136,7 +136,7 @@ public void SQL_RenameGang(Handle owner, Handle hndl, const char[] error, any pa
 	ReadPackString(pack, newgangname, sizeof(newgangname));
 	CloseHandle(pack);
 	
-	PrintToChatAll("%N renamed %s to %s!", client, oldgangname, newgangname); // TODO: Translation
+	CPrintToChatAll("%N renamed %s to %s!", client, oldgangname, newgangname); // TODO: Translation
 	Log_File(_, _, INFO, "\"%L\" renamed %s to %s!", client, oldgangname, newgangname); // TODO: Translation
 	
 	for (int i = 0; i < g_aCacheGang.Length; i++)
@@ -178,9 +178,9 @@ stock void RenameGangMenu(int client)
 	float fTime = g_cGangRenameTime.FloatValue;
 	
 	g_hRenameTimer[client] = CreateTimer(fTime, Timer_RenameEnd, GetClientUserId(client));
-	CPrintToChat(client, "You have %.2f seconds to enter a new gang name!", fTime);
-	
 	g_bInRename[client] = true;
+	
+	CPrintToChat(client, "You have %.2f seconds to enter a new gang name!", fTime);
 }
 
 public Action Timer_RenameEnd(Handle timer, any userid)

@@ -5,13 +5,13 @@ public Action Command_CreateGang(int client, int args)
 	
 	if(!g_cGangCreateEnable.BoolValue)
 	{
-		PrintToChat(client, "Gang creation is currently disabled"); // TODO: Translation
+		CPrintToChat(client, "Gang creation is currently disabled"); // TODO: Translation
 		return Plugin_Handled;
 	}
 	
 	if(args < 1)
 	{
-		PrintToChat(client, "Syntax: sm_creategang <Name>"); // TODO: Translation
+		CPrintToChat(client, "Syntax: sm_creategang <Name>"); // TODO: Translation
 		return Plugin_Handled;
 	}
 	
@@ -34,7 +34,7 @@ public int Native_CreateClientGang(Handle plugin, int numParams)
 	
 	if(!g_cGangCreate3rdEnable.BoolValue)
 	{
-		PrintToChat(client, "Gang creation by 3rd-party-plugins is currently disabled"); // TODO: Translation
+		CPrintToChat(client, "Gang creation by 3rd-party-plugins is currently disabled"); // TODO: Translation
 		return;
 	}
 	
@@ -49,19 +49,19 @@ stock bool CheckGangName(int client, const char[] sArg)
 	
 	if(MatchRegex(hRegex, sArg) != 1)
 	{
-		PrintToChat(client, "Forbidden chars in gang name"); // TODO: Translation
+		CPrintToChat(client, "Forbidden chars in gang name"); // TODO: Translation
 		return false;
 	}
 	
 	if (strlen(sArg) < g_cGangCreateMinLen.IntValue)
 	{
-		PrintToChat(client, "Gang name is too short"); // TODO: Translation
+		CPrintToChat(client, "Gang name is too short"); // TODO: Translation
 		return false;
 	}
 	
 	if (strlen(sArg) > g_cGangCreateMaxLen.IntValue)
 	{
-		PrintToChat(client, "Gang name is too long"); // TODO: Translation
+		CPrintToChat(client, "Gang name is too long"); // TODO: Translation
 		return false;
 	}
 	
@@ -72,7 +72,7 @@ stock bool CheckGangName(int client, const char[] sArg)
 
 		if (StrEqual(iGang[sGangName], sArg, false))
 		{
-			PrintToChat(client, "Gang name already in use"); // TODO: Translation
+			CPrintToChat(client, "Gang name already in use"); // TODO: Translation
 			return false;
 		}
 	}
@@ -90,7 +90,7 @@ stock void CreateGang(int client, const char[] gang)
 {
 	if(!CheckGangName(client, gang))
 	{
-		PrintToChat(client, "Creation of %s failed!", gang); // TODO: Translation
+		CPrintToChat(client, "Creation of %s failed!", gang); // TODO: Translation
 		return;
 	}
 
@@ -219,7 +219,7 @@ public void SQL_UpdateGangMembers(Handle owner, Handle hndl, const char[] error,
 	char sGang[64];
 	Gangs_GetName(g_iClientGang[client], sGang, sizeof(sGang));
 	
-	PrintToChatAll("%N created %s!", client, sGang); // TODO: Translation
+	CPrintToChatAll("%N created %s!", client, sGang); // TODO: Translation
 	
 	Log_File(_, _, INFO, "\"%L\" created %s!", client, sGang); // TODO: Translation
 	

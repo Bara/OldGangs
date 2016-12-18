@@ -20,13 +20,13 @@ public int Native_DeleteClientGang(Handle plugin, int numParams)
 	
 	if (!g_bIsInGang[client])
 	{
-		PrintToChat(client, "You aren't in a gang!"); // TODO: Translation
+		CPrintToChat(client, "You aren't in a gang!"); // TODO: Translation
 		return;
 	}
 	
 	if(Gangs_GetClientLevel(client) < GANGS_LEADER)
 	{
-		PrintToChat(client, "Just the owner can do this!"); // TODO: Translation
+		CPrintToChat(client, "Just the owner can do this!"); // TODO: Translation
 		return;
 	}
 	
@@ -38,7 +38,7 @@ stock void DeleteGang(int client, int gangid)
 	char sGang[64];
 	Gangs_GetName(gangid, sGang, sizeof(sGang));
 	
-	PrintToChatAll("\"%L\" deleted %s!", client, sGang); // TODO: Translation
+	CPrintToChatAll("\"%L\" deleted %s!", client, sGang); // TODO: Translation
 	Log_File(_, _, INFO, "\"%L\" deleted %s!", client, sGang); // TODO: Translation
 	
 	for (int i = 1; i <= MaxClients; i++)
