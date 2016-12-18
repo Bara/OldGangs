@@ -18,7 +18,7 @@ public Action Command_RenameGang(int client, int args)
 	char sArg[64];
 	GetCmdArgString(sArg, sizeof(sArg));
 	
-	Gangs_RenameClientGang(client, Gangs_GetClientGang(client), sArg);
+	RenameGang(client, g_iClientGang[client], sArg);
 	return Plugin_Handled;
 }
 
@@ -34,9 +34,6 @@ public int Native_RenameClientGang(Handle plugin, int numParams)
 	{
 		return;
 	}
-	
-	if(!CheckGangRename(client, sGang))
-		return;
 	
 	RenameGang(client, gangid, sGang);
 }
@@ -77,10 +74,8 @@ stock bool CheckGangRename(int client, const char[] sGang)
 		}
 	}
 	
-	int GangID = Gangs_GetClientGang(client);
-	
 	char sOGang[64];
-	Gangs_GetName(GangID, sOGang, sizeof(sOGang));
+	Gangs_GetName(g_iClientGang[client], sOGang, sizeof(sOGang));
 	
 	if(StrEqual(sOGang, sGang, false))
 	{
@@ -94,7 +89,7 @@ stock bool CheckGangRename(int client, const char[] sGang)
 		return false;
 	}
 	
-	if(!g_cGangPointsEnable.BoolValue && g_cGangRenameCost.IntValue > 0 && Gangs_GetPoints(GangID) < g_cGangRenameCost.IntValue)
+	if(!g_cGangPointsEnable.BoolValue && g_cGangRenameCost.IntValue > 0 && Gangs_GetPoints(g_iClientGang[client]) < g_cGangRenameCost.IntValue)
 	{
 		CPrintToChat(client, "Gang hasn't enough points for rename");
 		return false;
@@ -104,6 +99,9 @@ stock bool CheckGangRename(int client, const char[] sGang)
 
 stock void RenameGang(int client, int gangid, const char[] newgangname)
 {
+	if(!CheckGangRename(client, newgangname))
+		return;
+
 	char sQuery[512];
 	Format(sQuery, sizeof(sQuery), "UPDATE `gangs` SET `GangName` = '%s' WHERE `GangID` = '%d'", newgangname, gangid); // Add new table -> logs
 	

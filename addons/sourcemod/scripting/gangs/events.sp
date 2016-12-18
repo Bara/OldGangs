@@ -26,7 +26,7 @@ public Action Event_PlayerDeath(Event event, const char[] name, bool dontBroadca
 				else
 					points += g_cGangPointsKill.IntValue;
 				
-				Gangs_AddPoints(Gangs_GetClientGang(client), points);
+				Gangs_AddPoints(g_iClientGang[client], points);
 				
 				if(GetEngineVersion() == Engine_CSGO)
 				{
@@ -41,7 +41,7 @@ public Action Event_PlayerDeath(Event event, const char[] name, bool dontBroadca
 						
 						apoints += g_cGangPointsAssists.IntValue;
 						
-						Gangs_AddPoints(Gangs_GetClientGang(assister), apoints);
+						Gangs_AddPoints(g_iClientGang[assister], apoints);
 					}
 				}
 			}
@@ -55,7 +55,7 @@ public Action Event_BombPlanted(Event event, const char[] name, bool dontBroadca
 	
 	if(g_cGangPointsEnable.BoolValue && IsClientInGame(client))
 	{
-		Gangs_AddPoints(Gangs_GetClientGang(client), g_cGangPointsBombPlanted.IntValue);
+		Gangs_AddPoints(g_iClientGang[client], g_cGangPointsBombPlanted.IntValue);
 	}
 }
 
@@ -65,7 +65,7 @@ public Action Event_BombExploded(Event event, const char[] name, bool dontBroadc
 	
 	if(g_cGangPointsEnable.BoolValue && IsClientInGame(client))
 	{
-		Gangs_AddPoints(Gangs_GetClientGang(client), g_cGangPointsBombExploded.IntValue);
+		Gangs_AddPoints(g_iClientGang[client], g_cGangPointsBombExploded.IntValue);
 	}
 }
 
@@ -75,7 +75,7 @@ public Action Event_BombDefused(Event event, const char[] name, bool dontBroadca
 	
 	if(g_cGangPointsEnable.BoolValue && IsClientInGame(client))
 	{
-		Gangs_AddPoints(Gangs_GetClientGang(client), g_cGangPointsBombDefused.IntValue);
+		Gangs_AddPoints(g_iClientGang[client], g_cGangPointsBombDefused.IntValue);
 	}
 }
 
@@ -85,7 +85,7 @@ public Action Event_HostageFollow(Event event, const char[] name, bool dontBroad
 	
 	if(g_cGangPointsEnable.BoolValue && IsClientInGame(client))
 	{
-		Gangs_AddPoints(Gangs_GetClientGang(client), g_cGangPointsHostageFollow.IntValue);
+		Gangs_AddPoints(g_iClientGang[client], g_cGangPointsHostageFollow.IntValue);
 	}
 }
 
@@ -95,7 +95,7 @@ public Action Event_HostageRescued(Event event, const char[] name, bool dontBroa
 	
 	if(g_cGangPointsEnable.BoolValue && IsClientInGame(client))
 	{
-		Gangs_AddPoints(Gangs_GetClientGang(client), g_cGangPointsHostageRescue.IntValue);
+		Gangs_AddPoints(g_iClientGang[client], g_cGangPointsHostageRescue.IntValue);
 	}
 }
 
@@ -105,7 +105,7 @@ public Action Event_VipEscape(Event event, const char[] name, bool dontBroadcast
 	
 	if(g_cGangPointsEnable.BoolValue && IsClientInGame(client))
 	{
-		Gangs_AddPoints(Gangs_GetClientGang(client), g_cGangPointsVipEscape.IntValue);
+		Gangs_AddPoints(g_iClientGang[client], g_cGangPointsVipEscape.IntValue);
 	}
 }
 
@@ -115,7 +115,7 @@ public Action Event_VipKilled(Event event, const char[] name, bool dontBroadcast
 	
 	if(g_cGangPointsEnable.BoolValue && IsClientInGame(client))
 	{
-		Gangs_AddPoints(Gangs_GetClientGang(client), g_cGangPointsVipKilled.IntValue);
+		Gangs_AddPoints(g_iClientGang[client], g_cGangPointsVipKilled.IntValue);
 	}
 }
 

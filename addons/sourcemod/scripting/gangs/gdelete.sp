@@ -3,7 +3,7 @@ public Action Command_DeleteGang(int client, int args)
 	if (client < 1 || !IsClientInGame(client) )
 		return Plugin_Handled;
 	
-	Gangs_DeleteClientGang(client, Gangs_GetClientGang(client));
+	DeleteGang(client, g_iClientGang[client]);
 	
 	return Plugin_Handled;
 }
@@ -18,6 +18,11 @@ public int Native_DeleteClientGang(Handle plugin, int numParams)
 		return;
 	}
 	
+	DeleteGang(client, gangid);
+}
+
+stock void DeleteGang(int client, int gangid)
+{
 	if (!g_bIsInGang[client])
 	{
 		CPrintToChat(client, "You aren't in a gang!"); // TODO: Translation
@@ -30,11 +35,6 @@ public int Native_DeleteClientGang(Handle plugin, int numParams)
 		return;
 	}
 	
-	DeleteGang(client, gangid);
-}
-
-stock void DeleteGang(int client, int gangid)
-{
 	char sGang[64];
 	Gangs_GetName(gangid, sGang, sizeof(sGang));
 	

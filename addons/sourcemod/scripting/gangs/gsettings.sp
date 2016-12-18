@@ -36,7 +36,7 @@ public int Menu_GangSettings(Menu menu, MenuAction action, int client, int param
 	}
 	if (action == MenuAction_Cancel)
 		if(param == MenuCancel_ExitBack)
-			Gangs_OpenClientGang(client);
+			OpenClientGang(client);
 	if (action == MenuAction_End)
 		delete menu;
 }

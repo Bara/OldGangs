@@ -3,7 +3,7 @@ public Action Command_LeftGang(int client, int args)
 	if (client < 1 || !IsClientInGame(client) )
 		return Plugin_Handled;
 	
-	Gangs_ClientLeftGang(client);
+	RemoveClientFromGang(client, g_iClientGang[client]);
 	
 	return Plugin_Handled;
 }
@@ -12,7 +12,7 @@ public int Native_LeftClientGang(Handle plugin, int numParams)
 {
 	int client = GetNativeCell(1);
 	
-	RemoveClientFromGang(client, Gangs_GetClientGang(client));
+	RemoveClientFromGang(client, g_iClientGang[client]);
 	
 	g_bIsInGang[client] = false;
 	g_iClientGang[client] = 0;
