@@ -1,8 +1,7 @@
 stock void ShowSettings(int client)
 {
 	char sGang[12];
-	int GangID = Gangs_GetClientGang(client);
-	Gangs_GetName(GangID, sGang, sizeof(sGang));
+	Gangs_GetName(g_iClientGang[client], sGang, sizeof(sGang));
 	
 	Menu menu = new Menu(Menu_GangSettings);
 	Format(sGang, sizeof(sGang), "%s - Settings", sGang); // TODO: Translations
@@ -23,12 +22,12 @@ public int Menu_GangSettings(Menu menu, MenuAction action, int client, int param
 		if(StrEqual(sParam, "rename", false))
 		{
 			RenameGangMenu(client);
-			Gangs_OpenClientGang(client);
+			OpenClientGang(client);
 		}
 	}
 	if (action == MenuAction_Cancel)
 		if(param == MenuCancel_ExitBack)
-			Gangs_OpenClientGang(client);
+			OpenClientGang(client);
 	if (action == MenuAction_End)
 		delete menu;
 }

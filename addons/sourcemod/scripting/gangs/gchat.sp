@@ -12,11 +12,10 @@ public Action Command_GangChat(int client, int args)
 	char sText[MAX_MESSAGE_LENGTH];
 	char sBuffer[MAX_MESSAGE_LENGTH];
 	
-	int iGang = Gangs_GetClientGang(client);
 	int iLength = g_cGangCreateMaxLen.IntValue += 1;
 	char[] sGang = new char[iLength];
 	
-	Gangs_GetName(iGang, sGang, iLength);
+	Gangs_GetName(g_iClientGang[client], sGang, iLength);
 	
 	for (int i = 1; i <= args; i++)
 	{
@@ -25,7 +24,7 @@ public Action Command_GangChat(int client, int args)
 	}
 	
 	LoopClients(i)
-		if(Gangs_IsClientInGang(i) && Gangs_GetClientGang(i) == iGang)
+		if(Gangs_IsClientInGang(i) && g_iClientGang[i] == g_iClientGang[client])
 			if(strlen(sText) > 2)
 				CPrintToChat(i, "{darkred}[%s] {darkblue}%N\x01: %s", sGang, client, sText);
 	
@@ -38,7 +37,7 @@ public Action OnChatMessage(int& author, ArrayList recipients, char[] flagstring
 	{
 		if(CheckGangRename(author, message))
 		{
-			RenameGang(author, Gangs_GetClientGang(author), message);
+			RenameGang(author, g_iClientGang[author], message);
 			
 			g_bInRename[author] = false;
 			g_hRenameTimer[author] = null;
@@ -53,11 +52,10 @@ public Action OnChatMessage(int& author, ArrayList recipients, char[] flagstring
 	if(!Gangs_IsClientInGang(author))
 		return Plugin_Continue;
 	
-	int iGang = Gangs_GetClientGang(author);
 	int iLength = g_cGangCreateMaxLen.IntValue += 1;
 	char[] sGang = new char[iLength];
 	
-	Gangs_GetName(iGang, sGang, iLength);
+	Gangs_GetName(g_iClientGang[author], sGang, iLength);
 	Format(name, MAXLENGTH_NAME, "{darkred}[%s] {darkblue}%s\x01", sGang, name);
 	CFormatColor(name, MAXLENGTH_NAME);
 	

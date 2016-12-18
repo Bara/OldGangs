@@ -9,7 +9,7 @@ public Action Command_Gang(int client, int args)
 		return Plugin_Handled;
 	}
 	
-	Gangs_OpenClientGang(client);
+	OpenClientGang(client);
 	
 	return Plugin_Handled;
 }
@@ -21,27 +21,24 @@ public int Native_OpenClientGang(Handle plugin, int numParams)
 	if (client < 1 || !IsClientInGame(client))
 		return;
 	
+	OpenClientGang(client);
+}
+
+stock void OpenClientGang(int client)
+{
 	if (!g_bIsInGang[client])
 	{
 		PrintToChat(client, "You aren't in a gang"); // TODO: Translation
 		return;
 	}
 	
-	OpenClientGang(client);
-}
-
-
-stock void OpenClientGang(int client)
-{
-	int GangID = Gangs_GetClientGang(client);
-	
 	char sGang[64], sTitle[64], sPoints[32], sOnline[32];
 	
-	Gangs_GetName(GangID, sGang, sizeof(sGang));
-	int points = Gangs_GetPoints(GangID);
-	int online = Gangs_GetOnlinePlayers(GangID);
-	int members = Gangs_GetMembersCount(GangID);
-	int maxmembers = Gangs_GetMaxMembers(GangID);
+	Gangs_GetName(g_iClientGang[client], sGang, sizeof(sGang));
+	int points = Gangs_GetPoints(g_iClientGang[client]);
+	int online = Gangs_GetOnlinePlayers(g_iClientGang[client]);
+	int members = Gangs_GetMembersCount(g_iClientGang[client]);
+	int maxmembers = Gangs_GetMaxMembers(g_iClientGang[client]);
 	
 	Format(sPoints, sizeof(sPoints), "Points: %d", points); // TODO: Translation
 	Format(sOnline, sizeof(sOnline), "Online: %d/%d/%d", online, members, maxmembers); // TODO: Translation
@@ -88,8 +85,7 @@ public int Menu_GangMenu(Menu menu, MenuAction action, int client, int param)
 stock void ShowMembers(int client)
 {
 	char sGang[12], sRang[18], sName[MAX_NAME_LENGTH], sSteam[64];
-	int GangID = Gangs_GetClientGang(client);
-	Gangs_GetName(GangID, sGang, sizeof(sGang));
+	Gangs_GetName(g_iClientGang[client], sGang, sizeof(sGang));
 	
 	GetClientAuthId(client, AuthId_SteamID64, sSteam, sizeof(sSteam));
 	
@@ -131,7 +127,7 @@ public int Menu_GangMembers(Menu menu, MenuAction action, int client, int param)
 {
 	if (action == MenuAction_Cancel)
 		if(param == MenuCancel_ExitBack)
-			Gangs_OpenClientGang(client);
+			OpenClientGang(client);
 	if (action == MenuAction_End)
 		delete menu;
 }
@@ -139,12 +135,11 @@ public int Menu_GangMembers(Menu menu, MenuAction action, int client, int param)
 stock void ShowSkills(int client)
 {
 	char sGang[12];
-	int GangID = Gangs_GetClientGang(client);
 	int count = 0;
 	char sSkill[12], sSkillID[12];
 	int iGangGangSkills[Cache_Gangs_Skills];
 	
-	Gangs_GetName(GangID, sGang, sizeof(sGang));
+	Gangs_GetName(g_iClientGang[client], sGang, sizeof(sGang));
 	Menu menu = new Menu(Menu_GangSkillList);
 	Format(sGang, sizeof(sGang), "%s - Skills", sGang); // TODO: Translations
 	menu.SetTitle(sGang);
@@ -175,7 +170,7 @@ public int Menu_GangSkillList(Menu menu, MenuAction action, int client, int para
 {
 	if (action == MenuAction_Cancel)
 		if(param == MenuCancel_ExitBack)
-			Gangs_OpenClientGang(client);
+			OpenClientGang(client);
 	if (action == MenuAction_End)
 		delete menu;
 }

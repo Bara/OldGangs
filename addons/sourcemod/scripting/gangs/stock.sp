@@ -25,7 +25,7 @@ stock int GetOnlinePlayerCount(int gangid)
 	{
 		if(IsClientInGame(i))
 		{
-			if(Gangs_GetClientGang(i) == gangid)
+			if(g_iClientGang[i] == gangid)
 			{
 				count++;
 			}
