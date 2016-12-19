@@ -50,32 +50,7 @@ public int Menu_GangInvite(Menu menu, MenuAction action, int client, int param)
 		
 		if(target > 0 && IsClientInGame(target))
 		{
-			if(g_iInvited[target] > 0)
-			{
-				CPrintToChat(client, "%N was already invited!", target);
-			}
-			else if (g_bIsInGang[target])
-			{
-				CPrintToChat(client, "%N is already in a gang!", target);
-			}
-			else
-			{
-				float fTime = g_cGangInviteTime.FloatValue;
-				
-				g_iInvited[target] = g_iClientGang[client];
-				
-				char sGang[64];
-				Gangs_GetName(g_iClientGang[client], sGang, sizeof(sGang));
-				
-				CPrintToChat(client, "You've invited %N to %s!", target, sGang);
-				
-				CPrintToChat(target, "You was invited by %N in his gang %s!", client, sGang);
-				CPrintToChat(target, "You can accept this request with typing \"accept\" in chat...");
-				CPrintToChat(target, "or decline this request with typing \"decline\" in chat...");
-				CPrintToChat(target, "or wait %.2f seconds until the invite will expired.", fTime); // TODO: Add g_cGangInviteTime
-				
-				g_hInviteTimer[target] = CreateTimer(fTime, Timer_InviteExpire, GetClientUserId(target));
-			}
+			InvitePlayer(client, target);
 		}
 		
 		ShowMembers(client);
@@ -97,6 +72,7 @@ public Action Timer_InviteExpire(Handle timer, any userid)
 		Gangs_GetName(g_iInvited[client], sGang, sizeof(sGang));
 		
 		CPrintToChat(client, "Invite for %s expired!", sGang);
+		CPrintToChatAll("%N declined the invite for the gang %s", client, sGang);
 		
 		g_iInvited[client] = -1;
 	}
@@ -157,3 +133,53 @@ stock void CloseInviteProcess(int client)
 	g_iInvited[client] = -1;
 }
 
+public Action Command_InviteGang(int client, int args)
+{
+	if(!g_cGangInviteCommandEnable.BoolValue)
+	{
+		CPrintToChat(client, "Invite per command is currently disabled!");
+		return Plugin_Handled;
+	}
+	
+	char sTarget[MAX_NAME_LENGTH];
+	GetCmdArgString(sTarget, sizeof(sTarget));
+	
+	int iTarget = FindTarget(client, sTarget);
+			
+	if(iTarget != -1 && IsClientInGame(iTarget) && !IsFakeClient(iTarget))
+	{
+		InvitePlayer(client, iTarget);
+	}
+	
+	return Plugin_Continue;
+}
+
+stock void InvitePlayer(int client, int target)
+{
+	if(g_iInvited[target] > 0)
+	{
+		CPrintToChat(client, "%N was already invited!", target);
+	}
+	else if (g_bIsInGang[target])
+	{
+		CPrintToChat(client, "%N is already in a gang!", target);
+	}
+	else
+	{
+		float fTime = g_cGangInviteTime.FloatValue;
+		
+		g_iInvited[target] = g_iClientGang[client];
+		
+		char sGang[64];
+		Gangs_GetName(g_iClientGang[client], sGang, sizeof(sGang));
+		
+		CPrintToChat(client, "You've invited %N to %s!", target, sGang);
+		
+		CPrintToChat(target, "You was invited by %N in his gang %s!", client, sGang);
+		CPrintToChat(target, "You can accept this request with typing \"accept\" in chat...");
+		CPrintToChat(target, "or decline this request with typing \"decline\" in chat...");
+		CPrintToChat(target, "or wait %.2f seconds until the invite will expired.", fTime); // TODO: Add g_cGangInviteTime
+		
+		g_hInviteTimer[target] = CreateTimer(fTime, Timer_InviteExpire, GetClientUserId(target));
+	}
+}

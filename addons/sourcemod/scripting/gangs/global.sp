@@ -95,6 +95,7 @@ ConVar g_cGangPointsVipKilled = null; // Main
 
 // Invite
 ConVar g_cGangInviteMenuEnable = null;
+ConVar g_cGangInviteCommandEnable = null;
 ConVar g_cGangInviteTime = null;
 
 // Chat stuff

@@ -35,7 +35,8 @@ stock void CreateConfig()
 	g_cEnableGangPrefix = CreateConVar("gangs_enable_chat_prefix", "1", "Add a prefix to players name", _, true, 0.0, true, 1.0);
 	
 	// Invite
-	g_cGangInviteMenuEnable = CreateConVar("gang_invite_enable", "1", "Enable \"Invites\" over menu?", _, true, 0.0, true, 1.0);
+	g_cGangInviteMenuEnable = CreateConVar("gang_invite_menu_enable", "1", "Enable \"Invites\" over menu?", _, true, 0.0, true, 1.0);
+	g_cGangInviteCommandEnable = CreateConVar("gang_invite_command_enable", "1", "Enable \"Invites\" per command?", _, true, 0.0, true, 1.0);
 	g_cGangInviteTime = CreateConVar("gang_invite_time", "20.0", "Time in seconds to accept/decline a invite");
 	
 	// General settings

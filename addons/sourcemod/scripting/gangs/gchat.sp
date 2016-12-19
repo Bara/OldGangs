@@ -51,7 +51,11 @@ public Action OnChatMessage(int& author, ArrayList recipients, char[] flagstring
 
 public Action Command_Say(int client, const char[] command, int argc)
 {
-	if(g_iInvited[client] > 0 && !IsChatTrigger())
+	if(IsChatTrigger() || (g_iInvited[client] <= 0 && !g_bInRename[client]))
+	{
+		return Plugin_Continue;
+	}
+	else if(g_iInvited[client] > 0)
 	{
 		char sMessage[12];
 		GetCmdArgString(sMessage, sizeof(sMessage));
@@ -73,8 +77,7 @@ public Action Command_Say(int client, const char[] command, int argc)
 		else
 			return Plugin_Continue;
 	}
-	
-	if (g_bInRename[client] && !IsChatTrigger())
+	else if (g_bInRename[client])
 	{
 		int iLength = g_cGangCreateMaxLen.IntValue + 1;
 		char[] sNewName = new char[iLength];
@@ -88,7 +91,7 @@ public Action Command_Say(int client, const char[] command, int argc)
 			
 			CloseRenameProcess(client);
 		}
-				
+		
 		return Plugin_Handled;
 	}
 	

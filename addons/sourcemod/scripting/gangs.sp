@@ -88,6 +88,7 @@ public void OnPluginStart()
 	RegConsoleCmd("sm_gdelete", Command_DeleteGang);
 	RegConsoleCmd("sm_grename", Command_RenameGang);
 	RegConsoleCmd("sm_gabort", Command_AbortGang);
+	RegConsoleCmd("sm_ginvite", Command_InviteGang);
 	
 	// for rename
 	AddCommandListener(Command_Say, "say");
