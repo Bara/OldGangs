@@ -155,7 +155,7 @@ public void SQL_SaveClientGangID(Handle owner, Handle hndl, const char[] error, 
 				AddGangToArray(SQL_FetchInt(hndl, 0), sGang);
 				Log_File(_, _, INFO, "\"%L\" created %s!", client, sGang); // TODO: Translation
 				g_iClientGang[client] = SQL_FetchInt(hndl, 0);
-				AddClientToGang(client, g_iClientGang[client]);
+				AddOwnerToGang(client, g_iClientGang[client]);
 			}
 			else
 			{
@@ -184,18 +184,18 @@ stock void AddGangToArray(int GangID, const char[] sGang)
 	g_aCacheGang.PushArray(iGang[0]);
 }
 
-stock void AddClientToGang(int client, int gang)
+stock void AddOwnerToGang(int client, int gang)
 {
 	char sQuery[512], sName[MAX_NAME_LENGTH], sEName[MAX_NAME_LENGTH];
 	
 	GetClientName(client, sName, sizeof(sName));
 	SQL_EscapeString(g_hDatabase, sName, sEName, sizeof(sEName));
 	
-	Format(sQuery, sizeof(sQuery), "INSERT INTO `gangs_members` (`GangID`, `CommunityID`, `PlayerName`, `AccessLevel`) VALUES ('%d', '%s', '%s', '6')", g_iClientGang[client], g_sClientID[client], sEName);
-	SQL_TQuery(g_hDatabase, SQL_UpdateGangMembers, sQuery, GetClientUserId(client));
+	Format(sQuery, sizeof(sQuery), "INSERT INTO `gangs_members` (`GangID`, `CommunityID`, `PlayerName`, `AccessLevel`) VALUES ('%d', '%s', '%s', '6')", gang, g_sClientID[client], sEName);
+	SQL_TQuery(g_hDatabase, SQL_InsertOwner, sQuery, GetClientUserId(client));
 }
 
-public void SQL_UpdateGangMembers(Handle owner, Handle hndl, const char[] error, any userid)
+public void SQL_InsertOwner(Handle owner, Handle hndl, const char[] error, any userid)
 {
 	if (error[0])
 	{

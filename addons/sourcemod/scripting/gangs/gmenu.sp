@@ -93,8 +93,18 @@ stock void ShowMembers(int client)
 	Menu menu = new Menu(Menu_GangMembers);
 	Format(sGang, sizeof(sGang), "%s - Members", sGang); // TODO: Translations
 	menu.SetTitle(sGang);
+	
+	if(g_cGangInviteEnable.BoolValue)
+	{
+		int iGLevel = Gangs_GetClientLevel(client);
+		
+		if(iGLevel == GANGS_LEADER || iGLevel == GANGS_INVITER)
+			menu.AddItem("invite", "Invite player");
+	}
+	
 	for (int i = 0; i < g_aCacheGangMembers.Length; i++)
 	{
+		// TODO: Add new menu for offline gang members (maybe a new array?)
 		int iGangMembers[Cache_Gangs_Members];
 		g_aCacheGangMembers.GetArray(i, iGangMembers[0]);
 		
@@ -126,6 +136,16 @@ stock void ShowMembers(int client)
 
 public int Menu_GangMembers(Menu menu, MenuAction action, int client, int param)
 {
+	if (action == MenuAction_Select)
+	{
+		char sParam[32];
+		menu.GetItem(param, sParam, sizeof(sParam));
+		
+		if(StrEqual(sParam, "invite", false))
+		{
+			ShowInvitePlayers(client);
+		}
+	}
 	if (action == MenuAction_Cancel)
 		if(param == MenuCancel_ExitBack)
 			OpenClientGang(client);

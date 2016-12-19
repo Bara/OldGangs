@@ -33,6 +33,7 @@
 #include "gangs/gchat.sp"
 #include "gangs/gsettings.sp"
 #include "gangs/gabort.sp"
+#include "gangs/ginvite.sp"
 
 public APLRes AskPluginLoad2(Handle myself, bool late, char[] error, int err_max)
 {
@@ -41,6 +42,7 @@ public APLRes AskPluginLoad2(Handle myself, bool late, char[] error, int err_max
 	g_hGangLeft = CreateGlobalForward("Gangs_OnGangLeft", ET_Ignore, Param_Cell, Param_Cell);
 	g_hGangDelete = CreateGlobalForward("Gangs_OnGangDelete", ET_Ignore, Param_Cell, Param_Cell, Param_String);
 	g_hGangRename = CreateGlobalForward("Gangs_OnGangRename", ET_Ignore, Param_Cell, Param_Cell, Param_String, Param_String);
+	g_hGangClientJoined = CreateGlobalForward("Gangs_OnClientJoinedGang", ET_Ignore, Param_Cell, Param_Cell); // TODO: maybe a second forward to block this 
 	
 	CreateNative("Gangs_IsClientInGang", Native_IsClientInGang);
 	CreateNative("Gangs_GetClientLevel", Native_GetClientAccessLevel);

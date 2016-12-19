@@ -49,11 +49,12 @@ ArrayList g_aCacheSkills = null;
 Handle g_hDatabase;
 
 // Fowards
-Handle g_hSQLConnected;
-Handle g_hGangCreated;
-Handle g_hGangLeft;
-Handle g_hGangDelete;
-Handle g_hGangRename;
+Handle g_hSQLConnected = null;
+Handle g_hGangCreated = null;
+Handle g_hGangLeft = null;
+Handle g_hGangDelete = null;
+Handle g_hGangRename = null;
+Handle g_hGangClientJoined = null;
 
 // Client stuff
 char g_sClientID[MAXPLAYERS + 1][64];
@@ -92,6 +93,10 @@ ConVar g_cGangPointsBombDefused = null; // Main
 ConVar g_cGangPointsVipEscape = null; // Main
 ConVar g_cGangPointsVipKilled = null; // Main
 
+// Invite
+ConVar g_cGangInviteEnable = null;
+ConVar g_cGangInviteTime = null;
+
 // Chat stuff
 ConVar g_cEnableGangChat = null;
 ConVar g_cEnableGangPrefix = null;
@@ -102,3 +107,7 @@ ConVar g_cGangMenuDisplayTime = null;
 // Rename
 Handle g_hRenameTimer[MAXPLAYERS + 1] =  { null, ... };
 bool g_bInRename[MAXPLAYERS + 1] =  { false, ... };
+
+// Invite
+Handle g_hInviteTimer[MAXPLAYERS + 1] =  { null, ... };
+int g_iInvited[MAXPLAYERS + 1] =  { -1, ... }; // Gang ID

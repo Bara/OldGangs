@@ -14,7 +14,7 @@ stock void CreateConfig()
 	g_cGangRenameTime = CreateConVar("gangs_rename_time", "20.0", "Time in seconds for rename per menu");
 	
 	// PointsGang
-	g_cGangPointsEnable = CreateConVar("gangs_points_enable", "1", "Enable \"Earning Points\"?");
+	g_cGangPointsEnable = CreateConVar("gangs_points_enable", "1", "Enable \"Earning Points\"?", _, true, 0.0, true, 1.0);
 	g_cGangPointsBots = CreateConVar("gangs_points_bots", "1", "Get points for killing bots?");
 	g_cGangPointsKill = CreateConVar("gangs_points_kill", "1", "How much points for a \"normal kill\"?");
 	g_cGangPointsKnife = CreateConVar("gangs_points_knife", "2", "How much points for a \"knife kill\"?");
@@ -31,8 +31,12 @@ stock void CreateConfig()
 	g_cGangPointsVipKilled = CreateConVar("gangs_points_vip_killed", "2", "How much points for \"vip_killed\"?");
 	
 	// Chat stuff
-	g_cEnableGangChat = CreateConVar("gangs_enable_chat_prefix", "1", "Enable \"Gang Ghat\"?");
-	g_cEnableGangPrefix = CreateConVar("gangs_enable_chat_prefix", "1", "Add a prefix to players name");
+	g_cEnableGangChat = CreateConVar("gangs_enable_chat_prefix", "1", "Enable \"Gang Ghat\"?", _, true, 0.0, true, 1.0);
+	g_cEnableGangPrefix = CreateConVar("gangs_enable_chat_prefix", "1", "Add a prefix to players name", _, true, 0.0, true, 1.0);
+	
+	// Invite
+	g_cGangInviteEnable = CreateConVar("gang_invite_enable", "1", "Enable \"Invites\"?", _, true, 0.0, true, 1.0);
+	g_cGangInviteTime = CreateConVar("gang_invite_time", "20.0", "Time in seconds to accept/decline a invite");
 	
 	// General settings
 	g_cGangMenuDisplayTime = CreateConVar("gangs_menu_display_time", "15", "How long should be open the menu? (time will replaced every time)");

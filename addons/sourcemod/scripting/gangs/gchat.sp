@@ -51,6 +51,25 @@ public Action OnChatMessage(int& author, ArrayList recipients, char[] flagstring
 
 public Action Command_Say(int client, const char[] command, int argc)
 {
+	if(g_iInvited[client] > 0 && !IsChatTrigger())
+	{
+		char sMessage[12];
+		GetCmdArgString(sMessage, sizeof(sMessage));
+		StripQuotes(sMessage);
+		
+		if(StrEqual(sMessage, "accept", false))
+		{
+			AddClientToGang(client, g_iInvited[client]);
+		}
+		else if(StrEqual(sMessage, "decline", false))
+		{
+			Command_AbortGang(client, 0);
+			CPrintToChatAll("%N declined the invite for the gang %s", client, g_iInvited[client]);
+		}
+		else
+			return Plugin_Continue;
+	}
+	
 	if (g_bInRename[client] && !IsChatTrigger())
 	{
 		int iLength = g_cGangCreateMaxLen.IntValue + 1;

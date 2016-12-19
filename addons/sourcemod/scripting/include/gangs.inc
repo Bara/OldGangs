@@ -100,6 +100,7 @@ forward void Gangs_OnGangCreated(int client, int gangid);
 forward void Gangs_OnGangLeft(int client, int gangid);
 forward void Gangs_OnGangDelete(int client, int gangid, const char[] gangname);
 forward void Gangs_OnGangRename(int client, int gangid, const char[] oldgangname, const char[] newgangname);
+forward void Gangs_OnClientJoinedGang(int client, int gangid);
 
 native bool Gangs_IsClientInGang(int client);
 native int Gangs_GetClientLevel(int client);
@@ -119,7 +120,7 @@ native int Gangs_GetMaxMembers(int gangid);
 native int Gangs_GetMembersCount(int gangid);
 native int Gangs_GetOnlinePlayers(int gangid);
 
-public SharedPlugin __pl_gang =
+public SharedPlugin __pl_gangs =
 {
 	name = "Gangs - Core",
 	file = "gangs.smx",
