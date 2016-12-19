@@ -1,6 +1,6 @@
 public Action Command_CreateGang(int client, int args)
 {
-	if (client < 1 || !IsClientInGame(client) )
+	if (!Gangs_IsClientValid(client) )
 		return Plugin_Handled;
 	
 	if(!g_cGangCreateEnable.BoolValue)
@@ -26,7 +26,7 @@ public int Native_CreateClientGang(Handle plugin, int numParams)
 {
 	int client = GetNativeCell(1);
 	
-	if(client < 1 || !IsClientInGame(client))
+	if (!Gangs_IsClientValid(client) )
 		return;
 	
 	char sGang[64];
@@ -143,7 +143,7 @@ public void SQL_SaveClientGangID(Handle owner, Handle hndl, const char[] error, 
 	ReadPackString(pack, sGang, sizeof(sGang));
 	CloseHandle(pack);
 
-	if(!IsClientInGame(client))
+	if (!Gangs_IsClientValid(client) )
 		return;
 	
 	if (hndl != null)
@@ -205,7 +205,7 @@ public void SQL_InsertOwner(Handle owner, Handle hndl, const char[] error, any u
 	
 	int client = GetClientOfUserId(userid);
 	
-	if(!IsClientInGame(client))
+	if (!Gangs_IsClientValid(client) ))
 		return;
 		
 	g_bIsInGang[client] = true;
@@ -235,7 +235,7 @@ public void TQuery_GangMembers(Handle owner, Handle hndl, const char[] error, an
 {
 	int client = GetClientOfUserId(userid);
 	
-	if(client < 1 || !IsClientInGame(client))
+	if (!Gangs_IsClientValid(client) )
 		return;
 	
 	if (hndl != null)

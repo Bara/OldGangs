@@ -1,6 +1,6 @@
 public Action Command_LeftGang(int client, int args)
 {
-	if (client < 1 || !IsClientInGame(client) )
+	if (!Gangs_IsClientValid(client) )
 		return Plugin_Handled;
 	
 	RemoveClientFromGang(client, g_iClientGang[client]);

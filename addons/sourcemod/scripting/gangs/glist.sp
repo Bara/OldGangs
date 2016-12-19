@@ -1,6 +1,6 @@
 public Action Command_ListGang(int client, int args)
 {
-	if (client < 1 || !IsClientInGame(client) )
+	if (!Gangs_IsClientValid(client) )
 		return Plugin_Handled;
 	
 	Menu mMenu = new Menu(Menu_GangList);

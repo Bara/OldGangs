@@ -1,6 +1,6 @@
 public Action Command_RenameGang(int client, int args)
 {
-	if (client < 1 || !IsClientInGame(client) )
+	if (!Gangs_IsClientValid(client) )
 		return Plugin_Handled;
 	
 	if(!g_cGangRenameEnable.BoolValue)
@@ -30,10 +30,8 @@ public int Native_RenameClientGang(Handle plugin, int numParams)
 	char sGang[64];
 	GetNativeString(3, sGang, sizeof(sGang));
 	
-	if(client < 1 || !IsClientInGame(client))
-	{
+	if (!Gangs_IsClientValid(client) )
 		return;
-	}
 	
 	RenameGang(client, gangid, sGang);
 }
@@ -187,7 +185,7 @@ public Action Timer_RenameEnd(Handle timer, any userid)
 {
 	int client = GetClientOfUserId(userid);
 	
-	if(client > 0 && IsClientInGame(client))
+	if (Gangs_IsClientValid(client) )
 	{
 		g_bInRename[client] = false;
 		

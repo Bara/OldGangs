@@ -80,7 +80,7 @@ public void Gangs_OnGangDelete(int client, int iGang, const char[] sGang)
 
 public Action Command_GangAPI(int client, int args)
 {
-	if(client < 1 || !IsClientInGame(client))
+	if (!Gangs_IsClientValid(client) )
 		return Plugin_Handled;
 	
 	CPrintToChat(client, "(Command_GangAPI) Gangs_IsClientInGang - %d", Gangs_IsClientInGang(client));

@@ -48,7 +48,7 @@ public int Menu_GangInvite(Menu menu, MenuAction action, int client, int param)
 		menu.GetItem(param, sParam, sizeof(sParam));
 		int target = GetClientOfUserId(StringToInt(sParam));
 		
-		if(target > 0 && IsClientInGame(target))
+		if (Gangs_IsClientValid(target) )
 		{
 			InvitePlayer(client, target);
 		}
@@ -66,7 +66,7 @@ public Action Timer_InviteExpire(Handle timer, any userid)
 {
 	int client = GetClientOfUserId(userid);
 	
-	if(client > 0 && IsClientInGame(client) && g_iInvited[client] > 0)
+	if (Gangs_IsClientValid(client) && g_iInvited[client] > 0)
 	{
 		char sGang[64];
 		Gangs_GetName(g_iInvited[client], sGang, sizeof(sGang));
@@ -102,7 +102,7 @@ public void SQL_InsertPlayer(Handle owner, Handle hndl, const char[] error, any 
 	
 	int client = GetClientOfUserId(userid);
 	
-	if(!IsClientInGame(client))
+	if (!Gangs_IsClientValid(client) )
 		return;
 		
 	g_bIsInGang[client] = true;
@@ -146,7 +146,7 @@ public Action Command_InviteGang(int client, int args)
 	
 	int iTarget = FindTarget(client, sTarget);
 			
-	if(iTarget != -1 && IsClientInGame(iTarget) && !IsFakeClient(iTarget))
+	if (Gangs_IsClientValid(iTarget) )
 	{
 		InvitePlayer(client, iTarget);
 	}

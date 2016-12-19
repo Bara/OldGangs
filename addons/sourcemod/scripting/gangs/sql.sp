@@ -49,7 +49,7 @@ public void SQL_CheckName(Handle owner, Handle hndl, const char[] error, any pac
 	ReadPackString(pack, newname, sizeof(newname));
 	CloseHandle(pack);
 	
-	if(client < 1 || !IsClientInGame(client))
+	if (!Gangs_IsClientValid(client) )
 		return;
 	
 	if (hndl != null)

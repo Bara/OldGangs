@@ -1,6 +1,6 @@
 public Action Command_Gang(int client, int args)
 {
-	if (client < 1 || !IsClientInGame(client) )
+	if (!Gangs_IsClientValid(client) )
 		return Plugin_Handled;
 	
 	if(args > 0)
@@ -18,7 +18,7 @@ public int Native_OpenClientGang(Handle plugin, int numParams)
 {
 	int client = GetNativeCell(1);
 	
-	if (client < 1 || !IsClientInGame(client))
+	if (!Gangs_IsClientValid(client) )
 		return;
 	
 	OpenClientGang(client);

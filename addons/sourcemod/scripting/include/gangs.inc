@@ -26,7 +26,7 @@ enum ELOG_LEVEL
 #define GANGS_MEMBER 2
 #define GANGS_TRIAL 1
 
-#define LoopClients(%1) for(int %1 = 1; %1 <= MaxClients; %1++) if(IsClientInGame(%1))
+#define LoopClients(%1) for(int %1 = 1; %1 <= MaxClients; %1++) if(Gangs_IsClientValid(%1))
 
 char g_sELogLevel[6][32] = {
 	"default",
@@ -93,6 +93,18 @@ stock void Log_File(const char[] path = "gangs", const char[] file = "core", ELO
 	VFormat(sBuffer, sizeof(sBuffer), format, 5);
 
 	LogToFile(sFile, sBuffer);
+}
+
+stock bool Gangs_IsClientValid(int client)
+{
+	if (client > 0 && client <= MaxClients)
+	{
+		if(IsClientInGame(client) && !IsFakeClient(client) && !IsClientSourceTV(client))
+		{
+			return true;
+		}
+	}
+	return false;
 }
 
 forward void Gangs_OnSQLConnected(Handle database);

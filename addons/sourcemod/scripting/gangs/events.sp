@@ -6,7 +6,7 @@ public Action Event_PlayerDeath(Event event, const char[] name, bool dontBroadca
 	char sWeapon[64];
 	event.GetString("weapon", sWeapon, sizeof(sWeapon));
 	
-	if(g_cGangPointsEnable.BoolValue && IsClientInGame(client) && IsClientInGame(victim) && !IsFakeClient(client) && Gangs_IsClientInGang(client))
+	if(g_cGangPointsEnable.BoolValue && Gangs_IsClientValid(client) && IsClientInGame(victim) && Gangs_IsClientInGang(client))
 	{
 		if((IsFakeClient(victim) && g_cGangPointsBots.BoolValue))
 		{
@@ -32,7 +32,7 @@ public Action Event_PlayerDeath(Event event, const char[] name, bool dontBroadca
 				{
 					int assister = GetClientOfUserId(event.GetInt("assister"));
 					
-					if(IsClientInGame(assister) && !IsFakeClient(assister) && (GetClientTeam(assister) != GetClientTeam(victim)))
+					if(Gangs_IsClientValid(assister) && (GetClientTeam(assister) != GetClientTeam(victim)))
 					{
 						int apoints = 0;
 					
@@ -53,7 +53,7 @@ public Action Event_BombPlanted(Event event, const char[] name, bool dontBroadca
 {
 	int client = GetClientOfUserId(event.GetInt("userid"));
 	
-	if(g_cGangPointsEnable.BoolValue && IsClientInGame(client))
+	if(g_cGangPointsEnable.BoolValue && Gangs_IsClientValid(client))
 	{
 		Gangs_AddPoints(g_iClientGang[client], g_cGangPointsBombPlanted.IntValue);
 	}
@@ -63,7 +63,7 @@ public Action Event_BombExploded(Event event, const char[] name, bool dontBroadc
 {
 	int client = GetClientOfUserId(event.GetInt("userid"));
 	
-	if(g_cGangPointsEnable.BoolValue && IsClientInGame(client))
+	if(g_cGangPointsEnable.BoolValue && Gangs_IsClientValid(client))
 	{
 		Gangs_AddPoints(g_iClientGang[client], g_cGangPointsBombExploded.IntValue);
 	}
@@ -73,7 +73,7 @@ public Action Event_BombDefused(Event event, const char[] name, bool dontBroadca
 {
 	int client = GetClientOfUserId(event.GetInt("userid"));
 	
-	if(g_cGangPointsEnable.BoolValue && IsClientInGame(client))
+	if(g_cGangPointsEnable.BoolValue && Gangs_IsClientValid(client))
 	{
 		Gangs_AddPoints(g_iClientGang[client], g_cGangPointsBombDefused.IntValue);
 	}
@@ -83,7 +83,7 @@ public Action Event_HostageFollow(Event event, const char[] name, bool dontBroad
 {
 	int client = GetClientOfUserId(event.GetInt("userid"));
 	
-	if(g_cGangPointsEnable.BoolValue && IsClientInGame(client))
+	if(g_cGangPointsEnable.BoolValue && Gangs_IsClientValid(client))
 	{
 		Gangs_AddPoints(g_iClientGang[client], g_cGangPointsHostageFollow.IntValue);
 	}
@@ -93,7 +93,7 @@ public Action Event_HostageRescued(Event event, const char[] name, bool dontBroa
 {
 	int client = GetClientOfUserId(event.GetInt("userid"));
 	
-	if(g_cGangPointsEnable.BoolValue && IsClientInGame(client))
+	if(g_cGangPointsEnable.BoolValue && Gangs_IsClientValid(client))
 	{
 		Gangs_AddPoints(g_iClientGang[client], g_cGangPointsHostageRescue.IntValue);
 	}
@@ -103,7 +103,7 @@ public Action Event_VipEscape(Event event, const char[] name, bool dontBroadcast
 {
 	int client = GetClientOfUserId(event.GetInt("userid"));
 	
-	if(g_cGangPointsEnable.BoolValue && IsClientInGame(client))
+	if(g_cGangPointsEnable.BoolValue && Gangs_IsClientValid(client))
 	{
 		Gangs_AddPoints(g_iClientGang[client], g_cGangPointsVipEscape.IntValue);
 	}
@@ -113,7 +113,7 @@ public Action Event_VipKilled(Event event, const char[] name, bool dontBroadcast
 {
 	int client = GetClientOfUserId(event.GetInt("userid"));
 	
-	if(g_cGangPointsEnable.BoolValue && IsClientInGame(client))
+	if(g_cGangPointsEnable.BoolValue && Gangs_IsClientValid(client))
 	{
 		Gangs_AddPoints(g_iClientGang[client], g_cGangPointsVipKilled.IntValue);
 	}

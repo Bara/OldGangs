@@ -1,6 +1,6 @@
 public Action Command_DeleteGang(int client, int args)
 {
-	if (client < 1 || !IsClientInGame(client) )
+	if (!Gangs_IsClientValid(client) )
 		return Plugin_Handled;
 	
 	DeleteGang(client, g_iClientGang[client]);
@@ -13,7 +13,7 @@ public int Native_DeleteClientGang(Handle plugin, int numParams)
 	int client = GetNativeCell(1);
 	int gangid = GetNativeCell(2);
 	
-	if (client < 1 || !IsClientInGame(client))
+	if (!Gangs_IsClientValid(client) )
 	{
 		return;
 	}
