@@ -78,6 +78,8 @@ public Plugin myinfo =
 
 public void OnPluginStart()
 {
+	LoadTranslations("common.phrases");
+	
 	CreateConfig();
 	
 	RegConsoleCmd("sm_gang", Command_Gang);
