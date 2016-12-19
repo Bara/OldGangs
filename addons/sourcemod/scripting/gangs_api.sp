@@ -100,3 +100,11 @@ public Action Command_GangAPI(int client, int args)
 	
 	return Plugin_Continue;
 }
+
+public void Gangs_OnClientJoinedGang(int client, int gangid)
+{
+	char sGang[64];
+	Gangs_GetName(gangid, sGang, sizeof(sGang));
+	
+	CPrintToChatAll("(Gangs_OnClientJoinedGang) Client: %N - GangID: %d - Gang: %s", client, gangid, sGang);
+}
