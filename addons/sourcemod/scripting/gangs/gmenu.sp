@@ -94,7 +94,7 @@ stock void ShowMembers(int client)
 	Format(sGang, sizeof(sGang), "%s - Members", sGang); // TODO: Translations
 	menu.SetTitle(sGang);
 	
-	if(g_cGangInviteEnable.BoolValue)
+	if(g_cGangInviteMenuEnable.BoolValue)
 	{
 		int iGLevel = Gangs_GetClientLevel(client);
 		
