@@ -48,3 +48,20 @@ public void SQL_Callback(Handle owner, Handle hndl, const char[] error, any data
 		return;
 	}
 }
+
+stock void Gangs_ClearArray()
+{
+	if (g_aCacheGang != null)
+		g_aCacheGang.Clear();
+	if (g_aCacheGangMembers != null)
+		g_aCacheGangMembers .Clear();
+	if (g_aCacheGangSkills != null)
+		g_aCacheGangSkills.Clear();
+	if (g_aCacheSkills != null)
+		g_aCacheSkills.Clear();
+		
+	g_aCacheGang = new ArrayList();
+	g_aCacheGangMembers = new ArrayList();
+	g_aCacheGangSkills = new ArrayList();
+	g_aCacheSkills = new ArrayList();
+}

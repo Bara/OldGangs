@@ -78,10 +78,6 @@ public Plugin myinfo =
 
 public void OnPluginStart()
 {
-	Gangs_CheckGame();
-	Gangs_CreateCache();
-	Gangs_SQLConnect();
-	
 	CreateConfig();
 	
 	RegConsoleCmd("sm_gang", Command_Gang);
@@ -107,6 +103,14 @@ public void OnPluginStart()
 	HookEvent("vip_escaped", Event_VipEscape);
 	HookEvent("vip_killed", Event_VipKilled);
 	HookEvent("player_changename", Event_ChangeName);
+}
+
+public void OnMapStart()
+{
+	Gangs_ClearArray();
+	Gangs_CheckGame();
+	Gangs_CreateCache();
+	Gangs_SQLConnect();
 }
 
 public void OnClientPutInServer(int client)

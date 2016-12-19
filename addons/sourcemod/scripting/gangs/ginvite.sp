@@ -50,9 +50,13 @@ public int Menu_GangInvite(Menu menu, MenuAction action, int client, int param)
 		
 		if(target > 0 && IsClientInGame(target))
 		{
-			if(!g_bIsInGang[target] || g_iInvited[target] != -1)
+			if(g_iInvited[target] > 0)
 			{
 				CPrintToChat(client, "%N was already invited!", target);
+			}
+			else if (g_bIsInGang[target])
+			{
+				CPrintToChat(client, "%N is already in a gang!", target);
 			}
 			else
 			{
@@ -65,12 +69,12 @@ public int Menu_GangInvite(Menu menu, MenuAction action, int client, int param)
 				
 				CPrintToChat(client, "You've invited %N to %s!", target, sGang);
 				
-				CPrintToChat(target, "You was invited by %N in his gang %N!", client, sGang);
+				CPrintToChat(target, "You was invited by %N in his gang %s!", client, sGang);
 				CPrintToChat(target, "You can accept this request with typing \"accept\" in chat...");
 				CPrintToChat(target, "or decline this request with typing \"decline\" in chat...");
 				CPrintToChat(target, "or wait %.2f seconds until the invite will expired.", fTime); // TODO: Add g_cGangInviteTime
 				
-				g_hInviteTimer[client] = CreateTimer(fTime, Timer_InviteExpire, GetClientUserId(client));
+				g_hInviteTimer[target] = CreateTimer(fTime, Timer_InviteExpire, GetClientUserId(target));
 			}
 		}
 		
@@ -87,7 +91,7 @@ public Action Timer_InviteExpire(Handle timer, any userid)
 {
 	int client = GetClientOfUserId(userid);
 	
-	if(client > 0 && IsClientInGame(client) && !g_hInviteTimer[client])
+	if(client > 0 && IsClientInGame(client) && g_iInvited[client] > 0)
 	{
 		char sGang[64];
 		Gangs_GetName(g_iInvited[client], sGang, sizeof(sGang));

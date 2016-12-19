@@ -60,11 +60,15 @@ public Action Command_Say(int client, const char[] command, int argc)
 		if(StrEqual(sMessage, "accept", false))
 		{
 			AddClientToGang(client, g_iInvited[client]);
+			return Plugin_Handled;
 		}
 		else if(StrEqual(sMessage, "decline", false))
 		{
+			char sGang[64];
+			Gangs_GetName(g_iInvited[client], sGang, sizeof(sGang));
 			Command_AbortGang(client, 0);
-			CPrintToChatAll("%N declined the invite for the gang %s", client, g_iInvited[client]);
+			CPrintToChatAll("%N declined the invite for the gang %s", client, sGang);
+			return Plugin_Handled;
 		}
 		else
 			return Plugin_Continue;
