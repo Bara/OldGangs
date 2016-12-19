@@ -11,6 +11,8 @@ stock void ShowInvitePlayers(int client)
 	char sUserID[12], sName[MAX_NAME_LENGTH];
 	int iUserID = -1;
 	
+	int iCount = 0;
+	
 	LoopClients(i)
 	{
 		if(!g_bIsInGang[i] && g_iInvited[i] == -1)
@@ -19,12 +21,23 @@ stock void ShowInvitePlayers(int client)
 			IntToString(iUserID, sUserID, sizeof(sUserID));
 			GetClientName(i, sName, sizeof(sName));
 			menu.AddItem(sUserID, sName);
+			iCount++;
 		}
 	}
 	
-	menu.ExitBackButton = true;
-	menu.ExitButton = false;
-	menu.Display(client, g_cGangMenuDisplayTime.IntValue);
+	if(iCount <= 0)
+	{
+		CPrintToChat(client, "No players found!");
+		ShowMembers(client);
+		
+		delete menu;
+	}
+	else
+	{
+		menu.ExitBackButton = true;
+		menu.ExitButton = false;
+		menu.Display(client, g_cGangMenuDisplayTime.IntValue);
+	}
 }
 
 public int Menu_GangInvite(Menu menu, MenuAction action, int client, int param)
@@ -59,8 +72,9 @@ public int Menu_GangInvite(Menu menu, MenuAction action, int client, int param)
 				
 				g_hInviteTimer[client] = CreateTimer(fTime, Timer_InviteExpire, GetClientUserId(client));
 			}
-			Gangs_OpenClientGang(client);
 		}
+		
+		ShowMembers(client);
 	}
 	if (action == MenuAction_Cancel)
 		if(param == MenuCancel_ExitBack)
@@ -129,3 +143,13 @@ public void SQL_InsertPlayer(Handle owner, Handle hndl, const char[] error, any 
 	Call_PushCell(g_iClientGang[client]);
 	Call_Finish();
 }
+
+stock void CloseInviteProcess(int client)
+{
+	if(g_hInviteTimer[client] != null)
+		KillTimer(g_hInviteTimer[client]);
+	
+	g_hInviteTimer[client] = null;
+	g_iInvited[client] = -1;
+}
+

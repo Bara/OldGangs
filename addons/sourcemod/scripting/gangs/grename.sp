@@ -137,6 +137,8 @@ public void SQL_RenameGang(Handle owner, Handle hndl, const char[] error, any pa
 	CPrintToChatAll("%N renamed %s to %s!", client, oldgangname, newgangname); // TODO: Translation
 	Log_File(_, _, INFO, "\"%L\" renamed %s to %s!", client, oldgangname, newgangname); // TODO: Translation
 	
+	CloseRenameProcess(client);
+	
 	for (int i = 0; i < g_aCacheGang.Length; i++)
 	{
 		int iGang[Cache_Gang];
@@ -185,7 +187,7 @@ public Action Timer_RenameEnd(Handle timer, any userid)
 {
 	int client = GetClientOfUserId(userid);
 	
-	if(client > 0 && IsClientInGame(client) && !g_hRenameTimer[client])
+	if(client > 0 && IsClientInGame(client))
 	{
 		g_bInRename[client] = false;
 		
@@ -194,4 +196,13 @@ public Action Timer_RenameEnd(Handle timer, any userid)
 	
 	g_hRenameTimer[client] = null;
 	return Plugin_Stop;
+}
+
+stock void CloseRenameProcess(int client)
+{
+	if(g_hRenameTimer[client] != null)
+		KillTimer(g_hRenameTimer[client]);
+	
+	g_hRenameTimer[client] = null;
+	g_bInRename[client] = false;
 }

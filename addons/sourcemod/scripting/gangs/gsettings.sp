@@ -32,7 +32,7 @@ public int Menu_GangSettings(Menu menu, MenuAction action, int client, int param
 			else
 				CPrintToChat(client, "Rename process already running!");
 			
-			Gangs_OpenClientGang(client);
+			ShowSettings(client);
 		}
 	}
 	if (action == MenuAction_Cancel)

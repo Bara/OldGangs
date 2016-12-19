@@ -82,8 +82,7 @@ public Action Command_Say(int client, const char[] command, int argc)
 		{
 			RenameGang(client, Gangs_GetClientGang(client), sNewName);
 			
-			g_bInRename[client] = false;
-			g_hRenameTimer[client] = null;
+			CloseRenameProcess(client);
 		}
 				
 		return Plugin_Handled;
