@@ -102,6 +102,7 @@ public void SQL_InsertPlayer(Handle owner, Handle hndl, const char[] error, any 
 		
 	g_bIsInGang[client] = true;
 	g_iClientGang[client] = g_iInvited[client];
+	g_iClientLevel[client] = GANGS_TRIAL;
 	g_iInvited[client] = -1;
 	
 	CPrintToChatAll("%N joined the gang %s!", client, g_sGang[g_iClientGang[client]]); // TODO: Translation

@@ -16,6 +16,7 @@ public int Native_LeftClientGang(Handle plugin, int numParams)
 	
 	g_bIsInGang[client] = false;
 	g_iClientGang[client] = 0;
+	g_iClientLevel[client] = GANGS_NONE;
 }
 
 stock void ShowLeftGangMenu(int client)
@@ -59,7 +60,7 @@ stock void RemoveClientFromGang(int client, int gangid)
 		return;
 	}
 	
-	if(Gangs_GetClientLevel(client) >= GANGS_LEADER)
+	if(g_iClientLevel[client] >= GANGS_LEADER)
 	{
 		CPrintToChat(client, "You can't run this command as owner"); // TODO: Translation
 		return;
@@ -68,6 +69,7 @@ stock void RemoveClientFromGang(int client, int gangid)
 	EraseClientArray(client);
 	g_bIsInGang[client] = false;
 	g_iClientGang[client] = 0;
+	g_iClientLevel[client] = GANGS_NONE;
 	
 	char sQuery[256];
 	Format(sQuery, sizeof(sQuery), "DELETE FROM `gangs_members` WHERE `CommunityID` = '%s' AND `GangID` = '%d'", g_sClientID[client], g_iClientGang[client]);

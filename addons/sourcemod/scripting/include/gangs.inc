@@ -25,6 +25,7 @@ enum ELOG_LEVEL
 #define GANGS_INVITER 3
 #define GANGS_MEMBER 2
 #define GANGS_TRIAL 1
+#define GANGS_NONE 0
 
 #define LoopClients(%1) for(int %1 = 1; %1 <= MaxClients; %1++) if(Gangs_IsClientValid(%1))
 

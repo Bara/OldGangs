@@ -62,7 +62,7 @@ stock void DeleteGang(int client, int gangid)
 		return;
 	}
 	
-	if(Gangs_GetClientLevel(client) < GANGS_LEADER)
+	if(g_iClientLevel[client] < GANGS_LEADER)
 	{
 		CPrintToChat(client, "Just the owner can do this!"); // TODO: Translation
 		return;
@@ -78,6 +78,7 @@ stock void DeleteGang(int client, int gangid)
 			EraseClientArray(i);
 			g_bIsInGang[i] = false;
 			g_iClientGang[i] = 0;
+			g_iClientLevel[client] = GANGS_NONE;
 		}
 	}
 	
