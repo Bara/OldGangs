@@ -11,7 +11,7 @@ stock void ShowSettings(int client)
 	else
 		menu.AddItem("rename", "Rename (in progress)", ITEMDRAW_DISABLED);
 	
-	if(Gangs_GetClientLevel(client) == GANGS_LEADER)
+	if(g_iClientLevel[client] == GANGS_LEADER)
 		menu.AddItem("delete", "Delete");
 	
 	menu.ExitBackButton = true;

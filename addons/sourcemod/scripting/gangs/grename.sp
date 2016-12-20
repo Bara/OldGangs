@@ -78,7 +78,7 @@ stock bool CheckGangRename(int client, const char[] sGang)
 		return false;
 	}
 	
-	if(Gangs_GetClientLevel(client) < g_cGangRenameRank.IntValue)
+	if(g_iClientLevel[client] < g_cGangRenameRank.IntValue)
 	{
 		CPrintToChat(client, "You've not enough access to do this");
 		return false;

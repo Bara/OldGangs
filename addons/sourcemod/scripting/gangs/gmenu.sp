@@ -51,7 +51,7 @@ stock void OpenClientGang(int client)
 	menu.AddItem("skills", "Skills"); // TODO: Translation
 	menu.AddItem("members", "Members"); // TODO: Translation
 	
-	if(Gangs_GetClientLevel(client) == GANGS_LEADER)
+	if(g_iClientLevel[client] == GANGS_LEADER)
 		menu.AddItem("settings", "Settings"); // TODO: Translation
 	else
 		menu.AddItem("leftgang", "Left Gang"); // TODO: Translation
@@ -96,7 +96,7 @@ stock void ShowMembers(int client)
 	
 	if(g_cGangInviteMenuEnable.BoolValue)
 	{
-		int iGLevel = Gangs_GetClientLevel(client);
+		int iGLevel = g_iClientLevel[client];
 		
 		if(iGLevel == GANGS_LEADER || iGLevel == GANGS_INVITER)
 			menu.AddItem("invite", "Invite player");
@@ -123,7 +123,7 @@ stock void ShowMembers(int client)
 	
 		Format(sName, sizeof(sName), "[%s] %s", sRang, iGangMembers[sPlayerN]);
 		
-		if(Gangs_GetClientLevel(client) < GANGS_LEADER || StrEqual(sSteam, iGangMembers[sCommunityID]))
+		if(g_iClientLevel[client] < GANGS_LEADER || StrEqual(sSteam, iGangMembers[sCommunityID]))
 			menu.AddItem("", sName, ITEMDRAW_DISABLED);
 		else
 			menu.AddItem(iGangMembers[sCommunityID], sName);
