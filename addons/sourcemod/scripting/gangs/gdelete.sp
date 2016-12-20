@@ -25,10 +25,9 @@ stock void ShowDeleteGangMenu(int client)
 {
 	char sGang[64];
 	int GangID = Gangs_GetClientGang(client);
-	Gangs_GetName(GangID, sGang, sizeof(sGang));
 	
 	Menu menu = new Menu(Menu_GangDelete);
-	Format(sGang, sizeof(sGang), "You're sure to delete %s?", sGang); // TODO: Translations
+	Format(sGang, sizeof(sGang), "You're sure to delete %s?", g_sGang[GangID]); // TODO: Translations
 	
 	menu.SetTitle(sGang);
 	menu.AddItem("yes", "Yes, I'm sure!");
@@ -70,11 +69,8 @@ stock void DeleteGang(int client, int gangid)
 		return;
 	}
 	
-	char sGang[64];
-	Gangs_GetName(gangid, sGang, sizeof(sGang));
-	
-	CPrintToChatAll("\"%L\" deleted %s!", client, sGang); // TODO: Translation
-	Log_File(_, _, INFO, "\"%L\" deleted %s!", client, sGang); // TODO: Translation
+	CPrintToChatAll("\"%L\" deleted %s!", client, g_sGang[gangid]); // TODO: Translation
+	Log_File(_, _, INFO, "\"%L\" deleted %s!", client, g_sGang[gangid]); // TODO: Translation
 	
 	LoopClients(i)
 	{
@@ -91,7 +87,7 @@ stock void DeleteGang(int client, int gangid)
 	Call_StartForward(g_hGangDelete);
 	Call_PushCell(client);
 	Call_PushCell(gangid);
-	Call_PushString(sGang);
+	Call_PushString(g_sGang[gangid]);
 	Call_Finish();
 }
 

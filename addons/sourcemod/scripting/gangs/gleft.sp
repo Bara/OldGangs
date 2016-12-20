@@ -21,11 +21,9 @@ public int Native_LeftClientGang(Handle plugin, int numParams)
 stock void ShowLeftGangMenu(int client)
 {
 	char sGang[64];
-	int GangID = Gangs_GetClientGang(client);
-	Gangs_GetName(GangID, sGang, sizeof(sGang));
 	
 	Menu menu = new Menu(Menu_GangLeft);
-	Format(sGang, sizeof(sGang), "You're sure to left %s?", sGang); // TODO: Translations
+	Format(sGang, sizeof(sGang), "You're sure to left %s?", g_sGang[g_iClientGang[client]]); // TODO: Translations
 	
 	menu.SetTitle(sGang);
 	menu.AddItem("yes", "Yes, I'm sure!");
@@ -75,10 +73,8 @@ stock void RemoveClientFromGang(int client, int gangid)
 	Format(sQuery, sizeof(sQuery), "DELETE FROM `gangs_members` WHERE `CommunityID` = '%s' AND `GangID` = '%d'", g_sClientID[client], g_iClientGang[client]);
 	SQLQuery(sQuery);
 	
-	char sGang[64];
-	Gangs_GetName(gangid, sGang, sizeof(sGang));
-	CPrintToChatAll("%N left %s!", client, sGang); // TODO: Translation
-	Log_File(_, _, INFO, "\"%L\" left %s!", client, sGang); // TODO: Translation
+	CPrintToChatAll("%N left %s!", client, g_sGang[gangid]); // TODO: Translation
+	Log_File(_, _, INFO, "\"%L\" left %s!", client, g_sGang[gangid]); // TODO: Translation
 	
 	for (int i = 0; i < g_aCacheGang.Length; i++)
 	{

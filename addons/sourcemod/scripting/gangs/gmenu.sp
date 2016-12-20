@@ -32,9 +32,8 @@ stock void OpenClientGang(int client)
 		return;
 	}
 	
-	char sGang[64], sTitle[64], sPoints[32], sOnline[32];
+	char sTitle[64], sPoints[32], sOnline[32];
 	
-	Gangs_GetName(g_iClientGang[client], sGang, sizeof(sGang));
 	int points = Gangs_GetPoints(g_iClientGang[client]);
 	int online = Gangs_GetOnlinePlayers(g_iClientGang[client]);
 	int members = Gangs_GetMembersCount(g_iClientGang[client]);
@@ -43,7 +42,7 @@ stock void OpenClientGang(int client)
 	Format(sPoints, sizeof(sPoints), "Points: %d", points); // TODO: Translation
 	Format(sOnline, sizeof(sOnline), "Online: %d/%d/%d", online, members, maxmembers); // TODO: Translation
 	
-	Format(sTitle, sizeof(sTitle), "%s - Main\n%s\n%s\n \n", sGang, sPoints, sOnline); // TODO: Translation
+	Format(sTitle, sizeof(sTitle), "%s - Main\n%s\n%s\n \n", g_sGang[g_iClientGang[client]], sPoints, sOnline); // TODO: Translation
 	
 	Menu menu = new Menu(Menu_GangMenu);
 	
@@ -88,13 +87,11 @@ public int Menu_GangMenu(Menu menu, MenuAction action, int client, int param)
 stock void ShowMembers(int client)
 {
 	char sGang[32], sRang[18], sName[MAX_NAME_LENGTH], sSteam[64];
-	int GangID = Gangs_GetClientGang(client);
-	Gangs_GetName(GangID, sGang, sizeof(sGang));
 	
 	GetClientAuthId(client, AuthId_SteamID64, sSteam, sizeof(sSteam));
 	
 	Menu menu = new Menu(Menu_GangMembers);
-	Format(sGang, sizeof(sGang), "%s - Members", sGang); // TODO: Translations
+	Format(sGang, sizeof(sGang), "%s - Members", g_sGang[g_iClientGang[client]]); // TODO: Translations
 	menu.SetTitle(sGang);
 	
 	if(g_cGangInviteMenuEnable.BoolValue)
@@ -163,9 +160,8 @@ stock void ShowSkills(int client)
 	char sSkill[12], sSkillID[12];
 	int iGangGangSkills[Cache_Gangs_Skills];
 	
-	Gangs_GetName(g_iClientGang[client], sGang, sizeof(sGang));
 	Menu menu = new Menu(Menu_GangSkillList);
-	Format(sGang, sizeof(sGang), "%s - Skills", sGang); // TODO: Translations
+	Format(sGang, sizeof(sGang), "%s - Skills", g_sGang[g_iClientGang[client]]); // TODO: Translations
 	menu.SetTitle(sGang);
 	for (int i = 0; i < g_aCacheGangSkills.Length; i++)
 	{

@@ -1,11 +1,9 @@
 stock void ShowInvitePlayers(int client)
 {
 	char sGang[32];
-	int GangID = Gangs_GetClientGang(client);
-	Gangs_GetName(GangID, sGang, sizeof(sGang));
 	
 	Menu menu = new Menu(Menu_GangInvite);
-	Format(sGang, sizeof(sGang), "%s - Invite", sGang); // TODO: Translations
+	Format(sGang, sizeof(sGang), "%s - Invite", g_sGang[g_iClientGang[client]]); // TODO: Translations
 	menu.SetTitle(sGang);
 	
 	char sUserID[12], sName[MAX_NAME_LENGTH];
@@ -68,11 +66,8 @@ public Action Timer_InviteExpire(Handle timer, any userid)
 	
 	if (Gangs_IsClientValid(client) && g_iInvited[client] > 0)
 	{
-		char sGang[64];
-		Gangs_GetName(g_iInvited[client], sGang, sizeof(sGang));
-		
-		CPrintToChat(client, "Invite for %s expired!", sGang);
-		CPrintToChatAll("%N declined the invite for the gang %s", client, sGang);
+		CPrintToChat(client, "Invite for %s expired!", g_sGang[g_iInvited[client]]);
+		CPrintToChatAll("%N declined the invite for the gang %s", client, g_sGang[g_iInvited[client]]);
 		
 		g_iInvited[client] = -1;
 	}
@@ -109,12 +104,9 @@ public void SQL_InsertPlayer(Handle owner, Handle hndl, const char[] error, any 
 	g_iClientGang[client] = g_iInvited[client];
 	g_iInvited[client] = -1;
 	
-	char sGang[64];
-	Gangs_GetName(g_iClientGang[client], sGang, sizeof(sGang));
+	CPrintToChatAll("%N joined the gang %s!", client, g_sGang[g_iClientGang[client]]); // TODO: Translation
 	
-	CPrintToChatAll("%N joined the gang %s!", client, sGang); // TODO: Translation
-	
-	Log_File(_, _, INFO, "\"%L\" joined the gang %s!", client, sGang); // TODO: Translation
+	Log_File(_, _, INFO, "\"%L\" joined the gang %s!", client, g_sGang[g_iClientGang[client]]); // TODO: Translation
 	
 	Gangs_PushClientArray(client);
 	
@@ -170,12 +162,9 @@ stock void InvitePlayer(int client, int target)
 		
 		g_iInvited[target] = g_iClientGang[client];
 		
-		char sGang[64];
-		Gangs_GetName(g_iClientGang[client], sGang, sizeof(sGang));
+		CPrintToChat(client, "You've invited %N to %s!", target, g_sGang[g_iClientGang[client]]);
 		
-		CPrintToChat(client, "You've invited %N to %s!", target, sGang);
-		
-		CPrintToChat(target, "You was invited by %N in his gang %s!", client, sGang);
+		CPrintToChat(target, "You was invited by %N in his gang %s!", client, g_sGang[g_iClientGang[client]]);
 		CPrintToChat(target, "You can accept this request with typing \"accept\" in chat...");
 		CPrintToChat(target, "or decline this request with typing \"decline\" in chat...");
 		CPrintToChat(target, "or wait %.2f seconds until the invite will expired.", fTime); // TODO: Add g_cGangInviteTime

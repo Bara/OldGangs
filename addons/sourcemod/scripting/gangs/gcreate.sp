@@ -216,12 +216,9 @@ public void SQL_InsertOwner(Handle owner, Handle hndl, const char[] error, any u
 		return;
 	}
 	
-	char sGang[64];
-	Gangs_GetName(g_iClientGang[client], sGang, sizeof(sGang));
+	CPrintToChatAll("%N created %s!", client, g_sGang[g_iClientGang[client]]); // TODO: Translation
 	
-	CPrintToChatAll("%N created %s!", client, sGang); // TODO: Translation
-	
-	Log_File(_, _, INFO, "\"%L\" created %s!", client, sGang); // TODO: Translation
+	Log_File(_, _, INFO, "\"%L\" created %s!", client, g_sGang[g_iClientGang[client]]); // TODO: Translation
 	
 	Gangs_PushClientArray(client);
 	

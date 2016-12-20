@@ -72,10 +72,7 @@ stock bool CheckGangRename(int client, const char[] sGang)
 		}
 	}
 	
-	char sOGang[64];
-	Gangs_GetName(g_iClientGang[client], sOGang, sizeof(sOGang));
-	
-	if(StrEqual(sOGang, sGang, false))
+	if(StrEqual(g_sGang[g_iClientGang[client]], sGang, false))
 	{
 		CPrintToChat(client, "Gang name must be different"); // TODO: Translation
 		return false;
@@ -103,13 +100,10 @@ stock void RenameGang(int client, int gangid, const char[] newgangname)
 	char sQuery[512];
 	Format(sQuery, sizeof(sQuery), "UPDATE `gangs` SET `GangName` = '%s' WHERE `GangID` = '%d'", newgangname, gangid); // Add new table -> logs
 	
-	char oldgangname[64];
-	Gangs_GetName(gangid, oldgangname, sizeof(oldgangname));
-	
 	Handle hDP = CreateDataPack();
 	WritePackCell(hDP, GetClientUserId(client));
 	WritePackCell(hDP, gangid);
-	WritePackString(hDP, oldgangname);
+	WritePackString(hDP, g_sGang[gangid]);
 	WritePackString(hDP, newgangname);
 	SQL_TQuery(g_hDatabase, SQL_RenameGang, sQuery, hDP);
 }
@@ -134,6 +128,8 @@ public void SQL_RenameGang(Handle owner, Handle hndl, const char[] error, any pa
 	
 	CPrintToChatAll("%N renamed %s to %s!", client, oldgangname, newgangname); // TODO: Translation
 	Log_File(_, _, INFO, "\"%L\" renamed %s to %s!", client, oldgangname, newgangname); // TODO: Translation
+	
+	Format(g_sGang[gangid], sizeof(g_sGang[]), "%s", newgangname);
 	
 	CloseRenameProcess(client);
 	

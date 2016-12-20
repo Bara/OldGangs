@@ -76,7 +76,7 @@ public void TQuery_Gang(Handle owner, Handle hndl, const char[] error, any data)
 		while(SQL_FetchRow(hndl))
 		{
 			int iGang[Cache_Gang];
-
+			
 			iGang[iGangID] = SQL_FetchInt(hndl, 0);
 			SQL_FetchString(hndl, 1, iGang[sGangName], 64);
 			iGang[iPoints] = SQL_FetchInt(hndl, 2);
@@ -85,6 +85,8 @@ public void TQuery_Gang(Handle owner, Handle hndl, const char[] error, any data)
 			SQL_FetchString(hndl, 5, iGang[sPrefixColor], 64);
 			iGang[iMaxMembers] = SQL_FetchInt(hndl, 6);
 			iGang[iMembers] = 0;
+			
+			Format(g_sGang[iGang[iGangID]], sizeof(g_sGang[]), "%s", iGang[sGangName]);
 			
 			Log_File(_, _, DEBUG, "[TQuery_Gang] GangID: %d - GangName: %s - Points: %d - Chat: %d - Prefix: %d - PrefixColor: %s - MaxMembers: %d", iGang[iGangID], iGang[sGangName], iGang[iPoints], iGang[bChat], iGang[bPrefix], iGang[sPrefixColor], iGang[iMaxMembers]);
 			

@@ -48,6 +48,9 @@ ArrayList g_aCacheSkills = null;
 // Database
 Handle g_hDatabase;
 
+// Save gang names
+char g_sGang[64];
+
 // Fowards
 Handle g_hSQLConnected = null;
 Handle g_hGangCreated = null;
