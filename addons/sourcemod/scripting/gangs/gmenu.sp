@@ -55,7 +55,7 @@ stock void OpenClientGang(int client)
 	if(Gangs_GetClientLevel(client) == GANGS_LEADER)
 		menu.AddItem("settings", "Settings"); // TODO: Translation
 	else
-		menu.AddItem("leftgang", "Left Gang\n "); // TODO: Translation
+		menu.AddItem("leftgang", "Left Gang"); // TODO: Translation
 	
 	menu.ExitButton = true;
 	
@@ -77,6 +77,9 @@ public int Menu_GangMenu(Menu menu, MenuAction action, int client, int param)
 		
 		if(StrEqual(sParam, "settings", false))
 			ShowSettings(client);
+		
+		if(StrEqual(sParam, "leftgang", false))
+			ShowLeftGangMenu(client);
 	}
 	if (action == MenuAction_End)
 		delete menu;
