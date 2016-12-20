@@ -53,7 +53,7 @@ public int Menu_GangLeft(Menu menu, MenuAction action, int client, int param)
 
 stock void RemoveClientFromGang(int client, int gangid)
 {
-	if(!Gangs_IsClientInGang(client))
+	if(!g_bIsInGang[client])
 	{
 		CPrintToChat(client, "You aren't in a gang"); // TODO: Translation
 		return;
@@ -65,7 +65,7 @@ stock void RemoveClientFromGang(int client, int gangid)
 		return;
 	}
 	
-	Gangs_EraseClientArray(client);
+	EraseClientArray(client);
 	g_bIsInGang[client] = false;
 	g_iClientGang[client] = 0;
 	

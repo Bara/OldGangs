@@ -1,4 +1,4 @@
-stock void Gangs_PushClientArray(int client)
+stock void PushClientArray(int client)
 {
 	char sQuery[512];
 	if(GetClientAuthId(client, AuthId_SteamID64, g_sClientID[client], sizeof(g_sClientID[])))
@@ -8,7 +8,7 @@ stock void Gangs_PushClientArray(int client)
 	}
 }
 
-stock void Gangs_EraseClientArray(int client)
+stock void EraseClientArray(int client)
 {
 	if(g_bIsInGang[client])
 	{
@@ -49,7 +49,7 @@ public void SQL_Callback(Handle owner, Handle hndl, const char[] error, any data
 	}
 }
 
-stock void Gangs_ClearArray()
+stock void ClearGangsArrays()
 {
 	if (g_aCacheGang != null)
 		g_aCacheGang.Clear();

@@ -108,7 +108,7 @@ public void SQL_InsertPlayer(Handle owner, Handle hndl, const char[] error, any 
 	
 	Log_File(_, _, INFO, "\"%L\" joined the gang %s!", client, g_sGang[g_iClientGang[client]]); // TODO: Translation
 	
-	Gangs_PushClientArray(client);
+	PushClientArray(client);
 	
 	Call_StartForward(g_hGangClientJoined);
 	Call_PushCell(client);

@@ -110,20 +110,20 @@ public void OnPluginStart()
 
 public void OnMapStart()
 {
-	Gangs_ClearArray();
+	ClearGangsArrays();
 	Gangs_CheckGame();
-	Gangs_CreateCache();
-	Gangs_SQLConnect();
+	CreateGangsCache();
+	SQLGangsConnect();
 }
 
 public void OnClientPutInServer(int client)
 {
 	Format(g_sClientID[client], sizeof(g_sClientID[]), "0");
-	Gangs_PushClientArray(client);
+	PushClientArray(client);
 }
 
 public void OnClientDisconnect(int client)
 {
-	Gangs_EraseClientArray(client);
+	EraseClientArray(client);
 	Format(g_sClientID[client], sizeof(g_sClientID[]), "0");
 }

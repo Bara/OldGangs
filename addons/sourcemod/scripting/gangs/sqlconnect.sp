@@ -1,38 +1,38 @@
-stock void Gangs_SQLConnect()
+stock void SQLGangsConnect()
 {
 	if (!SQL_CheckConfig("gangs"))
 	{
-		Log_File(_, _, ERROR, "(Gangs_SQLConnect) Database failure: Couldn't find Database entry \"gangs\"");
+		Log_File(_, _, ERROR, "(SQLGangsConnect) Database failure: Couldn't find Database entry \"gangs\"");
 		return;
 	}
-	SQL_TConnect(Gangs_Connected, "gangs");
+	SQL_TConnect(SQLConnected, "gangs");
 }
 
-public void Gangs_Connected(Handle owner, Handle hndl, const char[] error, any data)
+public void SQLConnected(Handle owner, Handle hndl, const char[] error, any data)
 {
 	if (hndl == null)
 	{
 		if (error[0])
 		{
-			Log_File(_, _, ERROR, "(Gangs_Connected) Connection to database failed!: %s", error);
+			Log_File(_, _, ERROR, "(SQLConnected) Connection to database failed!: %s", error);
 			return;
 		}
 	}
 
 	g_hDatabase = CloneHandle(hndl);
 
-	Gangs_CreateTables();
+	CreateGangsTables();
 
 	SQL_SetCharset(g_hDatabase, "utf8");
 	
-	Gangs_FillCache();
+	FillGangsCache();
 
 	Call_StartForward(g_hSQLConnected);
 	Call_PushCell(view_as<Handle>(g_hDatabase));
 	Call_Finish();
 }
 
-stock void Gangs_CreateTables()
+stock void CreateGangsTables()
 {
 	char sQuery[1024];
 	
@@ -49,7 +49,7 @@ stock void Gangs_CreateTables()
 	SQLQuery(sQuery);
 }
 
-stock void Gangs_FillCache()
+stock void FillGangsCache()
 {
 	char sQuery[512];
 	

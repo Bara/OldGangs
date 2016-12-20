@@ -24,10 +24,9 @@ public int Native_DeleteClientGang(Handle plugin, int numParams)
 stock void ShowDeleteGangMenu(int client)
 {
 	char sGang[64];
-	int GangID = Gangs_GetClientGang(client);
 	
 	Menu menu = new Menu(Menu_GangDelete);
-	Format(sGang, sizeof(sGang), "You're sure to delete %s?", g_sGang[GangID]); // TODO: Translations
+	Format(sGang, sizeof(sGang), "You're sure to delete %s?", g_sGang[g_iClientGang[client]]); // TODO: Translations
 	
 	menu.SetTitle(sGang);
 	menu.AddItem("yes", "Yes, I'm sure!");
@@ -76,7 +75,7 @@ stock void DeleteGang(int client, int gangid)
 	{
 		if(g_iClientGang[i] == gangid)
 		{
-			Gangs_EraseClientArray(i);
+			EraseClientArray(i);
 			g_bIsInGang[i] = false;
 			g_iClientGang[i] = 0;
 		}

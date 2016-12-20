@@ -220,7 +220,7 @@ public void SQL_InsertOwner(Handle owner, Handle hndl, const char[] error, any u
 	
 	Log_File(_, _, INFO, "\"%L\" created %s!", client, g_sGang[g_iClientGang[client]]); // TODO: Translation
 	
-	Gangs_PushClientArray(client);
+	PushClientArray(client);
 	
 	Call_StartForward(g_hGangCreated);
 	Call_PushCell(client);

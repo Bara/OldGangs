@@ -1,10 +1,9 @@
 stock void ShowSettings(int client)
 {
 	char sGang[32];
-	int GangID = Gangs_GetClientGang(client);
 	
 	Menu menu = new Menu(Menu_GangSettings);
-	Format(sGang, sizeof(sGang), "%s - Settings", g_sGang[GangID]); // TODO: Translations
+	Format(sGang, sizeof(sGang), "%s - Settings", g_sGang[g_iClientGang[client]]); // TODO: Translations
 	menu.SetTitle(sGang);
 	
 	if(!g_bInRename[client])

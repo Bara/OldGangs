@@ -1,4 +1,4 @@
-stock void Gangs_CreateCache()
+stock void CreateGangsCache()
 {
 	if(g_aCacheGang != null)
 		g_aCacheGang.Clear();
