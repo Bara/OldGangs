@@ -3,7 +3,7 @@ public Action Command_DeleteGang(int client, int args)
 	if (!Gangs_IsClientValid(client) )
 		return Plugin_Handled;
 	
-	DeleteGang(client, g_iClientGang[client]);
+	ShowDeleteGangMenu(client);
 	
 	return Plugin_Handled;
 }
@@ -19,6 +19,41 @@ public int Native_DeleteClientGang(Handle plugin, int numParams)
 	}
 	
 	DeleteGang(client, gangid);
+}
+
+stock void ShowDeleteGangMenu(int client)
+{
+	char sGang[64];
+	int GangID = Gangs_GetClientGang(client);
+	Gangs_GetName(GangID, sGang, sizeof(sGang));
+	
+	Menu menu = new Menu(Menu_GangDelete);
+	Format(sGang, sizeof(sGang), "You're sure to delete %s?", sGang); // TODO: Translations
+	
+	menu.SetTitle(sGang);
+	menu.AddItem("yes", "Yes, I'm sure!");
+	menu.AddItem("no", "No, it was a mistake...");
+	menu.Display(client, g_cGangMenuDisplayTime.IntValue);
+}
+
+public int Menu_GangDelete(Menu menu, MenuAction action, int client, int param)
+{
+	if (action == MenuAction_Select)
+	{
+		char sParam[32];
+		menu.GetItem(param, sParam, sizeof(sParam));
+		
+		if(StrEqual(sParam, "yes", false))
+		{
+			DeleteGang(client, g_iClientGang[client]);
+		}
+		else if(StrEqual(sParam, "no", false))
+		{
+			CPrintToChat(client, "Okay, maybe next time.");
+		}
+	}
+	if (action == MenuAction_End)
+		delete menu;
 }
 
 stock void DeleteGang(int client, int gangid)
@@ -41,7 +76,7 @@ stock void DeleteGang(int client, int gangid)
 	CPrintToChatAll("\"%L\" deleted %s!", client, sGang); // TODO: Translation
 	Log_File(_, _, INFO, "\"%L\" deleted %s!", client, sGang); // TODO: Translation
 	
-	for (int i = 1; i <= MaxClients; i++)
+	LoopClients(i)
 	{
 		if(g_iClientGang[i] == gangid)
 		{

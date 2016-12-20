@@ -13,6 +13,9 @@ stock void ShowSettings(int client)
 	else
 		menu.AddItem("rename", "Rename (in progress)", ITEMDRAW_DISABLED);
 	
+	if(Gangs_GetClientLevel(client) == GANGS_LEADER)
+		menu.AddItem("delete", "Delete");
+	
 	menu.ExitBackButton = true;
 	menu.ExitButton = false;
 	menu.Display(client, g_cGangMenuDisplayTime.IntValue);
@@ -34,6 +37,8 @@ public int Menu_GangSettings(Menu menu, MenuAction action, int client, int param
 			
 			ShowSettings(client);
 		}
+		else if(StrEqual(sParam, "delete", false))
+			ShowDeleteGangMenu(client);
 	}
 	if (action == MenuAction_Cancel)
 		if(param == MenuCancel_ExitBack)
