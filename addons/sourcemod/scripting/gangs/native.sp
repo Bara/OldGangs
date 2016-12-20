@@ -11,41 +11,13 @@ public int Native_GetClientGang(Handle plugin, int numParams)
 public int Native_GetGangName(Handle plugin, int numParams)
 {
 	char sName[64];
-	int gangid = GetNativeCell(1);
-	
-	for (int i = 0; i < g_aCacheGang.Length; i++)
-	{
-		int iGang[Cache_Gang];
-		g_aCacheGang.GetArray(i, iGang[0]);
-
-		if (iGang[iGangID] == gangid)
-		{
-			strcopy(sName, sizeof(sName), iGang[sGangName]);
-			break;
-		}
-	}
-
+	strcopy(sName, sizeof(sName), g_sGang[GetNativeCell(1)]);
 	SetNativeString(2, sName, GetNativeCell(3), false);
 }
 
 public int Native_GetClientAccessLevel(Handle plugin, int numParams)
 {
-	int client = GetNativeCell(1);
-	char sBuffer[64];
-	GetClientAuthId(client, AuthId_SteamID64, sBuffer, sizeof(sBuffer));
-	
-	for (int i = 0; i < g_aCacheGangMembers.Length; i++)
-	{
-		int iGangMembers[Cache_Gangs_Members];
-		g_aCacheGangMembers.GetArray(i, iGangMembers[0]);
-		
-		if(StrEqual(sBuffer, iGangMembers[sCommunityID], false))
-		{
-			return iGangMembers[iAccessLevel];
-		}
-		break;
-	}
-	return -1;
+	return g_iClientLevel[GetNativeCell(1)];
 }
 
 public int Native_GetGangMaxMembers(Handle plugin, int numParams)
