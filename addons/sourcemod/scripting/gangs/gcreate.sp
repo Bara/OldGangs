@@ -205,7 +205,7 @@ public void SQL_InsertOwner(Handle owner, Handle hndl, const char[] error, any u
 	
 	int client = GetClientOfUserId(userid);
 	
-	if (!Gangs_IsClientValid(client) ))
+	if (!Gangs_IsClientValid(client) )
 		return;
 		
 	g_bIsInGang[client] = true;
