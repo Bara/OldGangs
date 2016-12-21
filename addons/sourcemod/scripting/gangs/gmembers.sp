@@ -16,6 +16,8 @@ stock void ShowMembers(int client)
 			menu.AddItem("invite", "Invite player");
 	}
 	
+	menu.AddItem("offline", "Offline players");
+	
 	for (int i = 0; i < g_aCacheGangMembers.Length; i++)
 	{
 		// TODO: Add new menu for offline gang members (maybe a new array?)
