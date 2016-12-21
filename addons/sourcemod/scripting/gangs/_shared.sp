@@ -91,3 +91,20 @@ stock void ClearGangsArrays()
 	g_aCacheGangSkills = new ArrayList();
 	g_aCacheSkills = new ArrayList();
 }
+
+stock bool FindClientByCommunityID(const char[] communityid)
+{
+	LoopClients(i)
+	{
+		char sCommunity[64];
+		if(GetClientAuthId(i, AuthId_SteamID64, sCommunity, sizeof(sCommunity)))
+		{
+			if(StrEqual(communityid, sCommunity))
+			{
+				return true;
+			}
+		}
+	}
+	
+	return false;
+}

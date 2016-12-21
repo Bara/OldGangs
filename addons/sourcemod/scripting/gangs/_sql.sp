@@ -4,7 +4,7 @@ public void SQL_GetGangMemberCount(Handle owner, Handle hndl, const char[] error
 	{
 		if (error[0])
 		{
-			Gangs_LogFile(_, ERROR, "(TQuery_Gang) Query failed: %s", error);
+			Gangs_LogFile(_, ERROR, "(SQL_GetGangMemberCount) Query failed: %s", error);
 			return;
 		}
 		
@@ -30,6 +30,34 @@ public void SQL_GetGangMemberCount(Handle owner, Handle hndl, const char[] error
 				break;
 			}
 		}
+	}
+}
+
+public void SQL_GangsMembersCache(Handle owner, Handle hndl, const char[] error, any pack)
+{
+	if (hndl != null)
+	{
+		if (error[0])
+		{
+			Gangs_LogFile(_, ERROR, "(SQL_GangsMembersCache) Query failed: %s", error);
+			return;
+		}
+		
+		int iGang[Cache_Gangs_Members];
+		
+		iGang[iGangID] = SQL_FetchInt(hndl, 0);
+		SQL_FetchString(hndl, 1, iGang[sCommunityID], 64);
+		SQL_FetchString(hndl, 2, iGang[sPlayerN], MAX_NAME_LENGTH);
+		iGang[iAccessLevel] = SQL_FetchInt(hndl, 3);
+		
+		if(FindClientByCommunityID(iGang[sCommunityID]))
+			iGang[bOnline] = true;
+		else
+			iGang[bOnline] = false;
+		
+		g_aCacheGangMembers.PushArray(iGang[0]);
+		
+		Gangs_LogFile(_, DEBUG, "(SQL_GetGangMemberCount) GangID: %d - Player: %s - CommunityID: %s - AccessLevel: %d", iGang[iGangID], iGang[sCommunityID], iGang[sPlayerN], iGang[iAccessLevel]);
 	}
 }
 

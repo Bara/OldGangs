@@ -115,10 +115,10 @@ public void OnMapStart()
 	SQLGangsConnect();
 }
 
-public void OnClientPutInServer(int client)
+public void OnClientPostAdminCheck(int client)
 {
 	Format(g_sClientID[client], sizeof(g_sClientID[]), "0");
-	PushClientArray(client);
+	UpdateClientOnlineState(client, true);
 }
 
 public void OnClientDisconnect(int client)
