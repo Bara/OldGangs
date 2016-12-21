@@ -15,7 +15,8 @@ enum Cache_Gangs_Members
 	iGangID = 0,
 	String:sCommunityID[64],
 	String:sPlayerN[MAX_NAME_LENGTH],
-	iAccessLevel
+	iAccessLevel,
+	bool:bOnline
 };
 
 enum Cache_Gangs_Skills

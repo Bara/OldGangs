@@ -123,6 +123,6 @@ public void OnClientPutInServer(int client)
 
 public void OnClientDisconnect(int client)
 {
-	EraseClientArray(client);
+	UpdateClientOnlineState(client, false);
 	Format(g_sClientID[client], sizeof(g_sClientID[]), "0");
 }

@@ -146,6 +146,7 @@ stock void UpdateNameInCache(int client, const char[] newname)
 			strcopy(itmpGang[sCommunityID], 64, g_sClientID[client]);
 			strcopy(itmpGang[sPlayerN], MAX_NAME_LENGTH, newname);
 			itmpGang[iAccessLevel] = iGangMembers[iAccessLevel];
+			itmpGang[bOnline] = true;
 
 			Gangs_LogFile(_, DEBUG, "(UpdateNameInCache) GangID: %d - CommunityID: %s - PlayerName: %s - AccessLevel: %d", itmpGang[iGangID], itmpGang[sCommunityID], itmpGang[sPlayerN], itmpGang[iAccessLevel]);
 

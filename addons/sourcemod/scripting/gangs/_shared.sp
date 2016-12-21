@@ -8,6 +8,32 @@ stock void PushClientArray(int client)
 	}
 }
 
+stock void UpdateClientOnlineState(int client, bool status)
+{
+	for (int i = 0; i < g_aCacheGangMembers.Length; i++)
+	{
+		int iGang[Cache_Gangs_Members];
+		g_aCacheGangMembers.GetArray(i, iGang[0]);
+
+		if (iGang[iGangID] == g_iClientGang[client])
+		{
+			int itmpGang[Cache_Gang];
+			
+			itmpGang[iGangID] = iGang[iGangID];
+			strcopy(itmpGang[sCommunityID], 64, iGang[sCommunityID]);
+			strcopy(itmpGang[sPlayerN], 64, iGang[sPlayerN]);
+			itmpGang[iAccessLevel] = iGang[iAccessLevel];
+			itmpGang[bOnline] = status;
+
+			Gangs_LogFile(_, DEBUG, "(UpdateClientOnlineState) Player: %N - Old Status: %d - New Status: %d", client, iGang[bOnline], itmpGang[bOnline]);
+
+			g_aCacheGangMembers.Erase(i);
+			g_aCacheGangMembers.PushArray(itmpGang[0]);
+			break;
+		}
+	}
+}
+
 stock void EraseClientArray(int client)
 {
 	if(g_bIsInGang[client])
