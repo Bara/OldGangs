@@ -50,7 +50,7 @@ ArrayList g_aCacheSkills = null;
 Handle g_hDatabase;
 
 // Save gang names
-char g_sGang[64];
+char g_sGang[128][64];
 
 // Fowards
 Handle g_hSQLConnected = null;

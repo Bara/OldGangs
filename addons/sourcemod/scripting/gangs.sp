@@ -115,10 +115,10 @@ public void OnMapStart()
 	SQLGangsConnect();
 }
 
-public void OnClientPostAdminCheck(int client)
+public void OnClientPutInServer(int client)
 {
-	Format(g_sClientID[client], sizeof(g_sClientID[]), "0");
-	UpdateClientOnlineState(client, true);
+	if(GetClientAuthId(client, AuthId_SteamID64, g_sClientID[client], sizeof(g_sClientID[])))
+		UpdateClientOnlineState(client, true);
 }
 
 public void OnClientDisconnect(int client)

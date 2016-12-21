@@ -88,15 +88,15 @@ public void TQuery_Gang(Handle owner, Handle hndl, const char[] error, any data)
 			
 			Format(g_sGang[iGang[iGangID]], sizeof(g_sGang[]), "%s", iGang[sGangName]);
 			
-			Gangs_LogFile(_, DEBUG, "[TQuery_Gang] GangID: %d - GangName: %s - Points: %d - Chat: %d - Prefix: %d - PrefixColor: %s - MaxMembers: %d", iGang[iGangID], iGang[sGangName], iGang[iPoints], iGang[bChat], iGang[bPrefix], iGang[sPrefixColor], iGang[iMaxMembers]);
+			Gangs_LogFile(_, DEBUG, "[TQuery_Gang] GangID: %d - GangName: %s - Points: %d - Chat: %d - Prefix: %d - PrefixColor: %s - MaxMembers: %d", iGang[iGangID], g_sGang[iGang[iGangID]], iGang[iPoints], iGang[bChat], iGang[bPrefix], iGang[sPrefixColor], iGang[iMaxMembers]);
 			
 			g_aCacheGang.PushArray(iGang[0]);
 			
 			char sQuery[256];
-			Format(sQuery, sizeof(sQuery), "SELECT GangID FROM `gangs_members` WHERE `GangID` = '%d'", iGang[iGangID]);
+			Format(sQuery, sizeof(sQuery), "SELECT GangID FROM `gangs_members` WHERE `GangID` = '%d';", iGang[iGangID]);
 			SQL_TQuery(g_hDatabase, SQL_GetGangMemberCount, sQuery, iGang[iGangID], DBPrio_Low);
 			
-			Format(sQuery, sizeof(sQuery), "SELECT GangID, CommunityID, PlayerName, AccessLevel FROM `gangs_members`");
+			Format(sQuery, sizeof(sQuery), "SELECT GangID, CommunityID, PlayerName, AccessLevel FROM `gangs_members`;");
 			SQL_TQuery(g_hDatabase, SQL_GangsMembersCache, sQuery, _, DBPrio_Low);
 		}
 	}

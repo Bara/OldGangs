@@ -15,7 +15,7 @@ stock void UpdateClientOnlineState(int client, bool status)
 		int iGang[Cache_Gangs_Members];
 		g_aCacheGangMembers.GetArray(i, iGang[0]);
 
-		if (iGang[iGangID] == g_iClientGang[client])
+		if (StrEqual(iGang[sCommunityID], g_sClientID[client]))
 		{
 			int itmpGang[Cache_Gang];
 			
@@ -26,9 +26,23 @@ stock void UpdateClientOnlineState(int client, bool status)
 			itmpGang[bOnline] = status;
 
 			Gangs_LogFile(_, DEBUG, "(UpdateClientOnlineState) Player: %N - Old Status: %d - New Status: %d", client, iGang[bOnline], itmpGang[bOnline]);
-
+			
+			if(itmpGang[bOnline])
+			{
+				g_bIsInGang[client] = true;
+				g_iClientGang[client] = itmpGang[iGangID];
+				g_iClientLevel[client] = itmpGang[iAccessLevel];
+			}
+			else
+			{
+				g_bIsInGang[client] = false;
+				g_iClientGang[client] = 0;
+				g_iClientLevel[client] = GANGS_NONE;
+			}
+			
 			g_aCacheGangMembers.Erase(i);
 			g_aCacheGangMembers.PushArray(itmpGang[0]);
+			
 			break;
 		}
 	}
@@ -96,13 +110,9 @@ stock bool FindClientByCommunityID(const char[] communityid)
 {
 	LoopClients(i)
 	{
-		char sCommunity[64];
-		if(GetClientAuthId(i, AuthId_SteamID64, sCommunity, sizeof(sCommunity)))
+		if(StrEqual(communityid, g_sClientID[i]))
 		{
-			if(StrEqual(communityid, sCommunity))
-			{
-				return true;
-			}
+			return true;
 		}
 	}
 	

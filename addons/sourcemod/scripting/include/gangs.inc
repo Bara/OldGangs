@@ -84,7 +84,7 @@ stock void Gangs_LogFile(const char[] file = "core", ELOG_LEVEL level = INFO, co
 	FormatTime(sDate, sizeof(sDate), "%Y-%m-%d", GetTime());
 	Format(sFile, sizeof(sFile), "%s/%s_%s.log", sLevelPath, file, sDate);
 
-	VFormat(sBuffer, sizeof(sBuffer), format, 5);
+	VFormat(sBuffer, sizeof(sBuffer), format, 4);
 
 	LogToFile(sFile, sBuffer);
 }
