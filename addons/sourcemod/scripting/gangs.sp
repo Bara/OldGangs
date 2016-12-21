@@ -12,18 +12,15 @@
 #include <chat-processor>
 #include <multicolors>
 
-#include "gangs/global.sp"
-#include "gangs/config.sp"
-#include "gangs/events.sp"
-#include "gangs/sqlconnect.sp"
+#include "gangs/_global.sp"
+#include "gangs/_config.sp"
+#include "gangs/_sqlconnect.sp"
+#include "gangs/_sql.sp"
+#include "gangs/_native.sp"
+#include "gangs/_stock.sp"
+#include "gangs/_shared.sp"
+#include "gangs/_events.sp"
 
-// old structur
-#include "gangs/sql.sp"
-#include "gangs/native.sp"
-#include "gangs/stock.sp"
-
-// new structur
-#include "gangs/shared.sp"
 #include "gangs/gcreate.sp"
 #include "gangs/glist.sp"
 #include "gangs/gleft.sp"
@@ -34,6 +31,8 @@
 #include "gangs/gsettings.sp"
 #include "gangs/gabort.sp"
 #include "gangs/ginvite.sp"
+#include "gangs/gmembers.sp"
+#include "gangs/gskills.sp"
 
 public APLRes AskPluginLoad2(Handle myself, bool late, char[] error, int err_max)
 {
