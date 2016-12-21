@@ -1,8 +1,6 @@
 stock void ShowMembers(int client)
 {
-	char sGang[32], sRang[18], sName[MAX_NAME_LENGTH], sSteam[64];
-	
-	GetClientAuthId(client, AuthId_SteamID64, sSteam, sizeof(sSteam));
+	char sGang[32], sRang[18], sName[MAX_NAME_LENGTH];
 	
 	Menu menu = new Menu(Menu_GangMembers);
 	Format(sGang, sizeof(sGang), "%s - Members", g_sGang[g_iClientGang[client]]); // TODO: Translations
@@ -42,7 +40,7 @@ stock void ShowMembers(int client)
 	
 		Format(sName, sizeof(sName), "[%s] %s", sRang, iGangMembers[sPlayerN]);
 		
-		if(g_iClientLevel[client] < GANGS_LEADER || StrEqual(sSteam, iGangMembers[sCommunityID]))
+		if(g_iClientLevel[client] < GANGS_LEADER || StrEqual(g_sClientID[client], iGangMembers[sCommunityID]))
 			menu.AddItem("", sName, ITEMDRAW_DISABLED);
 		else
 			menu.AddItem(iGangMembers[sCommunityID], sName);
