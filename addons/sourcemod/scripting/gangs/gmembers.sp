@@ -24,6 +24,9 @@ stock void ShowMembers(int client)
 		int iGangMembers[Cache_Gangs_Members];
 		g_aCacheGangMembers.GetArray(i, iGangMembers[0]);
 		
+		if(!iGangMembers[bOnline])
+			continue;
+		
 		if(iGangMembers[iAccessLevel] == GANGS_LEADER)
 			Gangs_GetRangName(GANGS_LEADER, sRang, sizeof(sRang));
 		else if(iGangMembers[iAccessLevel] == GANGS_COLEADER)
