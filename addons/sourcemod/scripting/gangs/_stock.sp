@@ -122,13 +122,24 @@ stock bool IsWeaponGrenade(const char[] sWeapon)
 
 stock void CheckName(int client, const char[] newname)
 {
-	char sQuery[512];
-	Format(sQuery, sizeof(sQuery), "SELECT PlayerName FROM `gangs_members` WHERE `CommunityID` = '%s'", g_sClientID[client]);
-	
-	Handle hPack = CreateDataPack();
-	WritePackCell(hPack, GetClientUserId(client));
-	WritePackString(hPack, newname);
-	SQL_TQuery(g_hDatabase, SQL_CheckName, sQuery, hPack);
+	for (int i = 0; i < g_aCacheGangMembers.Length; i++)
+	{
+		int iGangMembers[Cache_Gangs_Members];
+		g_aCacheGangMembers.GetArray(i, iGangMembers[0]);
+		
+		if(StrEqual(iGangMembers[sCommunityID], g_sClientID[client]))
+		{
+			if(!StrEqual(iGangMembers[sPlayerN], newname, false))
+			{
+				UpdateNameInCache(client, newname);
+				
+				char sQuery[512], sEName[MAX_NAME_LENGTH];
+				SQL_EscapeString(g_hDatabase, newname, sEName, sizeof(sEName));
+				Format(sQuery, sizeof(sQuery), "UPDATE `gangs_members` SET `PlayerName` = '%s' WHERE `CommunityID` = '%s'", sEName, g_sClientID[client]);
+				SQLQuery(sQuery);
+			}
+		}
+	}
 }
 
 stock void UpdateNameInCache(int client, const char[] newname)
