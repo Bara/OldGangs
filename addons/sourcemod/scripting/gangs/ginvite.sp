@@ -91,7 +91,7 @@ public void SQL_InsertPlayer(Handle owner, Handle hndl, const char[] error, any 
 {
 	if (error[0])
 	{
-		Log_File(_, _, ERROR, "(SQL_Callback) Query failed: %s", error);
+		Gangs_LogFile(_, ERROR, "(SQL_Callback) Query failed: %s", error);
 		return;
 	}
 	
@@ -107,7 +107,7 @@ public void SQL_InsertPlayer(Handle owner, Handle hndl, const char[] error, any 
 	
 	CPrintToChatAll("%N joined the gang %s!", client, g_sGang[g_iClientGang[client]]); // TODO: Translation
 	
-	Log_File(_, _, INFO, "\"%L\" joined the gang %s!", client, g_sGang[g_iClientGang[client]]); // TODO: Translation
+	Gangs_LogFile(_, INFO, "\"%L\" joined the gang %s!", client, g_sGang[g_iClientGang[client]]); // TODO: Translation
 	
 	PushClientArray(client);
 	

@@ -4,7 +4,7 @@ public void SQL_GetGangMemberCount(Handle owner, Handle hndl, const char[] error
 	{
 		if (error[0])
 		{
-			Log_File(_, _, ERROR, "(TQuery_Gang) Query failed: %s", error);
+			Gangs_LogFile(_, ERROR, "(TQuery_Gang) Query failed: %s", error);
 			return;
 		}
 		
@@ -26,7 +26,7 @@ public void SQL_GetGangMemberCount(Handle owner, Handle hndl, const char[] error
 			{
 				g_aCacheGang.Set(i, count, view_as<int>(iMembers));
 
-				Log_File(_, _, DEBUG, "(SQL_GetGangMemberCount) GangID: %d - Members: %d", iGang[iGangID], count);
+				Gangs_LogFile(_, DEBUG, "(SQL_GetGangMemberCount) GangID: %d - Members: %d", iGang[iGangID], count);
 				break;
 			}
 		}
@@ -37,7 +37,7 @@ public void SQL_CheckName(Handle owner, Handle hndl, const char[] error, any pac
 {
 	if (error[0])
 	{
-		Log_File(_, _, ERROR, "(SQL_CheckName) Query failed: %s", error);
+		Gangs_LogFile(_, ERROR, "(SQL_CheckName) Query failed: %s", error);
 		CloseHandle(pack);
 		return;
 	}

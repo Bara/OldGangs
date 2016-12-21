@@ -112,7 +112,7 @@ public void SQL_RenameGang(Handle owner, Handle hndl, const char[] error, any pa
 {
 	if (error[0])
 	{
-		Log_File(_, _, ERROR, "(SQL_RenameGang) Query failed: %s", error);
+		Gangs_LogFile(_, ERROR, "(SQL_RenameGang) Query failed: %s", error);
 		CloseHandle(pack);
 		return;
 	}
@@ -127,7 +127,7 @@ public void SQL_RenameGang(Handle owner, Handle hndl, const char[] error, any pa
 	CloseHandle(pack);
 	
 	CPrintToChatAll("%N renamed %s to %s!", client, oldgangname, newgangname); // TODO: Translation
-	Log_File(_, _, INFO, "\"%L\" renamed %s to %s!", client, oldgangname, newgangname); // TODO: Translation
+	Gangs_LogFile(_, INFO, "\"%L\" renamed %s to %s!", client, oldgangname, newgangname); // TODO: Translation
 	
 	Format(g_sGang[gangid], sizeof(g_sGang[]), "%s", newgangname);
 	
@@ -151,7 +151,7 @@ public void SQL_RenameGang(Handle owner, Handle hndl, const char[] error, any pa
 			itmpGang[iMaxMembers] = iGang[iMaxMembers];
 			itmpGang[iMembers] = iGang[iMembers];
 
-			Log_File(_, _, DEBUG, "(SQL_RenameGang) GangID: %d - OldGangName: %s - NewGangName: %s", gangid, oldgangname, newgangname);
+			Gangs_LogFile(_, DEBUG, "(SQL_RenameGang) GangID: %d - OldGangName: %s - NewGangName: %s", gangid, oldgangname, newgangname);
 
 			g_aCacheGang.Erase(i);
 			g_aCacheGang.PushArray(itmpGang[0]);

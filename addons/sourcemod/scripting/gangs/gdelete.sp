@@ -69,7 +69,7 @@ stock void DeleteGang(int client, int gangid)
 	}
 	
 	CPrintToChatAll("\"%L\" deleted %s!", client, g_sGang[gangid]); // TODO: Translation
-	Log_File(_, _, INFO, "\"%L\" deleted %s!", client, g_sGang[gangid]); // TODO: Translation
+	Gangs_LogFile(_, INFO, "\"%L\" deleted %s!", client, g_sGang[gangid]); // TODO: Translation
 	
 	LoopClients(i)
 	{

@@ -44,7 +44,7 @@ public void SQL_Callback(Handle owner, Handle hndl, const char[] error, any data
 {
 	if (error[0])
 	{
-		Log_File(_, _, ERROR, "(SQL_Callback) Query failed: %s", error);
+		Gangs_LogFile(_, ERROR, "(SQL_Callback) Query failed: %s", error);
 		return;
 	}
 }

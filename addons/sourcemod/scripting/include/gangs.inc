@@ -51,25 +51,18 @@ stock void Gangs_CheckGame()
 	}
 }
 
-stock void Log_File(const char[] path = "gangs", const char[] file = "core", ELOG_LEVEL level = INFO, const char[] format, any ...)
+stock void Gangs_LogFile(const char[] file = "core", ELOG_LEVEL level = INFO, const char[] format, any ...)
 {
 	char sPath[PLATFORM_MAX_PATH + 1];
 	char sLevelPath[PLATFORM_MAX_PATH + 1];
 	char sFile[PLATFORM_MAX_PATH + 1];
 	char sBuffer[1024];
 
-	if(StrEqual(path, "", false))
+	BuildPath(Path_SM, sPath, sizeof(sPath), "logs/gangs");
+	
+	if(!DirExists(sPath))
 	{
-		BuildPath(Path_SM, sPath, sizeof(sPath), "logs");
-	}
-	else
-	{
-		BuildPath(Path_SM, sPath, sizeof(sPath), "logs/%s", path);
-		
-		if(!DirExists(sPath))
-		{
-			CreateDirectory(sPath, 755);
-		}
+		CreateDirectory(sPath, 755);
 	}
 
 	if(level < TRACE || level > ERROR)

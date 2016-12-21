@@ -107,7 +107,7 @@ public void SQL_CreateGang(Handle owner, Handle hndl, const char[] error, any pa
 {
 	if (error[0])
 	{
-		Log_File(_, _, ERROR, "(SQL_CreateGang) Query failed: %s", error);
+		Gangs_LogFile(_, ERROR, "(SQL_CreateGang) Query failed: %s", error);
 		CloseHandle(pack);
 		return;
 	}
@@ -132,7 +132,7 @@ public void SQL_SaveClientGangID(Handle owner, Handle hndl, const char[] error, 
 {
 	if (error[0])
 	{
-		Log_File(_, _, ERROR, "(SQL_SaveClientGangID) Query failed: %s", error);
+		Gangs_LogFile(_, ERROR, "(SQL_SaveClientGangID) Query failed: %s", error);
 		return;
 	}
 	
@@ -153,7 +153,7 @@ public void SQL_SaveClientGangID(Handle owner, Handle hndl, const char[] error, 
 			if(SQL_FetchInt(hndl, 0) > 0)
 			{
 				AddGangToArray(SQL_FetchInt(hndl, 0), sGang);
-				Log_File(_, _, INFO, "\"%L\" created %s!", client, sGang); // TODO: Translation
+				Gangs_LogFile(_, INFO, "\"%L\" created %s!", client, sGang); // TODO: Translation
 				g_iClientGang[client] = SQL_FetchInt(hndl, 0);
 				AddOwnerToGang(client, g_iClientGang[client]);
 			}
@@ -180,7 +180,7 @@ stock void AddGangToArray(int GangID, const char[] sGang)
 	iGang[iMaxMembers] = 2;
 	iGang[iMembers] = 1;
 
-	Log_File(_, _, DEBUG, "[AddGangToArray] GangID: %d - GangName: %s - Points: %d - Chat: %d - Prefix: %d - PrefixColor: %s - MaxMembers: %d", iGang[iGangID], iGang[sGangName], iGang[iPoints], iGang[bChat], iGang[bPrefix], iGang[sPrefixColor], iGang[iMaxMembers]);
+	Gangs_LogFile(_, DEBUG, "[AddGangToArray] GangID: %d - GangName: %s - Points: %d - Chat: %d - Prefix: %d - PrefixColor: %s - MaxMembers: %d", iGang[iGangID], iGang[sGangName], iGang[iPoints], iGang[bChat], iGang[bPrefix], iGang[sPrefixColor], iGang[iMaxMembers]);
 
 	g_aCacheGang.PushArray(iGang[0]);
 }
@@ -200,7 +200,7 @@ public void SQL_InsertOwner(Handle owner, Handle hndl, const char[] error, any u
 {
 	if (error[0])
 	{
-		Log_File(_, _, ERROR, "(SQL_Callback) Query failed: %s", error);
+		Gangs_LogFile(_, ERROR, "(SQL_Callback) Query failed: %s", error);
 		return;
 	}
 	
@@ -220,7 +220,7 @@ public void SQL_InsertOwner(Handle owner, Handle hndl, const char[] error, any u
 	
 	CPrintToChatAll("%N created %s!", client, g_sGang[g_iClientGang[client]]); // TODO: Translation
 	
-	Log_File(_, _, INFO, "\"%L\" created %s!", client, g_sGang[g_iClientGang[client]]); // TODO: Translation
+	Gangs_LogFile(_, INFO, "\"%L\" created %s!", client, g_sGang[g_iClientGang[client]]); // TODO: Translation
 	
 	PushClientArray(client);
 	
@@ -241,7 +241,7 @@ public void TQuery_GangMembers(Handle owner, Handle hndl, const char[] error, an
 	{
 		if (error[0])
 		{
-			Log_File(_, _, ERROR, "(TQuery_GangMembers) Query failed: %s", error);
+			Gangs_LogFile(_, ERROR, "(TQuery_GangMembers) Query failed: %s", error);
 			return;
 		}
 		
@@ -273,7 +273,7 @@ public void TQuery_GangMembers(Handle owner, Handle hndl, const char[] error, an
 				else
 					strcopy(iGang[sPlayerN], MAX_NAME_LENGTH, sSName);
 				
-				Log_File(_, _, DEBUG, "[TQuery_GangMembers] GangID: %d - CommunityID: %s - PlayerName: %s - AccessLevel: %d", iGang[iGangID], iGang[sCommunityID], iGang[sPlayerN], iGang[iAccessLevel]);
+				Gangs_LogFile(_, DEBUG, "[TQuery_GangMembers] GangID: %d - CommunityID: %s - PlayerName: %s - AccessLevel: %d", iGang[iGangID], iGang[sCommunityID], iGang[sPlayerN], iGang[iAccessLevel]);
 	
 				g_aCacheGangMembers.PushArray(iGang[0]);
 				

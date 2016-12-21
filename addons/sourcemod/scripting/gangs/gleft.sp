@@ -76,7 +76,7 @@ stock void RemoveClientFromGang(int client, int gangid)
 	SQLQuery(sQuery);
 	
 	CPrintToChatAll("%N left %s!", client, g_sGang[gangid]); // TODO: Translation
-	Log_File(_, _, INFO, "\"%L\" left %s!", client, g_sGang[gangid]); // TODO: Translation
+	Gangs_LogFile(_, INFO, "\"%L\" left %s!", client, g_sGang[gangid]); // TODO: Translation
 	
 	for (int i = 0; i < g_aCacheGang.Length; i++)
 	{
@@ -88,7 +88,7 @@ stock void RemoveClientFromGang(int client, int gangid)
 			int count = iGang[iMembers] - 1;
 			g_aCacheGang.Set(i, count, view_as<int>(iMembers));
 
-			Log_File(_, _, DEBUG, "(RemoveClientFromGang) GangID: %d - Members: %d", gangid, count);
+			Gangs_LogFile(_, DEBUG, "(RemoveClientFromGang) GangID: %d - Members: %d", gangid, count);
 
 			break;
 		}

@@ -147,7 +147,7 @@ stock void UpdateNameInCache(int client, const char[] newname)
 			strcopy(itmpGang[sPlayerN], MAX_NAME_LENGTH, newname);
 			itmpGang[iAccessLevel] = iGangMembers[iAccessLevel];
 
-			Log_File(_, _, DEBUG, "(UpdateNameInCache) GangID: %d - CommunityID: %s - PlayerName: %s - AccessLevel: %d", itmpGang[iGangID], itmpGang[sCommunityID], itmpGang[sPlayerN], itmpGang[iAccessLevel]);
+			Gangs_LogFile(_, DEBUG, "(UpdateNameInCache) GangID: %d - CommunityID: %s - PlayerName: %s - AccessLevel: %d", itmpGang[iGangID], itmpGang[sCommunityID], itmpGang[sPlayerN], itmpGang[iAccessLevel]);
 
 			g_aCacheGangMembers.Erase(i);
 			g_aCacheGangMembers.PushArray(itmpGang[0]);

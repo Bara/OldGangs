@@ -2,7 +2,7 @@ stock void SQLGangsConnect()
 {
 	if (!SQL_CheckConfig("gangs"))
 	{
-		Log_File(_, _, ERROR, "(SQLGangsConnect) Database failure: Couldn't find Database entry \"gangs\"");
+		Gangs_LogFile(_, ERROR, "(SQLGangsConnect) Database failure: Couldn't find Database entry \"gangs\"");
 		return;
 	}
 	SQL_TConnect(SQLConnected, "gangs");
@@ -14,7 +14,7 @@ public void SQLConnected(Handle owner, Handle hndl, const char[] error, any data
 	{
 		if (error[0])
 		{
-			Log_File(_, _, ERROR, "(SQLConnected) Connection to database failed!: %s", error);
+			Gangs_LogFile(_, ERROR, "(SQLConnected) Connection to database failed!: %s", error);
 			return;
 		}
 	}
@@ -69,7 +69,7 @@ public void TQuery_Gang(Handle owner, Handle hndl, const char[] error, any data)
 	{
 		if (error[0])
 		{
-			Log_File(_, _, ERROR, "(TQuery_Gang) Query failed: %s", error);
+			Gangs_LogFile(_, ERROR, "(TQuery_Gang) Query failed: %s", error);
 			return;
 		}
 		
@@ -88,7 +88,7 @@ public void TQuery_Gang(Handle owner, Handle hndl, const char[] error, any data)
 			
 			Format(g_sGang[iGang[iGangID]], sizeof(g_sGang[]), "%s", iGang[sGangName]);
 			
-			Log_File(_, _, DEBUG, "[TQuery_Gang] GangID: %d - GangName: %s - Points: %d - Chat: %d - Prefix: %d - PrefixColor: %s - MaxMembers: %d", iGang[iGangID], iGang[sGangName], iGang[iPoints], iGang[bChat], iGang[bPrefix], iGang[sPrefixColor], iGang[iMaxMembers]);
+			Gangs_LogFile(_, DEBUG, "[TQuery_Gang] GangID: %d - GangName: %s - Points: %d - Chat: %d - Prefix: %d - PrefixColor: %s - MaxMembers: %d", iGang[iGangID], iGang[sGangName], iGang[iPoints], iGang[bChat], iGang[bPrefix], iGang[sPrefixColor], iGang[iMaxMembers]);
 			
 			g_aCacheGang.PushArray(iGang[0]);
 			
@@ -105,7 +105,7 @@ public void TQuery_GangSkills(Handle owner, Handle hndl, const char[] error, any
 	{
 		if (error[0])
 		{
-			Log_File(_, _, ERROR, "(TQuery_GangSkills) Query failed: %s", error);
+			Gangs_LogFile(_, ERROR, "(TQuery_GangSkills) Query failed: %s", error);
 			return;
 		}
 		
@@ -117,7 +117,7 @@ public void TQuery_GangSkills(Handle owner, Handle hndl, const char[] error, any
 			iGang[iSkillID] = SQL_FetchInt(hndl, 1);
 			iGang[iLevel] = SQL_FetchInt(hndl, 2);
 			
-			Log_File(_, _, DEBUG, "[TQuery_GangSkills] GangID: %d - SkillID: %d - iLevel: %d", iGang[iGangID], iGang[iSkillID], iGang[iLevel]);
+			Gangs_LogFile(_, DEBUG, "[TQuery_GangSkills] GangID: %d - SkillID: %d - iLevel: %d", iGang[iGangID], iGang[iSkillID], iGang[iLevel]);
 
 			g_aCacheGangSkills.PushArray(iGang[0]);
 		}
@@ -130,7 +130,7 @@ public void TQuery_Skills(Handle owner, Handle hndl, const char[] error, any dat
 	{
 		if (error[0])
 		{
-			Log_File(_, _, ERROR, "(TQuery_Skills) Query failed: %s", error);
+			Gangs_LogFile(_, ERROR, "(TQuery_Skills) Query failed: %s", error);
 			return;
 		}
 		
@@ -142,7 +142,7 @@ public void TQuery_Skills(Handle owner, Handle hndl, const char[] error, any dat
 			SQL_FetchString(hndl, 1, iGang[sSkillName], 64);
 			iGang[iMaxLevel] = SQL_FetchInt(hndl, 2);
 			
-			Log_File(_, _, DEBUG, "[TQuery_Skills] GangID: %d - SkillName: %s - Chat: %d", iGang[iSkillID], iGang[sSkillName], iGang[iMaxLevel]);
+			Gangs_LogFile(_, DEBUG, "[TQuery_Skills] GangID: %d - SkillName: %s - Chat: %d", iGang[iSkillID], iGang[sSkillName], iGang[iMaxLevel]);
 
 			g_aCacheSkills.PushArray(iGang[0]);
 		}
