@@ -101,6 +101,23 @@ stock bool Gangs_IsClientValid(int client)
 	return false;
 }
 
+stock void CPrintToGang(int gangid, const char[] message, any ...)
+{
+	char buffer[MAX_MESSAGE_LENGTH];
+	VFormat(buffer, sizeof(buffer), message, 3);
+
+	LoopClients(i)
+	{
+		if(Gangs_IsClientInGang(i))
+		{
+			if(Gangs_GetClientGang(i) == gangid)
+			{
+				CPrintToChat(i, buffer);
+			}
+		}
+	}
+}
+
 forward void Gangs_OnSQLConnected(Handle database);
 forward void Gangs_OnGangCreated(int client, int gangid);
 forward void Gangs_OnGangLeft(const char[] communityid, const char[] name, int gangid);
