@@ -78,7 +78,8 @@ stock void DeleteGang(int client, int gangid)
 			ErasePlayerArray(g_sClientID[i]);
 			g_bIsInGang[i] = false;
 			g_iClientGang[i] = 0;
-			g_iClientLevel[client] = GANGS_NONE;
+			g_iClientLevel[i] = GANGS_NONE;
+			g_bClientMuted[i] = false;
 		}
 	}
 	

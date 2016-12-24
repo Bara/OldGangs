@@ -66,6 +66,7 @@ char g_sClientID[MAXPLAYERS + 1][64];
 bool g_bIsInGang[MAXPLAYERS + 1] =  { false, ... };
 int g_iClientGang[MAXPLAYERS + 1] =  { 0, ... };
 int g_iClientLevel[MAXPLAYERS + 1] =  { 0, ... };
+bool g_bClientMuted[MAXPLAYERS + 1] =  { false, ... };
 
 // Cvars
 // CreateGang

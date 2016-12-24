@@ -19,7 +19,7 @@ public Action Command_GangChat(int client, int args)
 	}
 	
 	LoopClients(i)
-		if(g_bIsInGang[i] && g_iClientGang[i] == g_iClientGang[client])
+		if(g_bIsInGang[i] && !g_bClientMuted[client] && g_iClientGang[i] == g_iClientGang[client])
 			if(strlen(sText) > 2)
 				CPrintToChat(i, "[Gang] {darkred}[%s] {darkblue}%N\x01: %s", g_sGang[g_iClientGang[client]], client, sText);
 	
@@ -77,7 +77,7 @@ public Action Command_Say(int client, const char[] command, int argc)
 		if(CheckGangRename(client, sNewName))
 		{
 			RenameGang(client, g_iClientGang[client], sNewName);
-			
+			ShowSettings(client);
 			CloseRenameProcess(client);
 		}
 		

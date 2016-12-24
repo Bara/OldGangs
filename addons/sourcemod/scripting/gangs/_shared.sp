@@ -31,12 +31,14 @@ stock void UpdateClientOnlineState(int client, bool status)
 				g_bIsInGang[client] = true;
 				g_iClientGang[client] = itmpGang[iGangID];
 				g_iClientLevel[client] = itmpGang[iAccessLevel];
+				g_bClientMuted[client] = itmpGang[bMuted];
 			}
 			else
 			{
 				g_bIsInGang[client] = false;
 				g_iClientGang[client] = 0;
 				g_iClientLevel[client] = GANGS_NONE;
+				g_bClientMuted[client] = false;
 			}
 			
 			g_aCacheGangMembers.Erase(i);

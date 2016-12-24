@@ -114,9 +114,11 @@ stock void RemovePlayerFromGang(const char[] communityid, bool kicked = false)
 			CPrintToChatAll("%N left %s!", client, g_sGang[gangid]); // TODO: Translation
 			Gangs_LogFile(_, INFO, "\"%s\" left %s!", client, g_sGang[gangid]); // TODO: Translation
 		}
+		
 		g_bIsInGang[client] = false;
 		g_iClientGang[client] = 0;
 		g_iClientLevel[client] = GANGS_NONE;
+		g_bClientMuted[client] = false;
 	}
 	else
 	{

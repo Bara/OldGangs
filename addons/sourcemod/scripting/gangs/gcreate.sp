@@ -162,6 +162,7 @@ public void SQL_SaveClientGangID(Handle owner, Handle hndl, const char[] error, 
 				g_bIsInGang[client] = false;
 				g_iClientGang[client] = 0;
 				g_iClientLevel[client] = GANGS_NONE;
+				g_bClientMuted[client] = false;
 			}
 		}
 	}
@@ -211,6 +212,7 @@ public void SQL_InsertOwner(Handle owner, Handle hndl, const char[] error, any u
 		
 	g_bIsInGang[client] = true;
 	g_iClientLevel[client] = GANGS_LEADER;
+	g_bClientMuted[client] = false;
 	
 	if(g_iClientGang[client] < 1 && !g_bIsInGang[client])
 	{
@@ -284,6 +286,7 @@ public void TQuery_GangMembers(Handle owner, Handle hndl, const char[] error, an
 					g_bIsInGang[client] = true;
 					g_iClientGang[client] = iGang[iGangID];
 					g_iClientLevel[client] = iGang[iAccessLevel];
+					g_bClientMuted[client] = iGang[bMuted];
 				}
 			}
 			else
