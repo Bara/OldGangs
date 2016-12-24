@@ -16,6 +16,7 @@ enum Cache_Gangs_Members
 	String:sCommunityID[64],
 	String:sPlayerN[MAX_NAME_LENGTH],
 	iAccessLevel,
+	bool:bMuted,
 	bool:bOnline
 };
 

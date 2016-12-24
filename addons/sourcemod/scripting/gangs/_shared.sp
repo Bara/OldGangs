@@ -2,7 +2,7 @@ stock void PushClientArray(int client)
 {
 	char sQuery[512];
 
-	Format(sQuery, sizeof(sQuery), "SELECT GangID, CommunityID, PlayerName, AccessLevel FROM `gangs_members` WHERE `CommunityID` = '%s'", g_sClientID[client]);
+	Format(sQuery, sizeof(sQuery), "SELECT GangID, CommunityID, PlayerName, AccessLevel, Muted FROM `gangs_members` WHERE `CommunityID` = '%s'", g_sClientID[client]);
 	SQL_TQuery(g_hDatabase, TQuery_GangMembers, sQuery, GetClientUserId(client), DBPrio_High);
 }
 
@@ -21,6 +21,7 @@ stock void UpdateClientOnlineState(int client, bool status)
 			strcopy(itmpGang[sCommunityID], 64, iGang[sCommunityID]);
 			strcopy(itmpGang[sPlayerN], 64, iGang[sPlayerN]);
 			itmpGang[iAccessLevel] = iGang[iAccessLevel];
+			itmpGang[bMuted] = iGang[bMuted];
 			itmpGang[bOnline] = status;
 
 			Gangs_LogFile(_, DEBUG, "(UpdateClientOnlineState) Player: %N - Old Status: %d - New Status: %d", client, iGang[bOnline], itmpGang[bOnline]);
@@ -46,20 +47,17 @@ stock void UpdateClientOnlineState(int client, bool status)
 	}
 }
 
-stock void EraseClientArray(int client)
+stock void ErasePlayerArray(const char[] communityid)
 {
-	if(g_bIsInGang[client])
+	for (int i = 0; i < g_aCacheGangMembers.Length; i++)
 	{
-		for (int i = 0; i < g_aCacheGangMembers.Length; i++)
+		int iGang[Cache_Gangs_Members];
+		g_aCacheGangMembers.GetArray(i, iGang[0]);
+
+		if (StrEqual(iGang[sCommunityID], communityid))
 		{
-			int iGang[Cache_Gangs_Members];
-			g_aCacheGangMembers.GetArray(i, iGang[0]);
-	
-			if (iGang[iGangID] == g_iClientGang[client])
-			{
-				g_aCacheGangMembers.Erase(i);
-				break;
-			}
+			g_aCacheGangMembers.Erase(i);
+			break;
 		}
 	}
 }
@@ -104,15 +102,15 @@ stock void ClearGangsArrays()
 	g_aCacheSkills = new ArrayList();
 }
 
-stock bool FindClientByCommunityID(const char[] communityid)
+stock int FindClientByCommunityID(const char[] communityid)
 {
 	LoopClients(i)
 	{
 		if(StrEqual(communityid, g_sClientID[i]))
 		{
-			return true;
+			return i;
 		}
 	}
 	
-	return false;
+	return -1;
 }

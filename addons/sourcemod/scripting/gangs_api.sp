@@ -55,20 +55,19 @@ public void Gangs_OnGangRename(int client, int iGang, const char[] oldname, cons
 	CPrintToChat(client, "(Gangs_OnGangCreated) NewName: - %s", newname);
 }
 
-public void Gangs_OnGangLeft(int client, int iGang)
+public void Gangs_OnGangLeft(const char[] communityid, const char[] name, int gangid)
 {
-	CPrintToChat(client, "(Gangs_OnGangLeft) Gangs_IsClientInGang - %d", Gangs_IsClientInGang(client));
-	CPrintToChat(client, "(Gangs_OnGangLeft) Gang ID - %d", iGang);
+	CPrintToChatAll("(Gangs_OnGangLeft) CommunityID - %s", communityid);
+	CPrintToChatAll("(Gangs_OnGangLeft) Name - %s", name);
+	CPrintToChatAll("(Gangs_OnGangLeft) Gang ID - %d", gangid);
 	
 	char sName[64];
-	Gangs_GetName(iGang, sName, sizeof(sName));
+	Gangs_GetName(gangid, sName, sizeof(sName));
 	
 	if(StrEqual(sName, "", false))
-	{
 		Format(sName, sizeof(sName), "keine Gang");
-	}
 	
-	CPrintToChat(client, "(Gangs_OnGangLeft) Gangs_GetName - %s", sName);
+	CPrintToChatAll("(Gangs_OnGangLeft) Gangs_GetName - %s", sName);
 }
 
 public void Gangs_OnGangDelete(int client, int iGang, const char[] sGang)

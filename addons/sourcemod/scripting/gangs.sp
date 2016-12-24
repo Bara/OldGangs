@@ -6,6 +6,7 @@
 
 #pragma newdecls optional
 #include <regex>
+#include <menu-stocks>
 #pragma newdecls required
 
 // 3rd includes
@@ -24,6 +25,7 @@
 #include "gangs/gcreate.sp"
 #include "gangs/glist.sp"
 #include "gangs/gleft.sp"
+#include "gangs/gskills.sp"
 #include "gangs/gmenu.sp"
 #include "gangs/gdelete.sp"
 #include "gangs/grename.sp"
@@ -32,16 +34,15 @@
 #include "gangs/gabort.sp"
 #include "gangs/ginvite.sp"
 #include "gangs/gmembers.sp"
-#include "gangs/gskills.sp"
 
 public APLRes AskPluginLoad2(Handle myself, bool late, char[] error, int err_max)
 {
 	g_hSQLConnected = CreateGlobalForward("Gangs_OnSQLConnected", ET_Ignore, Param_Cell);
 	g_hGangCreated = CreateGlobalForward("Gangs_OnGangCreated", ET_Ignore, Param_Cell, Param_Cell);
-	g_hGangLeft = CreateGlobalForward("Gangs_OnGangLeft", ET_Ignore, Param_Cell, Param_Cell);
+	g_hGangLeft = CreateGlobalForward("Gangs_OnGangLeft", ET_Ignore, Param_String, Param_String, Param_Cell);
 	g_hGangDelete = CreateGlobalForward("Gangs_OnGangDelete", ET_Ignore, Param_Cell, Param_Cell, Param_String);
 	g_hGangRename = CreateGlobalForward("Gangs_OnGangRename", ET_Ignore, Param_Cell, Param_Cell, Param_String, Param_String);
-	g_hGangClientJoined = CreateGlobalForward("Gangs_OnClientJoinedGang", ET_Ignore, Param_Cell, Param_Cell); // TODO: maybe a second forward to block this 
+	g_hGangClientJoined = CreateGlobalForward("Gangs_OnClientJoined", ET_Ignore, Param_Cell, Param_Cell); 
 	
 	CreateNative("Gangs_IsClientInGang", Native_IsClientInGang);
 	CreateNative("Gangs_GetClientLevel", Native_GetClientAccessLevel);

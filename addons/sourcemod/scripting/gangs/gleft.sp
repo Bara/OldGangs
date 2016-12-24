@@ -12,11 +12,7 @@ public int Native_LeftClientGang(Handle plugin, int numParams)
 {
 	int client = GetNativeCell(1);
 	
-	RemoveClientFromGang(client, g_iClientGang[client]);
-	
-	g_bIsInGang[client] = false;
-	g_iClientGang[client] = 0;
-	g_iClientLevel[client] = GANGS_NONE;
+	RemovePlayerFromGang(g_sClientID[client]);
 }
 
 stock void ShowLeftGangMenu(int client)
@@ -41,7 +37,7 @@ public int Menu_GangLeft(Menu menu, MenuAction action, int client, int param)
 		
 		if(StrEqual(sParam, "yes", false))
 		{
-			RemoveClientFromGang(client, g_iClientGang[client]);
+			RemovePlayerFromGang(g_sClientID[client]);
 		}
 		else if(StrEqual(sParam, "no", false))
 		{
@@ -52,31 +48,47 @@ public int Menu_GangLeft(Menu menu, MenuAction action, int client, int param)
 		delete menu;
 }
 
-stock void RemoveClientFromGang(int client, int gangid)
+stock void RemovePlayerFromGang(const char[] communityid)
 {
-	if(!g_bIsInGang[client])
+	char sName[MAX_NAME_LENGTH];
+	int level = -1;
+	int gangid = -1;
+	bool bFound = false;
+	
+	for (int i = 0; i < g_aCacheGangMembers.Length; i++)
 	{
-		CPrintToChat(client, "You aren't in a gang"); // TODO: Translation
+		int iGangMembers[Cache_Gangs_Members];
+		g_aCacheGangMembers.GetArray(i, iGangMembers[0]);
+		
+		if(StrEqual(communityid, iGangMembers[sCommunityID]))
+		{
+			gangid = iGangMembers[iGangID];
+			level = iGangMembers[iAccessLevel];
+			
+			strcopy(sName, sizeof(sName), iGangMembers[sPlayerN]);
+			
+			bFound = true;
+			
+			break;
+		}
+	}
+	
+	if(!bFound)
+	{
 		return;
 	}
 	
-	if(g_iClientLevel[client] >= GANGS_LEADER)
+	if(level >= GANGS_LEADER)
 	{
-		CPrintToChat(client, "You can't run this command as owner"); // TODO: Translation
 		return;
 	}
 	
-	EraseClientArray(client);
-	g_bIsInGang[client] = false;
-	g_iClientGang[client] = 0;
-	g_iClientLevel[client] = GANGS_NONE;
+	ErasePlayerArray(communityid);
+	
 	
 	char sQuery[256];
-	Format(sQuery, sizeof(sQuery), "DELETE FROM `gangs_members` WHERE `CommunityID` = '%s' AND `GangID` = '%d'", g_sClientID[client], g_iClientGang[client]);
+	Format(sQuery, sizeof(sQuery), "DELETE FROM `gangs_members` WHERE `CommunityID` = '%s' AND `GangID` = '%d'", communityid, gangid);
 	SQLQuery(sQuery);
-	
-	CPrintToChatAll("%N left %s!", client, g_sGang[gangid]); // TODO: Translation
-	Gangs_LogFile(_, INFO, "\"%L\" left %s!", client, g_sGang[gangid]); // TODO: Translation
 	
 	for (int i = 0; i < g_aCacheGang.Length; i++)
 	{
@@ -94,8 +106,24 @@ stock void RemoveClientFromGang(int client, int gangid)
 		}
 	}
 	
+	int client = FindClientByCommunityID(communityid);
+	if(Gangs_IsClientValid(client))
+	{
+		CPrintToChatAll("%N left %s!", client, g_sGang[gangid]); // TODO: Translation
+		Gangs_LogFile(_, INFO, "\"%s\" left %s!", client, g_sGang[gangid]); // TODO: Translation
+		g_bIsInGang[client] = false;
+		g_iClientGang[client] = 0;
+		g_iClientLevel[client] = GANGS_NONE;
+	}
+	else
+	{
+		CPrintToChatAll("%s left %s!", sName, g_sGang[gangid]); // TODO: Translation
+		Gangs_LogFile(_, INFO, "\"%s\" left %s!", sName, g_sGang[gangid]); // TODO: Translation
+	}
+	
 	Call_StartForward(g_hGangLeft);
-	Call_PushCell(client);
+	Call_PushString(communityid);
+	Call_PushString(sName);
 	Call_PushCell(gangid);
 	Call_Finish();
 }

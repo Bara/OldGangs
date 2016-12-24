@@ -42,7 +42,7 @@ stock void CreateGangsTables()
 	Format(sQuery, sizeof(sQuery), "CREATE TABLE IF NOT EXISTS `skills` (`SkillID` int(11) NOT NULL AUTO_INCREMENT, `SkillName` varchar(65) NOT NULL DEFAULT '', `MaxLevel` int(11) NOT NULL DEFAULT '0', PRIMARY KEY (`SkillID`), UNIQUE KEY `SkillID` (`SkillID`), UNIQUE KEY `SkillName` (`SkillName`)) ENGINE=InnoDB DEFAULT CHARSET=utf8;");
 	SQLQuery(sQuery);
 	
-	Format(sQuery, sizeof(sQuery), "CREATE TABLE IF NOT EXISTS `gangs_members` (`GangID` int(11) NOT NULL DEFAULT '0', `CommunityID` varchar(65) NOT NULL DEFAULT '', `PlayerName` varchar(255) NOT NULL DEFAULT '', `AccessLevel` int(11) NOT NULL DEFAULT '0', PRIMARY KEY (`CommunityID`), UNIQUE KEY `CommunityID` (`CommunityID`)) ENGINE=InnoDB DEFAULT CHARSET=utf8;");
+	Format(sQuery, sizeof(sQuery), "CREATE TABLE IF NOT EXISTS `gangs_members` (`GangID` int(11) NOT NULL DEFAULT '0', `CommunityID` varchar(65) NOT NULL DEFAULT '', `PlayerName` varchar(255) NOT NULL DEFAULT '', `AccessLevel` int(11) NOT NULL DEFAULT '0', `Muted` int(11) NOT NULL DEFAULT '0', PRIMARY KEY (`CommunityID`), UNIQUE KEY `CommunityID` (`CommunityID`)) ENGINE=InnoDB DEFAULT CHARSET=utf8;");
 	SQLQuery(sQuery);
 	
 	Format(sQuery, sizeof(sQuery), "CREATE TABLE IF NOT EXISTS `gangs_skills` (`GangID` int(11) NOT NULL DEFAULT '0', `SkillID` int(11) NOT NULL DEFAULT '0', `Level` int(11) NOT NULL DEFAULT '0') ENGINE=InnoDB DEFAULT CHARSET=utf8;");
@@ -96,7 +96,7 @@ public void TQuery_Gang(Handle owner, Handle hndl, const char[] error, any data)
 			Format(sQuery, sizeof(sQuery), "SELECT GangID FROM `gangs_members` WHERE `GangID` = '%d';", iGang[iGangID]);
 			SQL_TQuery(g_hDatabase, SQL_GetGangMemberCount, sQuery, iGang[iGangID], DBPrio_Low);
 			
-			Format(sQuery, sizeof(sQuery), "SELECT GangID, CommunityID, PlayerName, AccessLevel FROM `gangs_members`;");
+			Format(sQuery, sizeof(sQuery), "SELECT GangID, CommunityID, PlayerName, AccessLevel, Muted FROM `gangs_members`;");
 			SQL_TQuery(g_hDatabase, SQL_GangsMembersCache, sQuery, _, DBPrio_Low);
 		}
 	}

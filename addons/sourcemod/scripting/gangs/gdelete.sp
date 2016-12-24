@@ -75,7 +75,7 @@ stock void DeleteGang(int client, int gangid)
 	{
 		if(g_iClientGang[i] == gangid)
 		{
-			EraseClientArray(i);
+			ErasePlayerArray(g_sClientID[i]);
 			g_bIsInGang[i] = false;
 			g_iClientGang[i] = 0;
 			g_iClientLevel[client] = GANGS_NONE;

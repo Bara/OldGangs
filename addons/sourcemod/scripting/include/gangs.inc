@@ -103,10 +103,10 @@ stock bool Gangs_IsClientValid(int client)
 
 forward void Gangs_OnSQLConnected(Handle database);
 forward void Gangs_OnGangCreated(int client, int gangid);
-forward void Gangs_OnGangLeft(int client, int gangid);
+forward void Gangs_OnGangLeft(const char[] communityid, const char[] name, int gangid);
 forward void Gangs_OnGangDelete(int client, int gangid, const char[] gangname);
 forward void Gangs_OnGangRename(int client, int gangid, const char[] oldgangname, const char[] newgangname);
-forward void Gangs_OnClientJoinedGang(int client, int gangid);
+forward void Gangs_OnClientJoined(int client, int gangid);
 
 native bool Gangs_IsClientInGang(int client);
 native int Gangs_GetClientLevel(int client);
@@ -138,25 +138,24 @@ public SharedPlugin __pl_gangs =
 };
 
 #if !defined REQUIRE_PLUGIN
-
-public __pl_gangs_SetNTVOptional()
-{
-	MarkNativeAsOptional("Gangs_IsClientInGang");
-	MarkNativeAsOptional("Gangs_GetClientLevel");
-	MarkNativeAsOptional("Gangs_GetClientGang");
-	MarkNativeAsOptional("Gangs_ClientLeftGang");
-	MarkNativeAsOptional("Gangs_CreateClientGang");
-	MarkNativeAsOptional("Gangs_DeleteClientGang");
-	MarkNativeAsOptional("Gangs_OpenClientGang");
-	MarkNativeAsOptional("Gangs_RenameClientGang");
-	MarkNativeAsOptional("Gangs_GetRangName");
-	
-	MarkNativeAsOptional("Gangs_GetName");
-	MarkNativeAsOptional("Gangs_GetPoints");
-	MarkNativeAsOptional("Gangs_AddPoints");
-	MarkNativeAsOptional("Gangs_RemovePoints");
-	MarkNativeAsOptional("Gangs_GetMaxMembers");
-	MarkNativeAsOptional("Gangs_GetMembersCount");
-	MarkNativeAsOptional("Gangs_GetOnlinePlayers");
-}
+	public __pl_gangs_SetNTVOptional()
+	{
+		MarkNativeAsOptional("Gangs_IsClientInGang");
+		MarkNativeAsOptional("Gangs_GetClientLevel");
+		MarkNativeAsOptional("Gangs_GetClientGang");
+		MarkNativeAsOptional("Gangs_ClientLeftGang");
+		MarkNativeAsOptional("Gangs_CreateClientGang");
+		MarkNativeAsOptional("Gangs_DeleteClientGang");
+		MarkNativeAsOptional("Gangs_OpenClientGang");
+		MarkNativeAsOptional("Gangs_RenameClientGang");
+		MarkNativeAsOptional("Gangs_GetRangName");
+		
+		MarkNativeAsOptional("Gangs_GetName");
+		MarkNativeAsOptional("Gangs_GetPoints");
+		MarkNativeAsOptional("Gangs_AddPoints");
+		MarkNativeAsOptional("Gangs_RemovePoints");
+		MarkNativeAsOptional("Gangs_GetMaxMembers");
+		MarkNativeAsOptional("Gangs_GetMembersCount");
+		MarkNativeAsOptional("Gangs_GetOnlinePlayers");
+	}
 #endif

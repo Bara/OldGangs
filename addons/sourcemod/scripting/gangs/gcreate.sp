@@ -257,6 +257,7 @@ public void TQuery_GangMembers(Handle owner, Handle hndl, const char[] error, an
 				SQL_FetchString(hndl, 1, iGang[sCommunityID], 64);
 				SQL_FetchString(hndl, 2, sSName, sizeof(sSName));
 				iGang[iAccessLevel] = SQL_FetchInt(hndl, 3);
+				iGang[bMuted] = view_as<bool>(SQL_FetchInt(hndl, 4));
 				iGang[bOnline] = true;
 				
 				// currentname != sqlname
