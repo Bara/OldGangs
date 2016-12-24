@@ -145,6 +145,7 @@ stock void ShowPlayerDetails(int client, const char[] communityid)
 		menu.AddItem("mute", "Mute");
 	
 	PushMenuString(menu, "targetID", communityid);
+	PushMenuString(menu, "targetName", sName);
 	
 	menu.ExitBackButton = true;
 	menu.ExitButton = false;
@@ -158,13 +159,15 @@ public int Menu_GangMembersManage(Menu menu, MenuAction action, int client, int 
 		char sParam[32];
 		menu.GetItem(param, sParam, sizeof(sParam));
 		
-		char sTarget[32];
+		char sTarget[32], sName[MAX_NAME_LENGTH];
 		GetMenuString(menu, "targetID", sTarget, sizeof(sTarget));
+		GetMenuString(menu, "targetName", sName, sizeof(sName));
 		
 		if(StrEqual(sParam, "kick", false))
 		{
-			RemovePlayerFromGang(sTarget);
-			// Print message
+			RemovePlayerFromGang(sTarget, true);
+			CPrintToChatAll("%s was kicked from %s by %N!", sName, g_sGang[g_iClientGang[client]], client); // TODO: Translation
+			Gangs_LogFile(_, INFO, "\"%s\" was kicked from %s by %N!", sName, g_sGang[g_iClientGang[client]], client); // TODO: Translation
 		}
 	}
 	
