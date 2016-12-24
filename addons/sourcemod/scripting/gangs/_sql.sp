@@ -51,8 +51,9 @@ public void SQL_GangsMembersCache(Handle owner, Handle hndl, const char[] error,
 			SQL_FetchString(hndl, 1, iGang[sCommunityID], 64);
 			SQL_FetchString(hndl, 2, iGang[sPlayerN], MAX_NAME_LENGTH);
 			iGang[iAccessLevel] = SQL_FetchInt(hndl, 3);
+			iGang[bMuted] = view_as<bool>(SQL_FetchInt(hndl, 4));
 			
-			if(FindClientByCommunityID(iGang[sCommunityID]))
+			if(Gangs_IsClientValid(FindClientByCommunityID(iGang[sCommunityID])))
 			{
 				iGang[bOnline] = true;
 			}
@@ -63,7 +64,7 @@ public void SQL_GangsMembersCache(Handle owner, Handle hndl, const char[] error,
 			
 			g_aCacheGangMembers.PushArray(iGang[0]);
 			
-			Gangs_LogFile(_, DEBUG, "(SQL_GangsMembersCache) GangID: %d - Player: %s - CommunityID: %s - AccessLevel: %d", iGang[iGangID], iGang[sCommunityID], iGang[sPlayerN], iGang[iAccessLevel]);
+			Gangs_LogFile(_, DEBUG, "(SQL_GangsMembersCache) GangID: %d - Player: %s - CommunityID: %s - AccessLevel: %d - Muted: %d", iGang[iGangID], iGang[sCommunityID], iGang[sPlayerN], iGang[iAccessLevel], iGang[bMuted]);
 		}
 	}
 }
