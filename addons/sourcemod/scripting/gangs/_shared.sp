@@ -44,6 +44,8 @@ stock void UpdateClientOnlineState(int client, bool status)
 			g_aCacheGangMembers.Erase(i);
 			g_aCacheGangMembers.PushArray(itmpGang[0]);
 			
+			SortADTArrayCustom(g_aCacheGangMembers, Sort_GangMembers);
+			
 			break;
 		}
 	}
@@ -76,6 +78,8 @@ stock void UpdateClientMuteState(const char[] communityid, bool status)
 			
 			g_aCacheGangMembers.Erase(i);
 			g_aCacheGangMembers.PushArray(itmpGang[0]);
+			
+			SortADTArrayCustom(g_aCacheGangMembers, Sort_GangMembers);
 			
 			int target = FindClientByCommunityID(communityid);
 			if(Gangs_IsClientValid(target))
@@ -159,4 +163,18 @@ stock int FindClientByCommunityID(const char[] communityid)
 	}
 	
 	return -1;
+}
+
+public int Sort_GangMembers(int i, int j, Handle array, Handle hndl)
+{
+	int tmpPlayer[Cache_Gangs_Members];
+	int tmpPlayer2[Cache_Gangs_Members];
+
+	g_aCacheGangMembers.GetArray(i, tmpPlayer[0]);
+	g_aCacheGangMembers.GetArray(j, tmpPlayer2[0]);
+	if (tmpPlayer[iAccessLevel] > tmpPlayer2[iAccessLevel])
+		return -1;
+	else if(tmpPlayer[iAccessLevel] < tmpPlayer2[iAccessLevel])
+		return 1;
+	return 0;
 }

@@ -66,5 +66,6 @@ public void SQL_GangsMembersCache(Handle owner, Handle hndl, const char[] error,
 			
 			Gangs_LogFile(_, DEBUG, "(SQL_GangsMembersCache) GangID: %d - Player: %s - CommunityID: %s - AccessLevel: %d - Muted: %d", iGang[iGangID], iGang[sCommunityID], iGang[sPlayerN], iGang[iAccessLevel], iGang[bMuted]);
 		}
+		SortADTArrayCustom(g_aCacheGangMembers, Sort_GangMembers);
 	}
 }

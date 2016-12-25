@@ -164,6 +164,9 @@ stock void UpdateNameInCache(int client, const char[] newname)
 
 			g_aCacheGangMembers.Erase(i);
 			g_aCacheGangMembers.PushArray(itmpGang[0]);
+			
+			SortADTArrayCustom(g_aCacheGangMembers, Sort_GangMembers);
+			
 			break;
 		}
 	}

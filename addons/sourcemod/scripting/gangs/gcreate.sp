@@ -292,5 +292,6 @@ public void TQuery_GangMembers(Handle owner, Handle hndl, const char[] error, an
 			else
 				g_bIsInGang[client] = false;
 		}
+		SortADTArrayCustom(g_aCacheGangMembers, Sort_GangMembers);
 	}
 }
