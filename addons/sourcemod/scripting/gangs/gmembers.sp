@@ -164,11 +164,7 @@ public int Menu_GangMembersManage(Menu menu, MenuAction action, int client, int 
 		GetMenuString(menu, "targetName", sName, sizeof(sName));
 		
 		if(StrEqual(sParam, "kick", false))
-		{
-			RemovePlayerFromGang(sTarget, true);
-			CPrintToChatAll("%s was kicked from %s by %N!", sName, g_sGang[g_iClientGang[client]], client); // TODO: Translation
-			Gangs_LogFile(_, INFO, "\"%s\" was kicked from %s by %N!", sName, g_sGang[g_iClientGang[client]], client); // TODO: Translation
-		}
+			RemovePlayerFromGang(sTarget, true, client);
 	}
 	
 	if (action == MenuAction_Cancel)

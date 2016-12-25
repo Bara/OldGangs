@@ -48,7 +48,7 @@ public int Menu_GangLeft(Menu menu, MenuAction action, int client, int param)
 		delete menu;
 }
 
-stock void RemovePlayerFromGang(const char[] communityid, bool kicked = false)
+stock void RemovePlayerFromGang(const char[] communityid, bool kicked = false, int client = -1)
 {
 	char sName[MAX_NAME_LENGTH];
 	int level = -1;
@@ -106,27 +106,24 @@ stock void RemovePlayerFromGang(const char[] communityid, bool kicked = false)
 		}
 	}
 	
-	int client = FindClientByCommunityID(communityid);
-	if(Gangs_IsClientValid(client))
+	if(!kicked)
 	{
-		if(!kicked)
-		{
-			CPrintToChatAll("%N left %s!", client, g_sGang[gangid]); // TODO: Translation
-			Gangs_LogFile(_, INFO, "\"%s\" left %s!", client, g_sGang[gangid]); // TODO: Translation
-		}
-		
-		g_bIsInGang[client] = false;
-		g_iClientGang[client] = 0;
-		g_iClientLevel[client] = GANGS_NONE;
-		g_bClientMuted[client] = false;
+		CPrintToChatAll("%s left %s!", sName, g_sGang[gangid]); // TODO: Translation
+		Gangs_LogFile(_, INFO, "\"%s\" left %s!", sName, g_sGang[gangid]); // TODO: Translation
 	}
 	else
 	{
-		if(!kicked)
-		{
-			CPrintToChatAll("%s left %s!", sName, g_sGang[gangid]); // TODO: Translation
-			Gangs_LogFile(_, INFO, "\"%s\" left %s!", sName, g_sGang[gangid]); // TODO: Translation
-		}
+		CPrintToChatAll("%s was kicked from %s by %N!", sName, g_sGang[g_iClientGang[client]], client); // TODO: Translation
+		Gangs_LogFile(_, INFO, "\"%s\" was kicked from %s by %N!", sName, g_sGang[g_iClientGang[client]], client); // TODO: Translation
+	}
+	
+	int target = FindClientByCommunityID(communityid);
+	if(Gangs_IsClientValid(target))
+	{
+		g_bIsInGang[target] = false;
+		g_iClientGang[target] = 0;
+		g_iClientLevel[target] = GANGS_NONE;
+		g_bClientMuted[target] = false;
 	}
 	
 	Call_StartForward(g_hGangLeft);
