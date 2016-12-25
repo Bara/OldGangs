@@ -2,6 +2,8 @@
 #pragma newdecls required
 
 #include <sourcemod>
+#include <chat-processor>
+#include <multicolors>
 #include <gangs>
 
 #pragma newdecls optional
@@ -9,9 +11,6 @@
 #include <menu-stocks>
 #pragma newdecls required
 
-// 3rd includes
-#include <chat-processor>
-#include <multicolors>
 
 #include "gangs/_global.sp"
 #include "gangs/_config.sp"
@@ -42,7 +41,8 @@ public APLRes AskPluginLoad2(Handle myself, bool late, char[] error, int err_max
 	g_hGangLeft = CreateGlobalForward("Gangs_OnGangLeft", ET_Ignore, Param_String, Param_String, Param_Cell);
 	g_hGangDelete = CreateGlobalForward("Gangs_OnGangDelete", ET_Ignore, Param_Cell, Param_Cell, Param_String);
 	g_hGangRename = CreateGlobalForward("Gangs_OnGangRename", ET_Ignore, Param_Cell, Param_Cell, Param_String, Param_String);
-	g_hGangClientJoined = CreateGlobalForward("Gangs_OnClientJoined", ET_Ignore, Param_Cell, Param_Cell); 
+	g_hGangClientJoined = CreateGlobalForward("Gangs_OnClientJoined", ET_Ignore, Param_Cell, Param_Cell);
+	g_hGangMute = CreateGlobalForward("Gangs_OnGangMute", ET_Ignore, Param_String, Param_String, Param_Cell, Param_Cell);	
 	
 	CreateNative("Gangs_IsClientInGang", Native_IsClientInGang);
 	CreateNative("Gangs_GetClientLevel", Native_GetClientAccessLevel);

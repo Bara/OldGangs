@@ -165,6 +165,18 @@ public int Menu_GangMembersManage(Menu menu, MenuAction action, int client, int 
 		
 		if(StrEqual(sParam, "kick", false))
 			RemovePlayerFromGang(sTarget, true, client);
+		
+		if(StrEqual(sParam, "mute", false))
+			UpdateClientMuteState(sTarget, true);
+		
+		if(StrEqual(sParam, "unmute", false))
+			UpdateClientMuteState(sTarget, false);
+		
+		int target = FindClientByCommunityID(sTarget);
+		if(Gangs_IsClientValid(target))
+			ShowMembers(client);
+		else
+			ShowMembers(client, false);
 	}
 	
 	if (action == MenuAction_Cancel)

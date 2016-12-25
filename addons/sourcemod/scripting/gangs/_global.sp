@@ -60,6 +60,7 @@ Handle g_hGangLeft = null;
 Handle g_hGangDelete = null;
 Handle g_hGangRename = null;
 Handle g_hGangClientJoined = null;
+Handle g_hGangMute = null;
 
 // Client stuff
 char g_sClientID[MAXPLAYERS + 1][64];

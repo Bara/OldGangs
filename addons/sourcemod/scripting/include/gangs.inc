@@ -101,29 +101,13 @@ stock bool Gangs_IsClientValid(int client)
 	return false;
 }
 
-stock void CPrintToGang(int gangid, const char[] message, any ...)
-{
-	char buffer[MAX_MESSAGE_LENGTH];
-	VFormat(buffer, sizeof(buffer), message, 3);
-
-	LoopClients(i)
-	{
-		if(Gangs_IsClientInGang(i))
-		{
-			if(Gangs_GetClientGang(i) == gangid)
-			{
-				CPrintToChat(i, buffer);
-			}
-		}
-	}
-}
-
 forward void Gangs_OnSQLConnected(Handle database);
 forward void Gangs_OnGangCreated(int client, int gangid);
 forward void Gangs_OnGangLeft(const char[] communityid, const char[] name, int gangid);
 forward void Gangs_OnGangDelete(int client, int gangid, const char[] gangname);
 forward void Gangs_OnGangRename(int client, int gangid, const char[] oldgangname, const char[] newgangname);
 forward void Gangs_OnClientJoined(int client, int gangid);
+forward void Gangs_OnClientMute(const char[] communityid, const char[] name, int gangid, bool status);
 
 native bool Gangs_IsClientInGang(int client);
 native int Gangs_GetClientLevel(int client);
@@ -142,6 +126,23 @@ native int Gangs_RemovePoints(int gangid, int points);
 native int Gangs_GetMaxMembers(int gangid);
 native int Gangs_GetMembersCount(int gangid);
 native int Gangs_GetOnlinePlayers(int gangid);
+
+stock void CPrintToGang(int gangid, const char[] message, any ...)
+{
+	char buffer[MAX_MESSAGE_LENGTH];
+	VFormat(buffer, sizeof(buffer), message, 3);
+
+	LoopClients(i)
+	{
+		if(Gangs_IsClientInGang(i))
+		{
+			if(Gangs_GetClientGang(i) == gangid)
+			{
+				CPrintToChat(i, buffer);
+			}
+		}
+	}
+}
 
 public SharedPlugin __pl_gangs =
 {

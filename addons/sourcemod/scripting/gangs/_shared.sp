@@ -49,6 +49,50 @@ stock void UpdateClientOnlineState(int client, bool status)
 	}
 }
 
+stock void UpdateClientMuteState(const char[] communityid, bool status)
+{
+	for (int i = 0; i < g_aCacheGangMembers.Length; i++)
+	{
+		int iGang[Cache_Gangs_Members];
+		g_aCacheGangMembers.GetArray(i, iGang[0]);
+
+		if (StrEqual(iGang[sCommunityID], communityid))
+		{
+			int itmpGang[Cache_Gang];
+			
+			itmpGang[iGangID] = iGang[iGangID];
+			strcopy(itmpGang[sCommunityID], 64, iGang[sCommunityID]);
+			strcopy(itmpGang[sPlayerN], 64, iGang[sPlayerN]);
+			itmpGang[iAccessLevel] = iGang[iAccessLevel];
+			itmpGang[bMuted] = status;
+			itmpGang[bOnline] = iGang[bOnline];
+			
+			Gangs_LogFile(_, DEBUG, "(UpdateClientMuteState) Player: %s - Old Status: %d - New Status: %d", itmpGang[sPlayerN], iGang[bMuted], itmpGang[bMuted]);
+			
+			if(status)
+				CPrintToGang(iGang[iGangID], "[%s] %s is now muted!", g_sGang[iGang[iGangID]], iGang[sPlayerN]);
+			else
+				CPrintToGang(iGang[iGangID], "[%s] %s is no longer muted!", g_sGang[iGang[iGangID]], iGang[sPlayerN]);
+			
+			g_aCacheGangMembers.Erase(i);
+			g_aCacheGangMembers.PushArray(itmpGang[0]);
+			
+			int target = FindClientByCommunityID(communityid);
+			if(Gangs_IsClientValid(target))
+				g_bClientMuted[target] = status;
+			
+			Call_StartForward(g_hGangMute);
+			Call_PushString(communityid);
+			Call_PushString(itmpGang[sPlayerN]);
+			Call_PushCell(itmpGang[iGangID]);
+			Call_PushCell(status);
+			Call_Finish();
+			
+			break;
+		}
+	}
+}
+
 stock void ErasePlayerArray(const char[] communityid)
 {
 	for (int i = 0; i < g_aCacheGangMembers.Length; i++)
