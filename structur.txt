@@ -125,8 +125,12 @@ Gang Menu:
 				
 				Gang Menu - Members - (L)Manage - (Lvl/Max)Member 1/2/3...
 					|-------------------|
-					| Upgrade           |
-					| Degrade           |
+					| <Gang> - Manage U.|
+					| <Player> - <Rang> |
+					|-------------------|
+					| Upgrade to <Rang> | -> Leader, CoLeader -< (Leader kann bis CoLeader geben, und CoLeader bis Skiller/Inviter)
+					| Degrade to <Rang> | -> Leader, CoLeader -< (Leader kann bis CoLeader geben, und CoLeader bis Skiller/Inviter)
+					| Mute              | -> Leader, CoLeader -< (Leader kann alle bis auf sich selbst muten, CoLeader kann alle bis auf Leader und sich selbst)
 					| Kick              |
 					|-------------------|
 					| Back              |
@@ -136,18 +140,19 @@ Gang Menu:
 					
 					
 		Gang Menu - Gang Settings	
-			|-------------------|
-			| Rename Gang       |
-			| Delete Gang       |
-			| Mute Member       |
-			| Prefix Color      |
-			|-------------------|
-			| Buy Gang Chat     |
-			| Buy Prefix        |
-			|-------------------|
-			| Back              |
-			| Close             |
-			|-------------------|
+			|---------------------|
+			| Rename Gang         | -> Leader
+			| Delete Gang         | -> Leader
+			| Prefix Color        | -> Leader + CoLeader
+			| Player Prefix Color | und Nur Sichtbar wenn Prefix gekauft wurde <-
+			|---------------------| ->
+			| Buy Gang Chat       | Leader + CoLeader
+			| Buy Prefix          | und Nur Sichtbar wenn es noch nicht gekauft wurde
+			| Buy Player Prefix   | <-
+			|---------------------|
+			| Back                |
+			| Close               |
+			|---------------------|
 				
 				Gang Menu - Gang Settings - Gang Chat - Mute
 					|-------------------|

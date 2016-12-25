@@ -137,15 +137,42 @@ stock void ShowPlayerDetails(int client, const char[] communityid)
 	Format(sGang, sizeof(sGang), "%s - Manage user\n%s - %s", g_sGang[g_iClientGang[client]], sName, sRang); // TODO: Translations
 	menu.SetTitle(sGang);
 	
-	menu.AddItem("kick", "Kick");
+	int newLevel = GANGS_NONE;
+	
+	if(level < GANGS_COLEADER)
+	{
+		char sUp[48];
+		newLevel = level + 1;
+		Gangs_GetRangName(newLevel, sUp, sizeof(sUp));
+		Format(sUp, sizeof(sUp), "Promote to %s", sUp);
+		menu.AddItem("promote", sUp);
+	}
+	else
+		menu.AddItem("", "No promotion possible", ITEMDRAW_DISABLED);
+	
+	if(level > GANGS_TRIAL)
+	{
+		char sDown[48];
+		newLevel = level - 1;
+		Gangs_GetRangName(newLevel, sDown, sizeof(sDown));
+		Format(sDown, sizeof(sDown), "Demote to %s", sDown);
+		menu.AddItem("demote", sDown);
+	}
+	else
+		menu.AddItem("", "No degradation possible", ITEMDRAW_DISABLED);
 	
 	if(muted)
 		menu.AddItem("unmute", "Unmute");
 	else
 		menu.AddItem("mute", "Mute");
 	
+	menu.AddItem("kick", "Kick");
+	
 	PushMenuString(menu, "targetID", communityid);
 	PushMenuString(menu, "targetName", sName);
+	
+	if(newLevel > GANGS_NONE)
+		PushMenuCell(menu, "levelRank", newLevel);
 	
 	menu.ExitBackButton = true;
 	menu.ExitButton = false;

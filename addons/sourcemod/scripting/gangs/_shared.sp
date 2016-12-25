@@ -12,7 +12,7 @@ stock void UpdateClientOnlineState(int client, bool status)
 	{
 		int iGang[Cache_Gangs_Members];
 		g_aCacheGangMembers.GetArray(i, iGang[0]);
-
+		
 		if (StrEqual(iGang[sCommunityID], g_sClientID[client]))
 		{
 			int itmpGang[Cache_Gang];
@@ -23,7 +23,7 @@ stock void UpdateClientOnlineState(int client, bool status)
 			itmpGang[iAccessLevel] = iGang[iAccessLevel];
 			itmpGang[bMuted] = iGang[bMuted];
 			itmpGang[bOnline] = status;
-
+			
 			Gangs_LogFile(_, DEBUG, "(UpdateClientOnlineState) Player: %N - Old Status: %d - New Status: %d", client, iGang[bOnline], itmpGang[bOnline]);
 			
 			if(itmpGang[bOnline])
@@ -57,7 +57,7 @@ stock void UpdateClientMuteState(const char[] communityid, bool status)
 	{
 		int iGang[Cache_Gangs_Members];
 		g_aCacheGangMembers.GetArray(i, iGang[0]);
-
+		
 		if (StrEqual(iGang[sCommunityID], communityid))
 		{
 			int itmpGang[Cache_Gang];
@@ -103,7 +103,7 @@ stock void ErasePlayerArray(const char[] communityid)
 	{
 		int iGang[Cache_Gangs_Members];
 		g_aCacheGangMembers.GetArray(i, iGang[0]);
-
+		
 		if (StrEqual(iGang[sCommunityID], communityid))
 		{
 			g_aCacheGangMembers.Erase(i);
@@ -169,7 +169,7 @@ public int Sort_GangMembers(int i, int j, Handle array, Handle hndl)
 {
 	int tmpPlayer[Cache_Gangs_Members];
 	int tmpPlayer2[Cache_Gangs_Members];
-
+	
 	g_aCacheGangMembers.GetArray(i, tmpPlayer[0]);
 	g_aCacheGangMembers.GetArray(j, tmpPlayer2[0]);
 	if (tmpPlayer[iAccessLevel] > tmpPlayer2[iAccessLevel])
